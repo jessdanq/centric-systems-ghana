@@ -36,9 +36,9 @@ export default function App() {
   }, [])
 
   const handleResetData = () => {
-    if (window.confirm('Reset all demo data back to default Ghanaian enterprise state?')) {
+    if (window.confirm('Reset all demo data back to the default Ghanaian sample data?')) {
       store.resetToDefault()
-      alert('Enterprise database reset to initial seed state.')
+      alert('All sample data has been reset to defaults.')
     }
   }
 
@@ -48,7 +48,7 @@ export default function App() {
     store.locations.find((l) => l.type === 'branch')
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       {/* Top Navigation & Role Switcher */}
       <Navbar
         currentUser={currentUser}
@@ -58,7 +58,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {currentUser.role === 'owner' && (
           <OwnerDashboard
             onOpenRestockReview={(transfer) => setSelectedTransferForReview(transfer)}
@@ -92,11 +92,11 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900/60 border-t border-slate-800 py-6 text-center text-xs text-slate-500 no-print">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p>© {new Date().getFullYear()} Centric Systems Ghana Limited. All rights reserved.</p>
-          <p className="font-mono text-[11px] text-slate-400">
-            Spintex Central Warehouse • Centric Medie • Centric Lapaz • Centric Kumasi
+          <p className="font-medium text-slate-600">
+            Spintex Central Warehouse • Medie Branch • Lapaz Branch • Kumasi Branch
           </p>
         </div>
       </footer>

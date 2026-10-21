@@ -2,7 +2,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-100 antialiased min-h-screen selection:bg-emerald-500 selection:text-slate-950;
+    @apply bg-slate-50 text-slate-900 antialiased min-h-screen selection:bg-emerald-600 selection:text-white;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
@@ -11,20 +11,20 @@
   }
 }
 
-/* Custom scrollbars */
+/* Modern light scrollbars */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #94a3b8;
 }
 
 /* Glowing green accent pulse */
@@ -104,7 +104,6 @@
     break-after: avoid !important;
   }
 
-  /* Force dark elements in document to be crisp print black on white */
   #printable-document * {
     color-adjust: exact;
     -webkit-print-color-adjust: exact;

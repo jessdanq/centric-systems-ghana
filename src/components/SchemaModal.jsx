@@ -73,18 +73,18 @@ GROUP BY c.id, c.full_name, c.phone, c.credit_limit;
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
-      <div className="relative w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+      <div className="relative w-full max-w-3xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 bg-slate-900/90 border-b border-slate-800">
+        <div className="flex items-center justify-between px-6 py-5 bg-slate-50 border-b border-slate-200">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+            <div className="p-2.5 rounded-xl bg-emerald-100 text-emerald-800">
               <Database className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">Supabase PostgreSQL Schema</h3>
-              <p className="text-xs text-slate-400">
-                Full DDL with Tables, Enums, RLS Security Policies & Stored Procedures
+              <h3 className="text-base font-bold text-slate-900">Database Tables & SQL Schema</h3>
+              <p className="text-xs text-slate-500">
+                PostgreSQL Tables, Views & Security Policies for Supabase
               </p>
             </div>
           </div>
@@ -93,15 +93,15 @@ GROUP BY c.id, c.full_name, c.phone, c.credit_limit;
             <button
               type="button"
               onClick={handleCopy}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white border border-slate-700 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-xs font-bold text-emerald-800 border border-emerald-200 transition-colors"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied' : 'Copy SQL'}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl"
+              className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -109,16 +109,16 @@ GROUP BY c.id, c.full_name, c.phone, c.credit_limit;
         </div>
 
         {/* SQL Code Body */}
-        <div className="overflow-y-auto p-6 bg-slate-950">
-          <p className="text-xs text-slate-400 mb-3">
+        <div className="overflow-y-auto p-6 bg-slate-50">
+          <p className="text-xs text-slate-600 mb-3">
             The complete production SQL schema is generated in{' '}
-            <code className="px-1.5 py-0.5 rounded bg-slate-900 text-emerald-400 font-mono text-[11px]">
+            <code className="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 font-mono text-[11px] font-semibold">
               supabase_schema.sql
             </code>{' '}
             at the root of this project. Paste it into your Supabase project's SQL editor to deploy the full database backend with Ghanaian seed records.
           </p>
 
-          <pre className="p-4 rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs overflow-x-auto border border-slate-800 leading-relaxed">
+          <pre className="p-4 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800 leading-relaxed shadow-inner">
             {schemaSnippet}
           </pre>
         </div>

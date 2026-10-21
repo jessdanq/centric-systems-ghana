@@ -79,19 +79,19 @@ export function OwnerDashboard({
   return (
     <div className="space-y-6">
       {/* Executive Welcome & Owner Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/40 border border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 shadow-xs">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              Executive View
+            <span className="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+              Owner Overview
             </span>
-            <span className="text-xs text-slate-400 font-mono">Centric Systems Ghana Ltd</span>
+            <span className="text-xs text-slate-500 font-medium">Centric Systems Ghana Ltd</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1.5">
             Welcome back, Kwame Yeboah
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Consolidated enterprise control for Central Warehouse, Medie, Lapaz, and Kumasi retail branches.
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
+            Overall business control for Central Warehouse and retail shops in Medie, Lapaz, and Kumasi.
           </p>
         </div>
 
@@ -99,132 +99,136 @@ export function OwnerDashboard({
           <button
             type="button"
             onClick={onOpenNewCustomer}
-            className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 shadow-sm transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all active:scale-95"
           >
-            <Plus className="w-4 h-4 text-emerald-400" />
-            Provision Credit Customer
+            <Plus className="w-4 h-4" />
+            Add Credit Customer
           </button>
         </div>
       </div>
 
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Metric 1: Pending Restock Requisitions */}
+        {/* Metric 1: Stock Requests from Branches */}
         <div
           onClick={() => setActiveTab('approvals')}
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             pendingTransfers.length > 0
-              ? 'bg-amber-950/20 border-amber-500/30 hover:border-amber-500/60'
-              : 'bg-slate-900 border-slate-800 hover:border-slate-700'
+              ? 'bg-amber-50/60 border-amber-300 hover:border-amber-400 shadow-xs'
+              : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
           }`}
         >
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-bold uppercase tracking-wider">Restock Requisitions</span>
+          <div className="flex items-center justify-between text-slate-600">
+            <span className="text-xs font-bold uppercase tracking-wider">Stock Requests</span>
             <div
               className={`p-2 rounded-xl ${
                 pendingTransfers.length > 0
-                  ? 'bg-amber-500/20 text-amber-400 animate-pulse'
-                  : 'bg-slate-800 text-slate-400'
+                  ? 'bg-amber-100 text-amber-800 animate-pulse'
+                  : 'bg-slate-100 text-slate-600'
               }`}
             >
               <Clock className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-white">
+            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900">
               {pendingTransfers.length}
             </span>
-            <span className="text-xs text-amber-400 font-semibold">Awaiting Owner Approval</span>
+            <span className={`text-xs font-bold ${pendingTransfers.length > 0 ? 'text-amber-700' : 'text-slate-500'}`}>
+              {pendingTransfers.length > 0 ? 'Waiting for Approval' : 'All Approved'}
+            </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
-            Requires 30-day branch sales audit prior to dispatch.
+          <p className="text-[11px] text-slate-500 mt-1.5">
+            Check past branch sales before approving new stock.
           </p>
         </div>
 
-        {/* Metric 2: Total Sales Turnover */}
+        {/* Metric 2: Total Sales Made */}
         <div
           onClick={() => setActiveTab('sales')}
-          className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-pointer transition-all"
+          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all"
         >
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-bold uppercase tracking-wider">Recorded Sales Revenue</span>
-            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
+          <div className="flex items-center justify-between text-slate-600">
+            <span className="text-xs font-bold uppercase tracking-wider">Total Sales Made</span>
+            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-white">
+            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-700">
               ₵{totalSalesRevenue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </span>
-            <span className="text-xs text-emerald-400 font-semibold">GHS</span>
+            <span className="text-xs text-emerald-800 font-bold">GHS</span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
-            From {store.sales.length} verified invoices across all shops.
+          <p className="text-[11px] text-slate-500 mt-1.5">
+            From {store.sales.length} verified receipts across all shops.
           </p>
         </div>
 
-        {/* Metric 3: Total Inventory Value */}
+        {/* Metric 3: Total Stock Value */}
         <div
           onClick={() => setActiveTab('inventory')}
-          className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-pointer transition-all"
+          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all"
         >
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-bold uppercase tracking-wider">Total Stock Asset Value</span>
-            <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400">
+          <div className="flex items-center justify-between text-slate-600">
+            <span className="text-xs font-bold uppercase tracking-wider">Total Stock Value</span>
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
               <Boxes className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-white">
+            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-blue-700">
               ₵{totalInventoryValuation.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </span>
-            <span className="text-xs text-blue-400 font-semibold">GHS</span>
+            <span className="text-xs text-blue-800 font-bold">GHS</span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
-            Across Warehouse & 3 branches ({totalLowStockCount} low items).
+          <p className="text-[11px] text-slate-500 mt-1.5">
+            In warehouse & 3 branches ({totalLowStockCount} items running low).
           </p>
         </div>
 
-        {/* Metric 4: Customer Credit Liability / Exposure */}
+        {/* Metric 4: Money Owed by Customers */}
         <div
           onClick={() => setActiveTab('credit')}
-          className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-pointer transition-all"
+          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all"
         >
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-bold uppercase tracking-wider">Credit Debt Exposure</span>
-            <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400">
+          <div className="flex items-center justify-between text-slate-600">
+            <span className="text-xs font-bold uppercase tracking-wider">Money Owed by Customers</span>
+            <div className="p-2 rounded-xl bg-purple-50 text-purple-600">
               <CreditCard className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-purple-300">
+            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-purple-700">
               ₵{totalCreditOutstanding.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </span>
-            <span className="text-xs text-slate-400">
-              / ₵{(totalCreditCeiling / 1000).toFixed(0)}k cap
+            <span className="text-xs text-slate-500">
+              / ₵{(totalCreditCeiling / 1000).toFixed(0)}k limit
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
-            {((totalCreditOutstanding / (totalCreditCeiling || 1)) * 100).toFixed(1)}% total credit utilization.
+          <p className="text-[11px] text-slate-500 mt-1.5">
+            {((totalCreditOutstanding / (totalCreditCeiling || 1)) * 100).toFixed(1)}% of total credit limit utilized.
           </p>
         </div>
       </div>
 
       {/* Navigation Tabs Bar */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
         <button
           type="button"
           onClick={() => setActiveTab('approvals')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'approvals'
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <Clock className="w-4 h-4" />
-          Restock Approvals & Sales Audits
+          Approve Restock
           {pendingTransfers.length > 0 && (
-            <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-black text-[10px]">
+            <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+              activeTab === 'approvals' ? 'bg-white text-emerald-800' : 'bg-amber-500 text-white'
+            }`}>
               {pendingTransfers.length}
             </span>
           )}
@@ -233,82 +237,86 @@ export function OwnerDashboard({
         <button
           type="button"
           onClick={() => setActiveTab('inventory')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'inventory'
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <Boxes className="w-4 h-4" />
-          Multi-Branch Inventory Matrix
+          Check Stock Across All Shops
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('credit')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'credit'
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <CreditCard className="w-4 h-4" />
-          Customer Credit Ledgers & Limits
+          Money Owed & Credit Limits
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('sales')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'sales'
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <FileText className="w-4 h-4" />
-          Consolidated Sales & Invoices
+          All Sales & Receipts
         </button>
       </div>
 
-      {/* TAB CONTENT 1: Restock Approvals & Sales Verification */}
+      {/* TAB CONTENT 1: Approve Restock & Sales Verification */}
       {activeTab === 'approvals' && (
         <div className="space-y-6">
           {/* Pending Section */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-amber-400" />
-                  Pending Restock Requisitions (Awaiting Owner Review)
+                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-amber-600" />
+                  Stock Requests from Branches (Waiting for Approval)
                 </h2>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Click on any requisition to cross-reference previous 30-day branch sales with customer names before approving.
+                <p className="text-xs text-slate-500 mt-1">
+                  Click on any request to check previous 30-day branch sales and customer names before approving.
                 </p>
               </div>
-              <span className="px-3 py-1 text-xs font-bold rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              <span className={`px-3 py-1 text-xs font-bold rounded-lg border ${
+                pendingTransfers.length > 0
+                  ? 'bg-amber-50 text-amber-800 border-amber-200'
+                  : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+              }`}>
                 {pendingTransfers.length} Action Needed
               </span>
             </div>
 
             {pendingTransfers.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-3.5">
                 {pendingTransfers.map((transfer) => (
                   <div
                     key={transfer.id}
-                    className="p-5 rounded-2xl bg-slate-950/70 border border-slate-800 hover:border-emerald-500/40 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+                    className="p-5 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
                   >
                     <div className="space-y-1.5 flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold text-emerald-400">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                           {transfer.transfer_number}
                         </span>
-                        <span className="text-slate-600">•</span>
-                        <span className="text-xs font-bold text-white flex items-center gap-1">
-                          <Building2 className="w-3.5 h-3.5 text-slate-400" />
+                        <span className="text-slate-300">•</span>
+                        <span className="text-xs font-bold text-slate-800 flex items-center gap-1">
+                          <Building2 className="w-3.5 h-3.5 text-slate-500" />
                           {transfer.to_name}
                         </span>
-                        <span className="text-slate-600">•</span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-slate-300">•</span>
+                        <span className="text-xs text-slate-500">
                           {new Date(transfer.created_at).toLocaleDateString('en-GB', {
                             day: 'numeric',
                             month: 'short',
@@ -318,16 +326,16 @@ export function OwnerDashboard({
                         </span>
                       </div>
 
-                      <div className="text-xs text-slate-300">
-                        <strong>Requested Items:</strong>{' '}
+                      <div className="text-xs text-slate-800 font-medium">
+                        <strong className="text-slate-900 font-bold">Requested Items:</strong>{' '}
                         {transfer.items
                           .map((i) => `${i.quantity_requested}x ${i.product_name}`)
                           .join(', ')}
                       </div>
 
                       {transfer.notes && (
-                        <p className="text-xs text-slate-400 italic">
-                          Clerk note: "{transfer.notes}"
+                        <p className="text-xs text-slate-600 bg-white p-2 rounded-lg border border-slate-200">
+                          <strong>Clerk reason:</strong> "{transfer.notes}"
                         </p>
                       )}
                     </div>
@@ -336,51 +344,51 @@ export function OwnerDashboard({
                       <button
                         type="button"
                         onClick={() => onOpenRestockReview(transfer)}
-                        className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-md shadow-emerald-500/20 active:scale-95 transition-all"
+                        className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs active:scale-95 transition-all"
                       >
                         <ShieldCheck className="w-4 h-4" />
-                        Audit 30-Day Sales & Approve
+                        Check Past Sales & Approve
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="p-8 text-center rounded-2xl bg-slate-950/40 border border-slate-800/60 text-slate-400 text-xs">
-                <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
-                All branch restock requisitions have been reviewed. No pending approvals.
+              <div className="p-8 text-center rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-xs">
+                <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
+                All branch stock requests have been reviewed. There are no pending approvals.
               </div>
             )}
           </div>
 
           {/* Transfer History / In-Transit Pipeline */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300">
-              Approved, Dispatched & Completed Stock Movement Pipeline
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+              Approved, On the Way & Completed Stock Deliveries
             </h3>
 
-            <div className="overflow-x-auto border border-slate-800 rounded-2xl">
+            <div className="overflow-x-auto border border-slate-200 rounded-xl">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
-                    <th className="py-3 px-4">Transfer #</th>
-                    <th className="py-3 px-4">Destination Branch</th>
+                  <tr className="bg-slate-50 text-slate-700 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-200">
+                    <th className="py-3 px-4">Request #</th>
+                    <th className="py-3 px-4">Destination Shop</th>
                     <th className="py-3 px-4">Items</th>
-                    <th className="py-3 px-4">Waybill / Driver</th>
+                    <th className="py-3 px-4">Delivery Waybill / Driver</th>
                     <th className="py-3 px-4">Status</th>
-                    <th className="py-3 px-4 text-right">Actions</th>
+                    <th className="py-3 px-4 text-right">Details</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {store.stockTransfers
                     .filter((t) => t.status !== 'pending_approval')
                     .map((t) => (
-                      <tr key={t.id} className="hover:bg-slate-950/40">
-                        <td className="py-3 px-4 font-mono font-bold text-emerald-400">
+                      <tr key={t.id} className="hover:bg-slate-50">
+                        <td className="py-3 px-4 font-mono font-bold text-emerald-700">
                           {t.transfer_number}
                         </td>
-                        <td className="py-3 px-4 font-semibold text-white">{t.to_name}</td>
-                        <td className="py-3 px-4 text-slate-300">
+                        <td className="py-3 px-4 font-semibold text-slate-900">{t.to_name}</td>
+                        <td className="py-3 px-4 text-slate-700">
                           {t.items
                             .map((i) => `${i.quantity_approved || i.quantity_requested}x ${i.product_name}`)
                             .join(', ')}
@@ -388,37 +396,43 @@ export function OwnerDashboard({
                         <td className="py-3 px-4">
                           {t.waybill_number ? (
                             <div>
-                              <span className="font-mono text-slate-200">{t.waybill_number}</span>
-                              <span className="block text-[10px] text-slate-400">
+                              <span className="font-mono text-slate-900 font-medium">{t.waybill_number}</span>
+                              <span className="block text-[11px] text-slate-500">
                                 {t.driver_name} ({t.driver_phone})
                               </span>
                             </div>
                           ) : (
-                            <span className="text-slate-500 italic">Awaiting dispatch</span>
+                            <span className="text-slate-400 italic">Waiting for delivery truck</span>
                           )}
                         </td>
                         <td className="py-3 px-4">
                           <span
-                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                               t.status === 'received'
-                                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                                 : t.status === 'dispatched'
-                                  ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                                  ? 'bg-blue-50 text-blue-800 border border-blue-200'
                                   : t.status === 'approved'
-                                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                                    : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                    ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                                    : 'bg-rose-50 text-rose-800 border border-rose-200'
                             }`}
                           >
-                            {t.status.replace('_', ' ')}
+                            {t.status === 'received'
+                              ? 'Delivered & Received'
+                              : t.status === 'dispatched'
+                                ? 'On The Way'
+                                : t.status === 'approved'
+                                  ? 'Approved (At Warehouse)'
+                                  : 'Declined'}
                           </span>
                         </td>
                         <td className="py-3 px-4 text-right">
                           <button
                             type="button"
                             onClick={() => onOpenRestockReview(t)}
-                            className="text-xs text-slate-400 hover:text-white underline"
+                            className="text-xs text-emerald-700 hover:text-emerald-900 font-semibold underline"
                           >
-                            View Audit
+                            View Record
                           </button>
                         </td>
                       </tr>
@@ -430,35 +444,35 @@ export function OwnerDashboard({
         </div>
       )}
 
-      {/* TAB CONTENT 2: Multi-Branch Inventory Matrix */}
+      {/* TAB CONTENT 2: Check Stock Across All Shops */}
       {activeTab === 'inventory' && (
-        <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
             <div>
-              <h2 className="text-base font-bold text-white">
-                Multi-Branch Real-Time Inventory Matrix
+              <h2 className="text-base font-bold text-slate-900">
+                Stock Levels Across All Shops
               </h2>
-              <p className="text-xs text-slate-400">
-                Stock distribution rules: Suppliers deliver only to Central Warehouse. Stock moves to branches via transfers.
+              <p className="text-xs text-slate-500 mt-0.5">
+                Suppliers deliver only to Central Warehouse in Spintex. Goods are sent out to Medie, Lapaz, and Kumasi upon your approval.
               </p>
             </div>
           </div>
 
-          <div className="overflow-x-auto border border-slate-800 rounded-2xl">
+          <div className="overflow-x-auto border border-slate-200 rounded-xl">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
-                  <th className="py-3 px-4">Product Name</th>
-                  <th className="py-3 px-4">SKU / Category</th>
-                  <th className="py-3 px-4 text-right">Unit Price</th>
-                  <th className="py-3 px-4 text-center text-blue-400">Central Warehouse</th>
-                  <th className="py-3 px-4 text-center">Centric Medie</th>
-                  <th className="py-3 px-4 text-center">Centric Lapaz</th>
-                  <th className="py-3 px-4 text-center">Centric Kumasi</th>
-                  <th className="py-3 px-4 text-center font-bold text-white">Total Units</th>
+                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                  <th className="py-3 px-4 font-semibold">Product Name</th>
+                  <th className="py-3 px-4 font-semibold">SKU / Category</th>
+                  <th className="py-3 px-4 text-right font-semibold">Unit Price</th>
+                  <th className="py-3 px-4 text-center font-semibold text-blue-700 bg-blue-50/50">Central Warehouse</th>
+                  <th className="py-3 px-4 text-center font-semibold">Centric Medie</th>
+                  <th className="py-3 px-4 text-center font-semibold">Centric Lapaz</th>
+                  <th className="py-3 px-4 text-center font-semibold">Centric Kumasi</th>
+                  <th className="py-3 px-4 text-center font-bold text-slate-900">Total Units</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 text-slate-300">
+              <tbody className="divide-y divide-slate-100 text-slate-700">
                 {store.products.map((p) => {
                   const whQty = store.getProductStock(warehouse.id, p.id)
                   const medieQty = store.getProductStock('22222222-2222-2222-2222-222222222222', p.id)
@@ -467,23 +481,23 @@ export function OwnerDashboard({
                   const total = whQty + medieQty + lapazQty + kumasiQty
 
                   return (
-                    <tr key={p.id} className="hover:bg-slate-950/40">
-                      <td className="py-3 px-4 font-bold text-white">{p.name}</td>
-                      <td className="py-3 px-4 font-mono text-[11px] text-slate-400">
-                        {p.sku} <span className="text-slate-600">({p.category})</span>
+                    <tr key={p.id} className="hover:bg-slate-50">
+                      <td className="py-3 px-4 font-bold text-slate-900">{p.name}</td>
+                      <td className="py-3 px-4 font-mono text-[11px] text-slate-500">
+                        {p.sku} <span className="text-slate-400">({p.category})</span>
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-slate-200">
+                      <td className="py-3 px-4 text-right font-mono text-slate-900 font-medium">
                         ₵{p.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </td>
-                      <td className="py-3 px-4 text-center font-mono font-bold text-blue-400 bg-blue-950/10">
+                      <td className="py-3 px-4 text-center font-mono font-bold text-blue-700 bg-blue-50/40">
                         {whQty}
                       </td>
                       <td className="py-3 px-4 text-center font-mono">
                         <span
                           className={
                             medieQty <= p.low_stock_threshold
-                              ? 'text-rose-400 font-bold px-1.5 py-0.5 rounded bg-rose-500/10 border border-rose-500/20'
-                              : 'text-slate-200'
+                              ? 'text-rose-700 font-bold px-2 py-0.5 rounded bg-rose-50 border border-rose-200'
+                              : 'text-slate-800'
                           }
                         >
                           {medieQty}
@@ -493,8 +507,8 @@ export function OwnerDashboard({
                         <span
                           className={
                             lapazQty <= p.low_stock_threshold
-                              ? 'text-rose-400 font-bold px-1.5 py-0.5 rounded bg-rose-500/10 border border-rose-500/20'
-                              : 'text-slate-200'
+                              ? 'text-rose-700 font-bold px-2 py-0.5 rounded bg-rose-50 border border-rose-200'
+                              : 'text-slate-800'
                           }
                         >
                           {lapazQty}
@@ -504,14 +518,14 @@ export function OwnerDashboard({
                         <span
                           className={
                             kumasiQty <= p.low_stock_threshold
-                              ? 'text-rose-400 font-bold px-1.5 py-0.5 rounded bg-rose-500/10 border border-rose-500/20'
-                              : 'text-slate-200'
+                              ? 'text-rose-700 font-bold px-2 py-0.5 rounded bg-rose-50 border border-rose-200'
+                              : 'text-slate-800'
                           }
                         >
                           {kumasiQty}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-center font-mono font-extrabold text-white">
+                      <td className="py-3 px-4 text-center font-mono font-extrabold text-slate-900">
                         {total}
                       </td>
                     </tr>
@@ -523,66 +537,66 @@ export function OwnerDashboard({
         </div>
       )}
 
-      {/* TAB CONTENT 3: Customer Credit Ledgers & Limits */}
+      {/* TAB CONTENT 3: Customer Credit & Money Owed */}
       {activeTab === 'credit' && (
         <div className="space-y-6">
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <div>
-                <h2 className="text-base font-bold text-white">
-                  Commercial Customer Credit Ledgers & Ceilings
+                <h2 className="text-base font-bold text-slate-900">
+                  Customer Credit Accounts & Money Owed
                 </h2>
-                <p className="text-xs text-slate-400">
-                  Provision limits, record debt settlement payments, and monitor credit risk across Ghana.
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Set customer limits, record payments when debt is settled, and monitor balances.
                 </p>
               </div>
 
               <button
                 type="button"
                 onClick={onOpenNewCustomer}
-                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-md shadow-emerald-500/20"
+                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-all shadow-xs active:scale-95"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add Credit Customer
               </button>
             </div>
 
-            <div className="overflow-x-auto border border-slate-800 rounded-2xl">
+            <div className="overflow-x-auto border border-slate-200 rounded-xl">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+                  <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
                     <th className="py-3 px-4">Customer / Company</th>
-                    <th className="py-3 px-4">Contact & TIN</th>
-                    <th className="py-3 px-4 text-right">Credit Ceiling</th>
-                    <th className="py-3 px-4 text-right">Current Outstanding Debt</th>
-                    <th className="py-3 px-4 text-right text-emerald-400">Available Credit</th>
-                    <th className="py-3 px-4">Utilization</th>
+                    <th className="py-3 px-4">Phone & TIN</th>
+                    <th className="py-3 px-4 text-right">Credit Limit</th>
+                    <th className="py-3 px-4 text-right">Money Owed</th>
+                    <th className="py-3 px-4 text-right text-emerald-700">Available to Spend</th>
+                    <th className="py-3 px-4">Credit Used</th>
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {customerBalanceList.map((cust) => (
-                    <tr key={cust.id} className="hover:bg-slate-950/40">
+                    <tr key={cust.id} className="hover:bg-slate-50">
                       <td className="py-3 px-4">
-                        <div className="font-bold text-white">{cust.full_name}</div>
-                        <div className="text-[11px] text-slate-400">{cust.company_name}</div>
+                        <div className="font-bold text-slate-900">{cust.full_name}</div>
+                        <div className="text-[11px] text-slate-500">{cust.company_name}</div>
                       </td>
                       <td className="py-3 px-4 font-mono text-[11px]">
-                        <div>{cust.phone}</div>
-                        <div className="text-slate-500">{cust.tin_number || 'No TIN'}</div>
+                        <div className="text-slate-800">{cust.phone}</div>
+                        <div className="text-slate-400">{cust.tin_number || 'No TIN'}</div>
                       </td>
-                      <td className="py-3 px-4 text-right font-mono font-semibold text-white">
+                      <td className="py-3 px-4 text-right font-mono font-semibold text-slate-900">
                         ₵{cust.limit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono font-bold text-rose-400">
+                      <td className="py-3 px-4 text-right font-mono font-bold text-rose-700">
                         ₵{cust.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">
+                      <td className="py-3 px-4 text-right font-mono font-bold text-emerald-700">
                         ₵{cust.available.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </td>
                       <td className="py-3 px-4 w-32">
                         <div className="flex items-center gap-2">
-                          <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                          <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
                             <div
                               className={`h-full rounded-full ${
                                 cust.percentUsed > 80
@@ -594,7 +608,7 @@ export function OwnerDashboard({
                               style={{ width: `${cust.percentUsed}%` }}
                             />
                           </div>
-                          <span className="text-[10px] font-mono text-slate-400">
+                          <span className="text-[10px] font-mono text-slate-500">
                             {cust.percentUsed.toFixed(0)}%
                           </span>
                         </div>
@@ -603,7 +617,7 @@ export function OwnerDashboard({
                         <button
                           type="button"
                           onClick={() => onOpenPaymentRecord(cust)}
-                          className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20 transition-colors"
+                          className="px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 transition-colors"
                         >
                           Record Payment
                         </button>
@@ -617,14 +631,14 @@ export function OwnerDashboard({
         </div>
       )}
 
-      {/* TAB CONTENT 4: Consolidated Sales Ledger */}
+      {/* TAB CONTENT 4: All Sales & Receipts */}
       {activeTab === 'sales' && (
-        <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <h2 className="text-base font-bold text-white">Consolidated Branch Sales Audit Log</h2>
-              <p className="text-xs text-slate-400">
-                All customer invoices across Medie, Lapaz, and Kumasi retail points.
+              <h2 className="text-base font-bold text-slate-900">All Branch Sales & Receipts</h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Every customer invoice issued across Medie, Lapaz, and Kumasi retail points.
               </p>
             </div>
 
@@ -633,7 +647,7 @@ export function OwnerDashboard({
               <select
                 value={branchFilter}
                 onChange={(e) => setBranchFilter(e.target.value)}
-                className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 focus:outline-none focus:border-emerald-500"
+                className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
               >
                 <option value="ALL">All Branches</option>
                 {retailLocations.map((l) => (
@@ -648,36 +662,36 @@ export function OwnerDashboard({
                 <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Search invoice or customer..."
+                  placeholder="Search receipt # or customer..."
                   value={salesSearch}
                   onChange={(e) => setSalesSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
                 />
               </div>
             </div>
           </div>
 
-          <div className="overflow-x-auto border border-slate-800 rounded-2xl">
+          <div className="overflow-x-auto border border-slate-200 rounded-xl">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
-                  <th className="py-3 px-4">Invoice #</th>
+                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
+                  <th className="py-3 px-4">Receipt #</th>
                   <th className="py-3 px-4">Date & Time</th>
-                  <th className="py-3 px-4">Branch Location</th>
+                  <th className="py-3 px-4">Branch Shop</th>
                   <th className="py-3 px-4">Customer Name</th>
-                  <th className="py-3 px-4">Items</th>
+                  <th className="py-3 px-4">Items Sold</th>
                   <th className="py-3 px-4 text-right">Amount (GHS)</th>
                   <th className="py-3 px-4 text-center">Payment Mode</th>
                   <th className="py-3 px-4 text-right">Print</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 text-slate-300">
+              <tbody className="divide-y divide-slate-100 text-slate-700">
                 {filteredSales.map((sale) => (
-                  <tr key={sale.id} className="hover:bg-slate-950/40">
-                    <td className="py-3 px-4 font-mono font-bold text-emerald-400">
+                  <tr key={sale.id} className="hover:bg-slate-50">
+                    <td className="py-3 px-4 font-mono font-bold text-emerald-700">
                       {sale.invoice_number}
                     </td>
-                    <td className="py-3 px-4 text-slate-400">
+                    <td className="py-3 px-4 text-slate-500">
                       {new Date(sale.created_at).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: 'short',
@@ -685,31 +699,31 @@ export function OwnerDashboard({
                         minute: '2-digit'
                       })}
                     </td>
-                    <td className="py-3 px-4 font-semibold text-white">{sale.location_name}</td>
-                    <td className="py-3 px-4">{sale.customer_name}</td>
-                    <td className="py-3 px-4 text-slate-400">
+                    <td className="py-3 px-4 font-semibold text-slate-900">{sale.location_name}</td>
+                    <td className="py-3 px-4 text-slate-800 font-medium">{sale.customer_name}</td>
+                    <td className="py-3 px-4 text-slate-600">
                       {sale.items?.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}
                     </td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-white">
+                    <td className="py-3 px-4 text-right font-mono font-bold text-slate-900">
                       ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="py-3 px-4 text-center">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                        className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
                           sale.payment_mode === 'credit'
-                            ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                            : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                            ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                            : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                         }`}
                       >
-                        {sale.payment_mode}
+                        {sale.payment_mode === 'credit' ? 'Credit' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <button
                         type="button"
                         onClick={() => onOpenDocumentPrint(sale)}
-                        title="Print Invoice / Official Receipt"
-                        className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                        title="Print Official Receipt / Invoice"
+                        className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
                       >
                         <Printer className="w-3.5 h-3.5" />
                       </button>

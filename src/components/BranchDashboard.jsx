@@ -37,7 +37,7 @@ export function BranchDashboard({
   const [walkinPhone, setWalkinPhone] = useState('')
   const [paymentMode, setPaymentMode] = useState('cash')
   const [discountAmount, setDiscountAmount] = useState(0)
-  const [taxRate, setTaxRate] = useState(0) // Default 0 or GRA standard
+  const [taxRate, setTaxRate] = useState(0) // Default 0
   const [saleNotes, setSaleNotes] = useState('')
   const [amountTendered, setAmountTendered] = useState('')
   const [posError, setPosError] = useState('')
@@ -127,17 +127,13 @@ export function BranchDashboard({
 
     const item = cart.find((i) => i.product_id === productId)
     if (item && newQty > item.max_stock) {
-      setPosError(`Cannot exceed branch stock of ${item.max_stock} units.`)
+      setPosError(`Cannot exceed branch shelf stock of ${item.max_stock} units.`)
       return
     }
 
     setCart(
       cart.map((i) => (i.product_id === productId ? { ...i, quantity: newQty } : i))
     )
-  }
-
-  const handleRemoveItem = (productId) => {
-    setCart(cart.filter((i) => i.product_id !== productId))
   }
 
   const handleClearCart = () => {
@@ -165,10 +161,10 @@ export function BranchDashboard({
       }
       if (selectedCustomerData && cartTotal > selectedCustomerData.available) {
         setPosError(
-          `Credit limit exceeded! Customer's available credit is ₵${selectedCustomerData.available.toLocaleString(
+          `Customer credit limit exceeded! Available credit is ₵${selectedCustomerData.available.toLocaleString(
             'en-US',
             { minimumFractionDigits: 2 }
-          )}, but this order total is ₵${cartTotal.toLocaleString('en-US', {
+          )}, but order total is ₵${cartTotal.toLocaleString('en-US', {
             minimumFractionDigits: 2
           })}.`
         )
@@ -209,6 +205,7 @@ export function BranchDashboard({
   const handleConfirmReceipt = (transferId) => {
     try {
       store.confirmReceiptTransfer(transferId, currentUser.name)
+      alert('Stock successfully received and added to this branch inventory!')
     } catch (err) {
       alert(`Error receiving stock: ${err.message}`)
     }
@@ -217,75 +214,77 @@ export function BranchDashboard({
   return (
     <div className="space-y-6">
       {/* Branch Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-slate-900 border border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 shadow-xs">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              Retail Branch Terminal
+            <span className="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+              Retail Branch
             </span>
-            <span className="text-xs text-slate-400 font-mono">{branchLocation.code}</span>
+            <span className="text-xs text-slate-500 font-mono font-bold">{branchLocation.code}</span>
           </div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight mt-1 flex items-center gap-2">
-            <Building2 className="w-6 h-6 text-emerald-400" />
+          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight mt-1.5 flex items-center gap-2">
+            <Building2 className="w-6 h-6 text-emerald-600" />
             {branchLocation.name}
           </h1>
-          <p className="text-xs text-slate-400 mt-1">{branchLocation.address}</p>
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">{branchLocation.address}</p>
         </div>
 
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onOpenRequestRestock}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 text-xs font-bold transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition-all shadow-xs active:scale-95"
           >
             <Boxes className="w-4 h-4" />
-            Request Restock from Warehouse
+            Ask for More Stock from Warehouse
           </button>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
         <button
           type="button"
           onClick={() => setActiveTab('pos')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'pos'
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <ShoppingCart className="w-4 h-4" />
-          Point of Sale (POS Terminal)
+          Make a Sale
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('inventory')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'inventory'
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <Boxes className="w-4 h-4" />
-          Branch Inventory & Requisitions
+          Check Branch Stock
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('transfers')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'transfers'
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <Truck className="w-4 h-4" />
-          Incoming Restock Shipments
+          Incoming Deliveries
           {incomingTransfers.filter((t) => t.status === 'dispatched').length > 0 && (
-            <span className="px-1.5 py-0.5 rounded-full bg-blue-500 text-slate-950 font-black text-[10px]">
-              {incomingTransfers.filter((t) => t.status === 'dispatched').length} in-transit
+            <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+              activeTab === 'transfers' ? 'bg-white text-emerald-800' : 'bg-blue-600 text-white'
+            }`}>
+              {incomingTransfers.filter((t) => t.status === 'dispatched').length} on the way
             </span>
           )}
         </button>
@@ -293,32 +292,32 @@ export function BranchDashboard({
         <button
           type="button"
           onClick={() => setActiveTab('sales')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
             activeTab === 'sales'
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <FileText className="w-4 h-4" />
-          Branch Sales History ({branchSales.length})
+          Past Sales ({branchSales.length})
         </button>
       </div>
 
-      {/* TAB 1: POS TERMINAL */}
+      {/* TAB 1: MAKE A SALE */}
       {activeTab === 'pos' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column: Product Catalog (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
             {/* Search & Categories */}
-            <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
               <div className="relative">
                 <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Search products or scan barcode/SKU..."
+                  placeholder="Search products by name or SKU..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
                 />
               </div>
 
@@ -329,10 +328,10 @@ export function BranchDashboard({
                     key={cat}
                     type="button"
                     onClick={() => setCategoryFilter(cat)}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap transition-colors ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
                       categoryFilter === cat
-                        ? 'bg-emerald-500 text-slate-950 shadow-sm'
-                        : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                     }`}
                   >
                     {cat}
@@ -351,24 +350,24 @@ export function BranchDashboard({
                   <div
                     key={product.id}
                     onClick={() => !isOutOfStock && handleAddToCart(product)}
-                    className={`p-4 rounded-2xl border transition-all text-left flex flex-col justify-between ${
+                    className={`p-4 rounded-xl border transition-all text-left flex flex-col justify-between ${
                       isOutOfStock
-                        ? 'bg-slate-950/40 border-slate-800/60 opacity-60 cursor-not-allowed'
-                        : 'bg-slate-900 border-slate-800 hover:border-emerald-500/50 cursor-pointer shadow-sm hover:shadow-emerald-500/5 active:scale-[0.98]'
+                        ? 'bg-slate-50 border-slate-200 opacity-60 cursor-not-allowed'
+                        : 'bg-white border-slate-200 hover:border-emerald-300 hover:shadow-xs cursor-pointer active:scale-[0.99]'
                     }`}
                   >
                     <div>
                       <div className="flex justify-between items-start gap-2">
-                        <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider">
+                        <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
                           {product.sku}
                         </span>
                         <span
                           className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                             isOutOfStock
-                              ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                              ? 'bg-rose-50 text-rose-700 border border-rose-200'
                               : product.isLowStock
-                                ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                                : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                                : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                           }`}
                         >
                           {isOutOfStock
@@ -378,28 +377,28 @@ export function BranchDashboard({
                               : `${product.quantity} in stock`}
                         </span>
                       </div>
-                      <h3 className="text-sm font-bold text-white mt-1 line-clamp-2">
+                      <h3 className="text-sm font-bold text-slate-900 mt-1 line-clamp-2">
                         {product.name}
                       </h3>
-                      <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
+                      <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">
                         {product.description}
                       </p>
                     </div>
 
-                    <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
-                      <span className="text-base font-extrabold font-mono text-emerald-400">
+                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-base font-extrabold font-mono text-emerald-700">
                         ₵{product.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </span>
 
                       {inCart ? (
-                        <span className="px-2 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs">
+                        <span className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-xs shadow-xs">
                           {inCart.quantity} in cart
                         </span>
                       ) : (
                         <button
                           type="button"
                           disabled={isOutOfStock}
-                          className="p-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-300 transition-colors disabled:opacity-30"
+                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 transition-colors disabled:opacity-30"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
@@ -413,12 +412,12 @@ export function BranchDashboard({
 
           {/* Right Column: Active Cart & Checkout (5 cols) */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="p-5 rounded-3xl bg-slate-900 border border-slate-800 space-y-4 sticky top-20">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4 sticky top-20">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-emerald-400" />
-                  <h2 className="text-base font-bold text-white">Current Cart</h2>
-                  <span className="px-2 py-0.5 rounded-full bg-slate-800 text-xs font-mono font-bold text-emerald-400">
+                  <ShoppingCart className="w-5 h-5 text-emerald-600" />
+                  <h2 className="text-base font-bold text-slate-900">Current Cart</h2>
+                  <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-xs font-mono font-bold text-slate-800">
                     {cart.reduce((sum, i) => sum + i.quantity, 0)} items
                   </span>
                 </div>
@@ -427,7 +426,7 @@ export function BranchDashboard({
                   <button
                     type="button"
                     onClick={handleClearCart}
-                    className="text-xs text-rose-400 hover:underline flex items-center gap-1"
+                    className="text-xs text-rose-600 hover:underline flex items-center gap-1 font-semibold"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     Clear
@@ -437,14 +436,14 @@ export function BranchDashboard({
 
               {/* Error & Success Messages */}
               {posError && (
-                <div className="p-3 text-xs rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-start gap-2">
+                <div className="p-3 text-xs rounded-xl bg-rose-50 border border-rose-200 text-rose-700 flex items-start gap-2">
                   <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
                   <span>{posError}</span>
                 </div>
               )}
 
               {posSuccessMsg && (
-                <div className="p-3 text-xs rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center gap-2">
+                <div className="p-3 text-xs rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-2 font-medium">
                   <CheckCircle2 className="w-4 h-4 shrink-0" />
                   <span>{posSuccessMsg}</span>
                 </div>
@@ -452,7 +451,7 @@ export function BranchDashboard({
 
               {/* Customer Selector */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                   Customer Type:
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -462,13 +461,13 @@ export function BranchDashboard({
                       setSelectedCustomerId('')
                       setPaymentMode('cash')
                     }}
-                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-colors ${
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all ${
                       !selectedCustomerId
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                        ? 'bg-emerald-50 border-emerald-600 text-emerald-800'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
-                    Walk-in Direct
+                    Walk-in Customer
                   </button>
                   <button
                     type="button"
@@ -476,13 +475,13 @@ export function BranchDashboard({
                       setSelectedCustomerId(store.customers[0]?.id || '')
                       setPaymentMode('credit')
                     }}
-                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-colors ${
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all ${
                       selectedCustomerId
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                        ? 'bg-emerald-50 border-emerald-600 text-emerald-800'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
-                    Commercial Credit
+                    Customer on Credit
                   </button>
                 </div>
 
@@ -494,14 +493,14 @@ export function BranchDashboard({
                       placeholder="Customer Name (Optional)"
                       value={walkinName}
                       onChange={(e) => setWalkinName(e.target.value)}
-                      className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-emerald-500"
+                      className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
                     />
                     <input
                       type="tel"
                       placeholder="Phone (Optional)"
                       value={walkinPhone}
                       onChange={(e) => setWalkinPhone(e.target.value)}
-                      className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-emerald-500"
+                      className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
                     />
                   </div>
                 ) : (
@@ -510,7 +509,7 @@ export function BranchDashboard({
                     <select
                       value={selectedCustomerId}
                       onChange={(e) => setSelectedCustomerId(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-emerald-500"
+                      className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
                     >
                       {store.customers.map((c) => (
                         <option key={c.id} value={c.id}>
@@ -520,26 +519,26 @@ export function BranchDashboard({
                     </select>
 
                     {selectedCustomerData && (
-                      <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1 text-xs">
-                        <div className="flex justify-between text-slate-400">
+                      <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
+                        <div className="flex justify-between text-slate-600">
                           <span>Credit Limit:</span>
-                          <span className="font-mono text-white">
+                          <span className="font-mono font-semibold text-slate-900">
                             ₵{selectedCustomerData.limit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                         </div>
-                        <div className="flex justify-between text-slate-400">
-                          <span>Outstanding Debt:</span>
-                          <span className="font-mono text-rose-400">
+                        <div className="flex justify-between text-slate-600">
+                          <span>Money Currently Owed:</span>
+                          <span className="font-mono font-bold text-rose-700">
                             ₵{selectedCustomerData.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                         </div>
-                        <div className="flex justify-between text-slate-400 pt-1 border-t border-slate-800">
-                          <span>Available Credit:</span>
+                        <div className="flex justify-between text-slate-600 pt-1 border-t border-slate-200">
+                          <span>Available to Spend:</span>
                           <span
                             className={`font-mono font-bold ${
                               selectedCustomerData.available >= cartTotal
-                                ? 'text-emerald-400'
-                                : 'text-rose-400'
+                                ? 'text-emerald-700'
+                                : 'text-rose-700'
                             }`}
                           >
                             ₵{selectedCustomerData.available.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -552,13 +551,13 @@ export function BranchDashboard({
               </div>
 
               {/* Cart Items List */}
-              <div className="max-h-48 overflow-y-auto divide-y divide-slate-800/80 pr-1">
+              <div className="max-h-48 overflow-y-auto divide-y divide-slate-100 pr-1">
                 {cart.length > 0 ? (
                   cart.map((item) => (
                     <div key={item.product_id} className="py-2.5 flex items-center justify-between gap-2">
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-white truncate">{item.product_name}</p>
-                        <span className="text-[11px] font-mono text-slate-400">
+                        <p className="text-xs font-bold text-slate-900 truncate">{item.product_name}</p>
+                        <span className="text-[11px] font-mono text-slate-500">
                           ₵{item.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })} each
                         </span>
                       </div>
@@ -567,23 +566,23 @@ export function BranchDashboard({
                         <button
                           type="button"
                           onClick={() => handleUpdateQty(item.product_id, item.quantity - 1)}
-                          className="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 text-xs"
+                          className="w-6 h-6 rounded bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 text-xs"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="w-6 text-center font-mono font-bold text-xs text-white">
+                        <span className="w-6 text-center font-mono font-bold text-xs text-slate-900">
                           {item.quantity}
                         </span>
                         <button
                           type="button"
                           onClick={() => handleUpdateQty(item.product_id, item.quantity + 1)}
-                          className="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 text-xs"
+                          className="w-6 h-6 rounded bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 text-xs"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
 
-                      <div className="text-right font-mono font-bold text-xs text-emerald-400 min-w-[70px]">
+                      <div className="text-right font-mono font-bold text-xs text-emerald-700 min-w-[70px]">
                         ₵{(item.quantity * item.unit_price).toLocaleString('en-US', {
                           minimumFractionDigits: 2
                         })}
@@ -591,16 +590,16 @@ export function BranchDashboard({
                     </div>
                   ))
                 ) : (
-                  <div className="py-8 text-center text-xs text-slate-500 italic">
+                  <div className="py-8 text-center text-xs text-slate-400 italic">
                     Cart is empty. Click products from the catalog to add.
                   </div>
                 )}
               </div>
 
               {/* Payment Mode Selector */}
-              <div className="space-y-1.5 pt-2 border-t border-slate-800">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
-                  Payment Mode:
+              <div className="space-y-1.5 pt-2 border-t border-slate-100">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                  Payment Method:
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   <button
@@ -608,8 +607,8 @@ export function BranchDashboard({
                     onClick={() => setPaymentMode('cash')}
                     className={`py-2 px-2 rounded-xl text-xs font-semibold border ${
                       paymentMode === 'cash'
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-slate-950 border-slate-800 text-slate-400'
+                        ? 'bg-emerald-50 border-emerald-600 text-emerald-800'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
                     Cash
@@ -619,8 +618,8 @@ export function BranchDashboard({
                     onClick={() => setPaymentMode('momo')}
                     className={`py-2 px-2 rounded-xl text-xs font-semibold border ${
                       paymentMode === 'momo'
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-slate-950 border-slate-800 text-slate-400'
+                        ? 'bg-emerald-50 border-emerald-600 text-emerald-800'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
                     MTN MoMo
@@ -631,26 +630,26 @@ export function BranchDashboard({
                     onClick={() => setPaymentMode('credit')}
                     className={`py-2 px-2 rounded-xl text-xs font-semibold border disabled:opacity-40 ${
                       paymentMode === 'credit'
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-slate-950 border-slate-800 text-slate-400'
+                        ? 'bg-emerald-50 border-emerald-600 text-emerald-800'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
-                    Credit Acct
+                    Credit Account
                   </button>
                 </div>
               </div>
 
               {/* Order Financial Totals */}
-              <div className="space-y-1.5 pt-2 border-t border-slate-800 text-xs">
-                <div className="flex justify-between text-slate-400">
+              <div className="space-y-1.5 pt-2 border-t border-slate-100 text-xs">
+                <div className="flex justify-between text-slate-600">
                   <span>Subtotal:</span>
-                  <span className="font-mono text-white">
+                  <span className="font-mono text-slate-900 font-medium">
                     ₵{cartSubtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </span>
                 </div>
-                <div className="pt-2 border-t border-slate-800/80 flex justify-between items-center text-sm font-extrabold text-white">
+                <div className="pt-2 border-t border-slate-200 flex justify-between items-center text-sm font-extrabold text-slate-900">
                   <span>Total Due:</span>
-                  <span className="text-xl font-mono text-emerald-400">
+                  <span className="text-xl font-mono text-emerald-700">
                     GHS ₵{cartTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </span>
                 </div>
@@ -661,76 +660,76 @@ export function BranchDashboard({
                 type="button"
                 disabled={cart.length === 0}
                 onClick={handleProcessSale}
-                className="w-full py-3 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold text-sm shadow-lg shadow-emerald-500/20 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-xs active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <CheckCircle2 className="w-4 h-4" />
-                Complete Transaction & Print
+                Complete Sale & Print Receipt
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* TAB 2: BRANCH INVENTORY & REQUISITIONS */}
+      {/* TAB 2: BRANCH INVENTORY */}
       {activeTab === 'inventory' && (
-        <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <h2 className="text-base font-bold text-white">Branch Shelf Inventory & Stock Levels</h2>
-              <p className="text-xs text-slate-400">
-                Items marked with red/amber badges require restocking from Central Warehouse.
+              <h2 className="text-base font-bold text-slate-900">Branch Shelf Stock Levels</h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Items marked with red badges are running low. Ask Central Warehouse for more stock.
               </p>
             </div>
             <button
               type="button"
               onClick={onOpenRequestRestock}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-all shadow-md shadow-amber-500/20"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-bold text-xs transition-all shadow-xs active:scale-95"
             >
               <Boxes className="w-3.5 h-3.5" />
-              Requisition Restock
+              Ask for More Stock
             </button>
           </div>
 
-          <div className="overflow-x-auto border border-slate-800 rounded-2xl">
+          <div className="overflow-x-auto border border-slate-200 rounded-xl">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
                   <th className="py-3 px-4">Item Name</th>
                   <th className="py-3 px-4">SKU</th>
                   <th className="py-3 px-4">Category</th>
-                  <th className="py-3 px-4 text-center">Branch Shelf Count</th>
+                  <th className="py-3 px-4 text-center">Shelf Stock</th>
                   <th className="py-3 px-4 text-center">Min Threshold</th>
                   <th className="py-3 px-4 text-right">Unit Price</th>
                   <th className="py-3 px-4 text-center">Status</th>
                   <th className="py-3 px-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 text-slate-300">
+              <tbody className="divide-y divide-slate-100 text-slate-700">
                 {branchStockList.map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-950/40">
-                    <td className="py-3 px-4 font-bold text-white">{item.name}</td>
-                    <td className="py-3 px-4 font-mono text-[11px] text-slate-400">{item.sku}</td>
-                    <td className="py-3 px-4 text-slate-400">{item.category}</td>
+                  <tr key={item.id} className="hover:bg-slate-50">
+                    <td className="py-3 px-4 font-bold text-slate-900">{item.name}</td>
+                    <td className="py-3 px-4 font-mono text-[11px] text-slate-500">{item.sku}</td>
+                    <td className="py-3 px-4 text-slate-600">{item.category}</td>
                     <td className="py-3 px-4 text-center font-mono font-bold text-sm">
-                      <span className={item.isLowStock ? 'text-rose-400' : 'text-emerald-400'}>
+                      <span className={item.isLowStock ? 'text-rose-700' : 'text-emerald-700'}>
                         {item.quantity} {item.unit_of_measure}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-center font-mono text-slate-400">
+                    <td className="py-3 px-4 text-center font-mono text-slate-500">
                       {item.low_stock_threshold}
                     </td>
-                    <td className="py-3 px-4 text-right font-mono text-white">
+                    <td className="py-3 px-4 text-right font-mono text-slate-900 font-medium">
                       ₵{item.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="py-3 px-4 text-center">
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                           item.isLowStock
-                            ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20 animate-pulse'
-                            : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                            ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                            : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                         }`}
                       >
-                        {item.isLowStock ? 'Low Stock' : 'Optimal'}
+                        {item.isLowStock ? 'Low Stock' : 'Good'}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right">
@@ -738,9 +737,9 @@ export function BranchDashboard({
                         <button
                           type="button"
                           onClick={onOpenRequestRestock}
-                          className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 border border-amber-500/20 text-xs font-semibold"
+                          className="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200 text-xs font-bold"
                         >
-                          Request Restock
+                          Ask for Stock
                         </button>
                       )}
                     </td>
@@ -752,19 +751,19 @@ export function BranchDashboard({
         </div>
       )}
 
-      {/* TAB 3: INCOMING RESTOCK SHIPMENTS */}
+      {/* TAB 3: INCOMING DELIVERIES */}
       {activeTab === 'transfers' && (
-        <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-white">Incoming Stock Transfers from Central Warehouse</h2>
-              <p className="text-xs text-slate-400">
-                When goods arrive physically at this branch, click "Confirm Receipt" to increment local stock.
+              <h2 className="text-base font-bold text-slate-900">Incoming Deliveries from Central Warehouse</h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                When the delivery truck arrives physically at this branch, click "Delivery Truck Arrived / Confirm Goods Received".
               </p>
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {incomingTransfers.length > 0 ? (
               incomingTransfers.map((transfer) => {
                 const isDispatched = transfer.status === 'dispatched'
@@ -775,45 +774,53 @@ export function BranchDashboard({
                 return (
                   <div
                     key={transfer.id}
-                    className="p-5 rounded-2xl bg-slate-950/70 border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+                    className="p-5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
                   >
                     <div className="space-y-1.5 flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold text-emerald-400">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                           {transfer.transfer_number}
                         </span>
-                        <span className="text-slate-600">•</span>
+                        <span className="text-slate-300">•</span>
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                          className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
                             isReceived
-                              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                               : isDispatched
-                                ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 animate-pulse'
+                                ? 'bg-blue-50 text-blue-800 border border-blue-200'
                                 : isApproved
-                                  ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                                  : 'bg-slate-800 text-slate-400'
+                                  ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                                  : 'bg-slate-200 text-slate-700'
                           }`}
                         >
-                          {transfer.status.replace('_', ' ')}
+                          {isReceived
+                            ? 'Delivered & Received'
+                            : isDispatched
+                              ? 'On the Way (Dispatched)'
+                              : isApproved
+                                ? 'Approved by Owner'
+                                : 'Waiting for Review'}
                         </span>
                       </div>
 
-                      <div className="text-xs text-white font-semibold">
+                      <div className="text-xs text-slate-900 font-bold">
                         Items:{' '}
-                        {transfer.items
-                          .map((i) => `${i.quantity_approved || i.quantity_requested}x ${i.product_name}`)
-                          .join(', ')}
+                        <span className="font-medium text-slate-700">
+                          {transfer.items
+                            .map((i) => `${i.quantity_approved || i.quantity_requested}x ${i.product_name}`)
+                            .join(', ')}
+                        </span>
                       </div>
 
                       {transfer.waybill_number && (
-                        <div className="text-xs text-blue-400 font-mono flex items-center gap-2">
-                          <Truck className="w-3.5 h-3.5" />
+                        <div className="text-xs text-blue-800 font-mono flex items-center gap-2 bg-blue-50/70 p-2 rounded-lg border border-blue-100">
+                          <Truck className="w-3.5 h-3.5 text-blue-600" />
                           Waybill: {transfer.waybill_number} | Driver: {transfer.driver_name} ({transfer.driver_phone})
                         </div>
                       )}
 
                       {transfer.notes && (
-                        <p className="text-xs text-slate-400 italic">Notes: "{transfer.notes}"</p>
+                        <p className="text-xs text-slate-500 italic">Branch note: "{transfer.notes}"</p>
                       )}
                     </div>
 
@@ -822,29 +829,29 @@ export function BranchDashboard({
                         <button
                           type="button"
                           onClick={() => handleConfirmReceipt(transfer.id)}
-                          className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs shadow-md shadow-emerald-500/20 active:scale-95 transition-all"
+                          className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-xs active:scale-95 transition-all"
                         >
                           <CheckCircle2 className="w-4 h-4" />
-                          Confirm Physical Receipt of Goods
+                          Delivery Truck Arrived / Confirm Goods Received
                         </button>
                       )}
 
                       {isApproved && (
-                        <span className="text-xs text-amber-400 font-semibold italic">
-                          Awaiting Warehouse Logistics Dispatch
+                        <span className="text-xs text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg font-semibold">
+                          Approved — Warehouse is loading goods
                         </span>
                       )}
 
                       {isPending && (
-                        <span className="text-xs text-slate-400 italic">
-                          Awaiting Owner Review (Kwame Yeboah)
+                        <span className="text-xs text-slate-500 italic">
+                          Waiting for Owner Review (Kwame Yeboah)
                         </span>
                       )}
 
                       {isReceived && (
-                        <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-bold">
+                        <span className="inline-flex items-center gap-1.5 text-xs text-emerald-700 font-bold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
                           <CheckCircle2 className="w-4 h-4" />
-                          Stock Added to Local Inventory
+                          Added to Shelf Inventory
                         </span>
                       )}
                     </div>
@@ -852,8 +859,8 @@ export function BranchDashboard({
                 )
               })
             ) : (
-              <div className="p-8 text-center rounded-2xl bg-slate-950/40 border border-slate-800/60 text-slate-400 text-xs">
-                No transfer records found for this branch.
+              <div className="p-8 text-center rounded-xl bg-slate-50 border border-slate-200 text-slate-500 text-xs">
+                No delivery records found for this branch.
               </div>
             )}
           </div>
@@ -862,29 +869,29 @@ export function BranchDashboard({
 
       {/* TAB 4: BRANCH SALES HISTORY */}
       {activeTab === 'sales' && (
-        <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
-          <h2 className="text-base font-bold text-white">Branch Sales Invoices Log</h2>
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+          <h2 className="text-base font-bold text-slate-900">Branch Sales History</h2>
 
-          <div className="overflow-x-auto border border-slate-800 rounded-2xl">
+          <div className="overflow-x-auto border border-slate-200 rounded-xl">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
-                  <th className="py-3 px-4">Invoice #</th>
+                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
+                  <th className="py-3 px-4">Receipt #</th>
                   <th className="py-3 px-4">Date & Time</th>
                   <th className="py-3 px-4">Customer</th>
                   <th className="py-3 px-4">Items Sold</th>
                   <th className="py-3 px-4 text-right">Amount (GHS)</th>
                   <th className="py-3 px-4 text-center">Payment Mode</th>
-                  <th className="py-3 px-4 text-right">Reprint</th>
+                  <th className="py-3 px-4 text-right">Print</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 text-slate-300">
+              <tbody className="divide-y divide-slate-100 text-slate-700">
                 {branchSales.map((sale) => (
-                  <tr key={sale.id} className="hover:bg-slate-950/40">
-                    <td className="py-3 px-4 font-mono font-bold text-emerald-400">
+                  <tr key={sale.id} className="hover:bg-slate-50">
+                    <td className="py-3 px-4 font-mono font-bold text-emerald-700">
                       {sale.invoice_number}
                     </td>
-                    <td className="py-3 px-4 text-slate-400">
+                    <td className="py-3 px-4 text-slate-500">
                       {new Date(sale.created_at).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: 'short',
@@ -892,23 +899,23 @@ export function BranchDashboard({
                         minute: '2-digit'
                       })}
                     </td>
-                    <td className="py-3 px-4 font-semibold text-white">{sale.customer_name}</td>
-                    <td className="py-3 px-4 text-slate-300">
+                    <td className="py-3 px-4 font-semibold text-slate-900">{sale.customer_name}</td>
+                    <td className="py-3 px-4 text-slate-600">
                       {sale.items?.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}
                     </td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-white">
+                    <td className="py-3 px-4 text-right font-mono font-bold text-slate-900">
                       ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="py-3 px-4 text-center">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-800 text-slate-300">
-                        {sale.payment_mode}
+                      <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-100 text-slate-700 border border-slate-200">
+                        {sale.payment_mode === 'credit' ? 'Credit' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <button
                         type="button"
                         onClick={() => onOpenDocumentPrint(sale)}
-                        className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                        className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
                       >
                         <Printer className="w-3.5 h-3.5" />
                       </button>

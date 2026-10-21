@@ -42,32 +42,32 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
   })
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto print-modal-overlay">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm overflow-y-auto print-modal-overlay">
       {/* Container */}
-      <div className="relative w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden my-8 no-print:max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-4xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden my-8 no-print:max-h-[90vh] flex flex-col">
         {/* Header Controls (Hidden on Print) */}
-        <div className="flex items-center justify-between px-6 py-4 bg-slate-900 border-b border-slate-800 no-print">
+        <div className="flex items-center justify-between px-6 py-4 bg-slate-50 border-b border-slate-200 no-print">
           <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Document Type:</span>
-            <div className="inline-flex rounded-lg bg-slate-800 p-1 border border-slate-700">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">Document Type:</span>
+            <div className="inline-flex rounded-xl bg-slate-200/70 p-1">
               <button
                 type="button"
                 onClick={() => setDocType('invoice')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
                   docType === 'invoice'
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-300 hover:text-white'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'text-slate-700 hover:text-slate-900'
                 }`}
               >
-                Tax Invoice
+                Official Invoice
               </button>
               <button
                 type="button"
                 onClick={() => setDocType('receipt')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
                   docType === 'receipt'
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-300 hover:text-white'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'text-slate-700 hover:text-slate-900'
                 }`}
               >
                 Payment Receipt
@@ -75,10 +75,10 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
               <button
                 type="button"
                 onClick={() => setDocType('quotation')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
                   docType === 'quotation'
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-300 hover:text-white'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'text-slate-700 hover:text-slate-900'
                 }`}
               >
                 Proforma Quote
@@ -90,7 +90,7 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
             <button
               type="button"
               onClick={handlePrint}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition-all shadow-md shadow-emerald-500/20 active:scale-95"
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all shadow-xs active:scale-95"
             >
               <Printer className="w-4 h-4" />
               Print / Save PDF
@@ -98,7 +98,7 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
             <button
               type="button"
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-xl transition-colors"
+              className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -106,23 +106,23 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
         </div>
 
         {/* Printable Document Sheet (A4 Layout) */}
-        <div className="overflow-y-auto p-4 sm:p-8 bg-slate-950">
+        <div className="overflow-y-auto p-4 sm:p-8 bg-slate-100">
           <div
             id="printable-document"
-            className="w-full max-w-[210mm] mx-auto bg-white text-slate-900 p-8 sm:p-12 rounded-xl shadow-lg border border-slate-200"
+            className="w-full max-w-[210mm] mx-auto bg-white text-slate-900 p-8 sm:p-12 rounded-xl shadow-md border border-slate-200"
           >
             {/* Header / Brand */}
             <div className="flex flex-col sm:flex-row justify-between items-start pb-6 border-b-2 border-emerald-600 gap-4">
               <div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-md">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-sm">
                     C
                   </div>
                   <div>
                     <h1 className="text-xl font-extrabold tracking-tight text-slate-950 uppercase">
                       Centric Systems Ghana Limited
                     </h1>
-                    <p className="text-xs font-semibold text-emerald-700 tracking-wide">
+                    <p className="text-xs font-bold text-emerald-700 tracking-wide">
                       Industrial Electrical, Solar Energy & Automation Solutions
                     </p>
                   </div>
@@ -159,35 +159,37 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
                   <Calendar className="w-3 h-3 text-slate-400" />
                   {formattedDate}
                 </div>
-                <div className="mt-1 text-xs text-slate-600">
-                  <strong>Origin Branch:</strong> {location_name}
+                <div className="mt-1 text-xs text-slate-700">
+                  <strong>Origin Shop:</strong> {location_name}
                 </div>
               </div>
             </div>
 
             {/* Bill To & Transaction Info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 my-6 text-xs">
-              <div className="bg-slate-50/70 p-4 rounded-lg border border-slate-200">
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Billed To Customer</span>
                 <h3 className="text-sm font-bold text-slate-900 mt-1">{customer_name}</h3>
                 {customer_phone && <p className="text-slate-600 mt-0.5">Phone: {customer_phone}</p>}
-                <p className="text-slate-500 mt-0.5">Account Terms: {payment_mode === 'credit' ? '30-Day Credit Account' : 'Direct Settlement'}</p>
+                <p className="text-slate-500 mt-0.5">Terms: {payment_mode === 'credit' ? '30-Day Credit Account' : 'Direct Settlement'}</p>
               </div>
 
-              <div className="bg-slate-50/70 p-4 rounded-lg border border-slate-200">
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Transaction Details</span>
                 <div className="grid grid-cols-2 gap-2 mt-1">
                   <div>
-                    <span className="text-slate-500">Payment Mode:</span>
-                    <p className="font-semibold text-slate-800 uppercase">{payment_mode}</p>
+                    <span className="text-slate-500">Payment Method:</span>
+                    <p className="font-semibold text-slate-900 uppercase">
+                      {payment_mode === 'credit' ? 'Credit Account' : payment_mode === 'momo' ? 'MTN MoMo' : 'Cash'}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-slate-500">Serving Cashier:</span>
-                    <p className="font-semibold text-slate-800">{cashier_name}</p>
+                    <span className="text-slate-500">Cashier:</span>
+                    <p className="font-semibold text-slate-900">{cashier_name}</p>
                   </div>
                   <div>
                     <span className="text-slate-500">Currency:</span>
-                    <p className="font-semibold text-slate-800">Ghana Cedis (GHS ₵)</p>
+                    <p className="font-semibold text-slate-900">Ghana Cedis (GHS ₵)</p>
                   </div>
                   <div>
                     <span className="text-slate-500">Status:</span>
@@ -198,7 +200,7 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
             </div>
 
             {/* Items Table */}
-            <div className="overflow-x-auto my-6 border border-slate-200 rounded-lg">
+            <div className="overflow-x-auto my-6 border border-slate-200 rounded-xl">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[10px] tracking-wider">
@@ -234,8 +236,8 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
 
             {/* Financial Summary */}
             <div className="flex flex-col sm:flex-row justify-between items-start gap-6 mt-6">
-              <div className="w-full sm:w-1/2 text-xs text-slate-600 bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-2">
-                <span className="font-bold text-slate-900 uppercase text-[10px] tracking-wider">Settlement & Payment Details</span>
+              <div className="w-full sm:w-1/2 text-xs text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                <span className="font-bold text-slate-900 uppercase text-[10px] tracking-wider">Payment Accounts</span>
                 <p>
                   <strong>GCB Bank Ghana Ltd:</strong> Account #1141009823101 (Centric Systems Ghana Ltd)
                 </p>
@@ -254,7 +256,7 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-amber-700">
-                    <span>Trade Discount:</span>
+                    <span>Discount:</span>
                     <span className="font-mono font-semibold">
                       -₵{Number(discount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
@@ -262,7 +264,7 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
                 )}
                 {tax_amount > 0 && (
                   <div className="flex justify-between text-slate-600">
-                    <span>VAT / Statutory Levies:</span>
+                    <span>Taxes & Levies (GRA):</span>
                     <span className="font-mono font-semibold">
                       ₵{Number(tax_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
