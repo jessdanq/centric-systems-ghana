@@ -102,7 +102,7 @@ export function OwnerDashboard({
             className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all active:scale-95"
           >
             <Plus className="w-4 h-4" />
-            Add Credit Customer
+            Open Pay Later Account
           </button>
         </div>
       </div>
@@ -187,19 +187,19 @@ export function OwnerDashboard({
           </p>
         </div>
 
-        {/* Metric 4: Money Owed by Customers */}
+        {/* Metric 4: Unpaid Customer Bills (Buy Now, Pay Later) */}
         <div
           onClick={() => setActiveTab('credit')}
           className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all"
         >
           <div className="flex items-center justify-between text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Money Owed by Customers</span>
-            <div className="p-2 rounded-xl bg-purple-50 text-purple-600">
+            <span className="text-xs font-bold uppercase tracking-wider">Unpaid Pay Later Bills</span>
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-700">
               <CreditCard className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-purple-700">
+            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-800">
               ₵{totalCreditOutstanding.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </span>
             <span className="text-xs text-slate-500">
@@ -207,7 +207,7 @@ export function OwnerDashboard({
             </span>
           </div>
           <p className="text-[11px] text-slate-500 mt-1.5">
-            {((totalCreditOutstanding / (totalCreditCeiling || 1)) * 100).toFixed(1)}% of total credit limit utilized.
+            Goods supplied upfront waiting for customer payment settlement.
           </p>
         </div>
       </div>
@@ -257,7 +257,7 @@ export function OwnerDashboard({
           }`}
         >
           <CreditCard className="w-4 h-4" />
-          Money Owed & Credit Limits
+          Pay Later Accounts & Unpaid Bills
         </button>
 
         <button
@@ -537,17 +537,17 @@ export function OwnerDashboard({
         </div>
       )}
 
-      {/* TAB CONTENT 3: Customer Credit & Money Owed */}
+      {/* TAB CONTENT 3: Customer Pay Later Accounts & Unpaid Bills */}
       {activeTab === 'credit' && (
         <div className="space-y-6">
           <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <div>
                 <h2 className="text-base font-bold text-slate-900">
-                  Customer Credit Accounts & Money Owed
+                  Customer Pay Later Accounts (Buy Now, Pay Later)
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Set customer limits, record payments when debt is settled, and monitor balances.
+                  Set allowed Pay Later limits, record bill settlements, and track how much each contractor can still order.
                 </p>
               </div>
 
@@ -557,7 +557,7 @@ export function OwnerDashboard({
                 className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-all shadow-xs active:scale-95"
               >
                 <Plus className="w-3.5 h-3.5" />
-                Add Credit Customer
+                Open Pay Later Account
               </button>
             </div>
 
@@ -565,12 +565,12 @@ export function OwnerDashboard({
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
-                    <th className="py-3 px-4">Customer / Company</th>
+                    <th className="py-3 px-4">Customer / Contractor</th>
                     <th className="py-3 px-4">Phone & TIN</th>
-                    <th className="py-3 px-4 text-right">Credit Limit</th>
-                    <th className="py-3 px-4 text-right">Money Owed</th>
-                    <th className="py-3 px-4 text-right text-emerald-700">Available to Spend</th>
-                    <th className="py-3 px-4">Credit Used</th>
+                    <th className="py-3 px-4 text-right">Pay Later Limit</th>
+                    <th className="py-3 px-4 text-right">Unpaid Bill (Owed)</th>
+                    <th className="py-3 px-4 text-right text-emerald-700">Can Still Order Up To</th>
+                    <th className="py-3 px-4">Limit Used</th>
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
@@ -619,7 +619,7 @@ export function OwnerDashboard({
                           onClick={() => onOpenPaymentRecord(cust)}
                           className="px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 transition-colors"
                         >
-                          Record Payment
+                          Settle Bill
                         </button>
                       </td>
                     </tr>
@@ -715,7 +715,7 @@ export function OwnerDashboard({
                             : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                         }`}
                       >
-                        {sale.payment_mode === 'credit' ? 'Credit' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
+                        {sale.payment_mode === 'credit' ? 'Pay Later' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right">

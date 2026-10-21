@@ -467,7 +467,7 @@ export function BranchDashboard({
                         : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
-                    Walk-in Customer
+                    Pay Now (Cash / MoMo)
                   </button>
                   <button
                     type="button"
@@ -481,7 +481,7 @@ export function BranchDashboard({
                         : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
-                    Customer on Credit
+                    Buy Now, Pay Later
                   </button>
                 </div>
 
@@ -521,19 +521,19 @@ export function BranchDashboard({
                     {selectedCustomerData && (
                       <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
                         <div className="flex justify-between text-slate-600">
-                          <span>Credit Limit:</span>
+                          <span>Pay Later Limit:</span>
                           <span className="font-mono font-semibold text-slate-900">
                             ₵{selectedCustomerData.limit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                         </div>
                         <div className="flex justify-between text-slate-600">
-                          <span>Money Currently Owed:</span>
+                          <span>Unpaid Bill Balance:</span>
                           <span className="font-mono font-bold text-rose-700">
                             ₵{selectedCustomerData.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                         </div>
                         <div className="flex justify-between text-slate-600 pt-1 border-t border-slate-200">
-                          <span>Available to Spend:</span>
+                          <span>Can Still Order Up To:</span>
                           <span
                             className={`font-mono font-bold ${
                               selectedCustomerData.available >= cartTotal
@@ -634,7 +634,7 @@ export function BranchDashboard({
                         : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
-                    Credit Account
+                    Pay Later
                   </button>
                 </div>
               </div>
@@ -908,7 +908,7 @@ export function BranchDashboard({
                     </td>
                     <td className="py-3 px-4 text-center">
                       <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-100 text-slate-700 border border-slate-200">
-                        {sale.payment_mode === 'credit' ? 'Credit' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
+                        {sale.payment_mode === 'credit' ? 'Pay Later' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right">

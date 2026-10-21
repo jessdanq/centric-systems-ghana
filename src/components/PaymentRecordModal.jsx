@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { X, CreditCard, CheckCircle2, DollarSign, Wallet } from 'lucide-react'
+import { X, CheckCircle2, Wallet, DollarSign } from 'lucide-react'
 import { store } from '../services/store'
 
 export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorded }) {
@@ -10,7 +10,7 @@ export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorde
   const [amount, setAmount] = useState(balance > 0 ? balance : '')
   const [paymentMethod, setPaymentMethod] = useState('MTN MoMo')
   const [referenceNumber, setReferenceNumber] = useState(`MM-${Math.floor(100000 + Math.random() * 900000)}`)
-  const [notes, setNotes] = useState('Customer debt settlement')
+  const [notes, setNotes] = useState('Payment for equipment supplied on Pay Later')
   const [errorMsg, setErrorMsg] = useState('')
 
   const handleSubmit = (e) => {
@@ -33,7 +33,7 @@ export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorde
 
       if (onPaymentRecorded) onPaymentRecorded()
       onClose()
-      alert(`Payment of ₵${numAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })} recorded for ${customer.full_name}!`)
+      alert(`Payment of ₵${numAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })} recorded! ${customer.full_name}'s unpaid bill has been reduced.`)
     } catch (err) {
       setErrorMsg(err.message)
     }
@@ -49,8 +49,8 @@ export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorde
               <Wallet className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">Record a Customer Payment</h3>
-              <p className="text-xs text-slate-500">{customer.full_name}</p>
+              <h3 className="text-base font-bold text-slate-900">Settle Customer Bill (Pay Later)</h3>
+              <p className="text-xs text-slate-500">{customer.full_name} ({customer.company_name || 'Contractor'})</p>
             </div>
           </div>
           <button
@@ -65,27 +65,27 @@ export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorde
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {errorMsg && (
-            <div className="p-3 text-xs rounded-xl bg-rose-50 border border-rose-200 text-rose-700">
+            <div className="p-3 text-xs rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-medium">
               {errorMsg}
             </div>
           )}
 
-          {/* Customer Debt Overview */}
+          {/* Customer Bill Overview */}
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
             <div className="flex justify-between text-slate-600">
-              <span>Credit Limit:</span>
+              <span>Approved Pay Later Limit:</span>
               <span className="font-mono font-bold text-slate-900">
                 ₵{limit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             </div>
             <div className="flex justify-between text-slate-600">
-              <span>Money Currently Owed:</span>
+              <span>Current Unpaid Bill (Owed):</span>
               <span className="font-mono font-bold text-rose-700">
                 ₵{balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             </div>
             <div className="flex justify-between text-slate-600 pt-1 border-t border-slate-200">
-              <span>Available to Spend:</span>
+              <span>Can Still Order Up To:</span>
               <span className="font-mono font-bold text-emerald-700">
                 ₵{available.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
@@ -143,7 +143,7 @@ export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorde
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-              Transaction Notes
+              Payment Remarks:
             </label>
             <input
               type="text"
@@ -165,7 +165,7 @@ export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorde
               type="submit"
               className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs active:scale-95 transition-all"
             >
-              Record Payment & Update Balance
+              Record Payment & Reduce Bill
             </button>
           </div>
         </form>

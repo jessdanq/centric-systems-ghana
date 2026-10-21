@@ -166,21 +166,21 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
             </div>
 
             {/* Bill To & Transaction Info */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 my-6 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-5 text-xs">
               <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Billed To Customer</span>
                 <h3 className="text-sm font-bold text-slate-900 mt-1">{customer_name}</h3>
                 {customer_phone && <p className="text-slate-600 mt-0.5">Phone: {customer_phone}</p>}
-                <p className="text-slate-500 mt-0.5">Terms: {payment_mode === 'credit' ? '30-Day Credit Account' : 'Direct Settlement'}</p>
+                <p className="text-slate-500 mt-0.5">Terms: {payment_mode === 'credit' ? 'Buy Now, Pay Later Account' : 'Direct Settlement'}</p>
               </div>
 
               <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Transaction Details</span>
-                <div className="grid grid-cols-2 gap-2 mt-1">
+                <div className="grid grid-cols-2 gap-2.5 mt-1">
                   <div>
                     <span className="text-slate-500">Payment Method:</span>
                     <p className="font-semibold text-slate-900 uppercase">
-                      {payment_mode === 'credit' ? 'Credit Account' : payment_mode === 'momo' ? 'MTN MoMo' : 'Cash'}
+                      {payment_mode === 'credit' ? 'Buy Now, Pay Later' : payment_mode === 'momo' ? 'MTN MoMo' : 'Cash'}
                     </p>
                   </div>
                   <div>
@@ -188,12 +188,12 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
                     <p className="font-semibold text-slate-900">{cashier_name}</p>
                   </div>
                   <div>
-                    <span className="text-slate-500">Currency:</span>
-                    <p className="font-semibold text-slate-900">Ghana Cedis (GHS ₵)</p>
-                  </div>
-                  <div>
                     <span className="text-slate-500">Status:</span>
                     <p className="font-semibold text-emerald-700">Completed & Verified</p>
+                  </div>
+                  <div>
+                    <span className="text-slate-500">Branch:</span>
+                    <p className="font-semibold text-slate-900">{location_name}</p>
                   </div>
                 </div>
               </div>

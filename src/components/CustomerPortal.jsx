@@ -10,7 +10,8 @@ import {
   Phone,
   FileText,
   ShieldCheck,
-  CheckCircle2
+  CheckCircle2,
+  ShoppingBag
 } from 'lucide-react'
 import { store } from '../services/store'
 
@@ -32,8 +33,8 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
-                Credit Customer Account
+              <span className="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
+                Buy Now, Pay Later Account
               </span>
               <span className="text-xs text-slate-500 font-mono">TIN: {customer.tin_number || 'N/A'}</span>
             </div>
@@ -41,7 +42,7 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
               {customer.full_name}
             </h1>
             <p className="text-xs sm:text-sm text-emerald-800 font-semibold mt-0.5">
-              {customer.company_name || 'Independent Commercial Contractor'}
+              {customer.company_name || 'Commercial Contractor Account'}
             </p>
           </div>
 
@@ -54,12 +55,12 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
           </div>
         </div>
 
-        {/* Credit Utilization Bar */}
+        {/* Pay Later Limit Usage Bar */}
         <div className="space-y-2 pt-3 border-t border-slate-100">
           <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-600 font-medium">Credit Limit Used:</span>
+            <span className="text-slate-600 font-medium">Pay Later Limit Used:</span>
             <span className="font-mono font-bold text-slate-900">
-              {percentUsed.toFixed(1)}% used
+              {percentUsed.toFixed(1)}% of allowed supplies taken
             </span>
           </div>
           <div className="w-full bg-slate-100 rounded-full h-3 p-0.5 border border-slate-200">
@@ -77,14 +78,14 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
         </div>
       </div>
 
-      {/* Credit Metric Cards Grid */}
+      {/* Pay Later Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {/* Total Credit Ceiling */}
+        {/* Approved Pay Later Limit */}
         <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Approved Credit Limit</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Approved Pay Later Limit</span>
             <div className="p-2 rounded-xl bg-slate-100 text-slate-700">
-              <CreditCard className="w-4 h-4" />
+              <ShoppingBag className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
@@ -93,13 +94,13 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
             </span>
             <span className="text-xs text-slate-500 font-bold">GHS</span>
           </div>
-          <p className="text-[11px] text-slate-500 mt-1">Authorized by Kwame Yeboah.</p>
+          <p className="text-[11px] text-slate-500 mt-1">Maximum goods you can take upfront before settling.</p>
         </div>
 
-        {/* Current Outstanding Debt */}
+        {/* Current Unpaid Bill */}
         <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Money Owed</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Current Unpaid Bill</span>
             <div className="p-2 rounded-xl bg-rose-50 text-rose-600">
               <ArrowUpRight className="w-4 h-4" />
             </div>
@@ -110,13 +111,13 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
             </span>
             <span className="text-xs text-rose-800 font-bold">GHS</span>
           </div>
-          <p className="text-[11px] text-slate-500 mt-1">Due within 30-day payment cycle.</p>
+          <p className="text-[11px] text-slate-500 mt-1">Orders taken waiting for payment settlement.</p>
         </div>
 
-        {/* Remaining Available Credit */}
+        {/* Available to Order Now */}
         <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Available to Spend</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Available to Order Now</span>
             <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
               <Wallet className="w-4 h-4" />
             </div>
@@ -127,17 +128,17 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
             </span>
             <span className="text-xs text-emerald-800 font-bold">GHS</span>
           </div>
-          <p className="text-[11px] text-slate-500 mt-1">Valid across Medie, Lapaz, and Kumasi.</p>
+          <p className="text-[11px] text-slate-500 mt-1">Remaining room to take goods across all Centric shops.</p>
         </div>
       </div>
 
-      {/* Account Statement & Payment History */}
+      {/* Account Statement & Order Settlement History */}
       <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-base font-bold text-slate-900">Account Statement & Payment History</h2>
+            <h2 className="text-base font-bold text-slate-900">Supplies & Payment History</h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Itemized list of purchases made on credit and payments received.
+              Goods supplied to your sites vs payments received by Centric Systems.
             </p>
           </div>
         </div>
@@ -147,11 +148,11 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
             <thead>
               <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
                 <th className="py-3 px-4">Date</th>
-                <th className="py-3 px-4">Reference</th>
-                <th className="py-3 px-4">Description / Notes</th>
-                <th className="py-3 px-4">Method / Staff</th>
-                <th className="py-3 px-4 text-right text-rose-700">Added to Bill (Purchases)</th>
-                <th className="py-3 px-4 text-right text-emerald-700">Payments Made</th>
+                <th className="py-3 px-4">Order / Payment Ref</th>
+                <th className="py-3 px-4">Supplied Items / Notes</th>
+                <th className="py-3 px-4">Payment Method / Staff</th>
+                <th className="py-3 px-4 text-right text-rose-700">Added to Bill (Supplies)</th>
+                <th className="py-3 px-4 text-right text-emerald-700">Payments Settled</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -188,26 +189,26 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
         </div>
       </div>
 
-      {/* Historical Invoices & Receipts */}
+      {/* Historical Invoices & PDF Downloads */}
       <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-        <h2 className="text-base font-bold text-slate-900">Past Invoices & Official Receipts</h2>
+        <h2 className="text-base font-bold text-slate-900">Order Receipts & Invoices</h2>
 
         {customerSales.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {customerSales.map((sale) => (
               <div
                 key={sale.id}
                 className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3 hover:border-emerald-300 transition-all"
               >
                 <div>
-                  <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  <span className="font-mono text-xs font-bold text-emerald-800">
                     {sale.invoice_number}
                   </span>
-                  <p className="text-xs text-slate-900 font-bold mt-1">
+                  <p className="text-xs text-slate-900 font-semibold mt-0.5">
                     {sale.items?.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}
                   </p>
                   <p className="text-[11px] text-slate-500 mt-1">
-                    Branch: {sale.location_name} •{' '}
+                    Shop: {sale.location_name} •{' '}
                     {new Date(sale.created_at).toLocaleDateString('en-GB', {
                       day: 'numeric',
                       month: 'short',
@@ -223,7 +224,7 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
                   <button
                     type="button"
                     onClick={() => onOpenDocumentPrint(sale)}
-                    className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 hover:bg-emerald-100 text-xs font-bold border border-emerald-200 transition-colors"
+                    className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-xs font-bold shadow-2xs transition-colors"
                   >
                     <Printer className="w-3.5 h-3.5" />
                     Print Receipt
@@ -233,8 +234,8 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
             ))}
           </div>
         ) : (
-          <div className="p-6 text-center rounded-xl bg-slate-50 border border-slate-200 text-slate-500 text-xs">
-            No completed receipts on file yet.
+          <div className="p-6 text-center rounded-xl bg-slate-50 border border-slate-200 text-slate-500 text-xs italic">
+            No completed invoices on file yet.
           </div>
         )}
       </div>

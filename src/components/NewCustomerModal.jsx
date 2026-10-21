@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { X, UserPlus, ShieldAlert, CheckCircle2 } from 'lucide-react'
+import { X, UserPlus, ShieldCheck, CheckCircle2 } from 'lucide-react'
 import { store } from '../services/store'
 
 export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
@@ -36,7 +36,7 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
 
       if (onCustomerCreated) onCustomerCreated()
       onClose()
-      alert(`Customer ${fullName} successfully registered!`)
+      alert(`Customer ${fullName} now has a Pay Later account with ₵${Number(creditLimit).toLocaleString()} limit!`)
     } catch (err) {
       setErrorMsg(err.message)
     }
@@ -52,8 +52,8 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
               <UserPlus className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">Add Credit Customer</h3>
-              <p className="text-xs text-slate-500">Set credit limit and commercial account details</p>
+              <h3 className="text-base font-bold text-slate-900">Open Buy Now, Pay Later Account</h3>
+              <p className="text-xs text-slate-500">Enable customer to take supplies upfront and settle bills later</p>
             </div>
           </div>
           <button
@@ -68,7 +68,7 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {errorMsg && (
-            <div className="p-3 text-xs rounded-xl bg-rose-50 border border-rose-200 text-rose-700">
+            <div className="p-3 text-xs rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-medium">
               {errorMsg}
             </div>
           )}
@@ -131,7 +131,7 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">
-              Approved Credit Limit (GHS ₵)
+              Approved Pay Later Limit (GHS ₵)
             </label>
             <div className="relative">
               <span className="absolute left-3.5 top-2 text-slate-400 font-mono text-sm font-bold">₵</span>
@@ -145,7 +145,7 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
               />
             </div>
             <p className="text-[11px] text-slate-500 mt-1">
-              Maximum credit limit allowed across all Centric retail branches.
+              Maximum value of goods this customer can take from Centric shops before having to pay.
             </p>
           </div>
 
@@ -178,13 +178,13 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-              Notes:
+              Payment Terms & Approval Notes:
             </label>
             <input
               type="text"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="e.g. Approved by Kwame Yeboah for 30-day payment terms"
+              placeholder="e.g. Approved by Kwame Yeboah - settles bills every 30 days"
               className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
             />
           </div>
@@ -201,7 +201,7 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
               type="submit"
               className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs active:scale-95 transition-all"
             >
-              Save Customer Account
+              Open Pay Later Account
             </button>
           </div>
         </form>

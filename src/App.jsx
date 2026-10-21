@@ -50,15 +50,17 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       {/* Top Navigation & Role Switcher */}
-      <Navbar
-        currentUser={currentUser}
-        onSwitchUser={setCurrentUser}
-        onResetData={handleResetData}
-        onOpenSchemaModal={() => setIsSchemaModalOpen(true)}
-      />
+      <div className="no-print print:hidden">
+        <Navbar
+          currentUser={currentUser}
+          onSwitchUser={setCurrentUser}
+          onResetData={handleResetData}
+          onOpenSchemaModal={() => setIsSchemaModalOpen(true)}
+        />
+      </div>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 no-print print:hidden">
         {currentUser.role === 'owner' && (
           <OwnerDashboard
             onOpenRestockReview={(transfer) => setSelectedTransferForReview(transfer)}
@@ -92,7 +94,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print mt-auto">
+      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 no-print print:hidden mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p>© {new Date().getFullYear()} Centric Systems Ghana Limited. All rights reserved.</p>
           <p className="font-medium text-slate-600">

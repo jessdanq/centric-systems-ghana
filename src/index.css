@@ -37,11 +37,11 @@
   animation: pulse-emerald 3s infinite ease-in-out;
 }
 
-/* Print optimization for Centric Systems Official Invoices & Receipts */
+/* Print optimization: Print ONLY #printable-document, exactly on 1 clean A4 page */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 12mm;
+    margin: 8mm 10mm;
   }
 
   html,
@@ -57,18 +57,29 @@
     print-color-adjust: exact !important;
   }
 
-  #root,
-  #root > div {
-    height: auto !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: transparent !important;
-  }
-
+  /* Completely hide all website content, navigation, headers, footers and non-print items */
+  header,
+  nav,
+  main,
+  footer,
+  aside,
   .no-print,
   .print\:hidden {
     display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #root {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    min-height: 0 !important;
+    height: auto !important;
   }
 
   .print-modal-overlay {
@@ -84,6 +95,19 @@
     overflow: visible !important;
   }
 
+  .print-modal-overlay > div {
+    position: static !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
   #printable-document {
     position: relative !important;
     display: block !important;
@@ -92,16 +116,16 @@
     height: auto !important;
     max-height: none !important;
     margin: 0 auto !important;
-    padding: 0 !important;
+    padding: 6mm 10mm !important;
     background: #ffffff !important;
     color: #0f172a !important;
     border: none !important;
     box-shadow: none !important;
     overflow: visible !important;
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
     page-break-after: avoid !important;
     break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   #printable-document * {
