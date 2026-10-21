@@ -22,7 +22,7 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
     store.customers[0]?.id
 
   const customer = store.customers.find((c) => c.id === customerId) || store.customers[0]
-  const { balance, available, limit, percentUsed } = store.getCustomerBalance(customer.id)
+  const { balance, totalPurchases, totalPaid } = store.getCustomerBalance(customer.id)
   const ledgerEntries = store.getCustomerLedger(customer.id)
   const customerSales = store.sales.filter((s) => s.customer_id === customer.id)
 
@@ -54,53 +54,48 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
             <p className="text-slate-500">{customer.address || 'Accra, Ghana'}</p>
           </div>
         </div>
-
-        {/* Pay Later Limit Usage Bar */}
-        <div className="space-y-2 pt-3 border-t border-slate-100">
-          <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-600 font-medium">Pay Later Limit Used:</span>
-            <span className="font-mono font-bold text-slate-900">
-              {percentUsed.toFixed(1)}% of allowed supplies taken
-            </span>
-          </div>
-          <div className="w-full bg-slate-100 rounded-full h-3 p-0.5 border border-slate-200">
-            <div
-              className={`h-full rounded-full transition-all duration-500 ${
-                percentUsed > 80
-                  ? 'bg-rose-500'
-                  : percentUsed > 50
-                    ? 'bg-amber-500'
-                    : 'bg-emerald-500'
-              }`}
-              style={{ width: `${percentUsed}%` }}
-            />
-          </div>
-        </div>
       </div>
 
       {/* Pay Later Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {/* Approved Pay Later Limit */}
+        {/* Total Purchases Taken */}
         <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Approved Pay Later Limit</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Total Purchases (Billed)</span>
             <div className="p-2 rounded-xl bg-slate-100 text-slate-700">
               <ShoppingBag className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900">
-              ₵{limit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              ₵{totalPurchases.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </span>
             <span className="text-xs text-slate-500 font-bold">GHS</span>
           </div>
-          <p className="text-[11px] text-slate-500 mt-1">Maximum goods you can take upfront before settling.</p>
+          <p className="text-[11px] text-slate-500 mt-1">Total electrical supplies received for your projects.</p>
         </div>
 
-        {/* Current Unpaid Bill */}
+        {/* Total Payments Settled */}
         <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Current Unpaid Bill</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Total Payments Settled</span>
+            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
+              <Wallet className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="mt-3 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-700">
+              ₵{totalPaid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            </span>
+            <span className="text-xs text-emerald-800 font-bold">GHS</span>
+          </div>
+          <p className="text-[11px] text-slate-500 mt-1">Cash, MoMo, and wire payments confirmed received.</p>
+        </div>
+
+        {/* Current Unpaid Balance */}
+        <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+          <div className="flex items-center justify-between text-slate-600">
+            <span className="text-xs font-bold uppercase tracking-wider">Current Unpaid Balance</span>
             <div className="p-2 rounded-xl bg-rose-50 text-rose-600">
               <ArrowUpRight className="w-4 h-4" />
             </div>
@@ -111,24 +106,7 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
             </span>
             <span className="text-xs text-rose-800 font-bold">GHS</span>
           </div>
-          <p className="text-[11px] text-slate-500 mt-1">Orders taken waiting for payment settlement.</p>
-        </div>
-
-        {/* Available to Order Now */}
-        <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-          <div className="flex items-center justify-between text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Available to Order Now</span>
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
-              <Wallet className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-700">
-              ₵{available.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-            </span>
-            <span className="text-xs text-emerald-800 font-bold">GHS</span>
-          </div>
-          <p className="text-[11px] text-slate-500 mt-1">Remaining room to take goods across all Centric shops.</p>
+          <p className="text-[11px] text-slate-500 mt-1">Outstanding purchases awaiting settlement.</p>
         </div>
       </div>
 

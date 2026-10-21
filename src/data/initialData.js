@@ -298,7 +298,6 @@ export const CUSTOMERS = [
     company_name: 'Haruna Electro-Tech Engineering',
     tin_number: 'C0028919283',
     address: 'Lapaz New Road, Accra',
-    credit_limit: 50000.00,
     is_active: true,
     notes: 'Approved commercial solar contractor. Prompt payment history.'
   },
@@ -310,7 +309,6 @@ export const CUSTOMERS = [
     company_name: 'Osei & Partners Contracting Ltd',
     tin_number: 'C0019284711',
     address: 'Ahodwo Roundabout, Kumasi',
-    credit_limit: 80000.00,
     is_active: true,
     notes: 'Top tier industrial electrical engineering contractor.'
   },
@@ -322,7 +320,6 @@ export const CUSTOMERS = [
     company_name: 'Sunlight Volt Energy Services',
     tin_number: 'C0093847261',
     address: 'Medie Pokuase Interchange Corridor',
-    credit_limit: 35000.00,
     is_active: true,
     notes: 'Regular buyer of Growatt inverters and solar PV panels at Medie shop.'
   },
@@ -334,14 +331,13 @@ export const CUSTOMERS = [
     company_name: 'Agyemang Commercial Builders',
     tin_number: 'C0037192834',
     address: 'Adum Commercial Area, Kumasi',
-    credit_limit: 40000.00,
     is_active: true,
     notes: 'Clean balance, approved for distribution boards & conduit pipes.'
   }
 ];
 
 export const INITIAL_CREDIT_LEDGER = [
-  // Alhaji Haruna: Limit 50,000 -> Owes 22,700
+  // Alhaji Haruna: Owes 22,700 (Purchases 31,200 - Paid 8,500)
   {
     id: 'l1111111-1111-1111-1111-111111111111',
     customer_id: 'c1111111-1111-1111-1111-111111111111',
@@ -367,7 +363,7 @@ export const INITIAL_CREDIT_LEDGER = [
     created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
   },
 
-  // Ing. Samuel K. Osei: Limit 80,000 -> Owes 42,600
+  // Ing. Samuel K. Osei: Owes 42,600 (Purchases 57,600 - Paid 15,000)
   {
     id: 'l2222222-2222-2222-2222-222222222221',
     customer_id: 'c2222222-2222-2222-2222-222222222222',
@@ -393,7 +389,7 @@ export const INITIAL_CREDIT_LEDGER = [
     created_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
   },
 
-  // Vida Adobea: Limit 35,000 -> Owes 14,200
+  // Vida Adobea: Owes 14,200 (Purchases 14,200 - Paid 0)
   {
     id: 'l3333333-3333-3333-3333-333333333331',
     customer_id: 'c3333333-3333-3333-3333-333333333333',

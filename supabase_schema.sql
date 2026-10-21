@@ -100,7 +100,6 @@ CREATE TABLE IF NOT EXISTS public.customers (
     company_name TEXT,
     tin_number TEXT,
     address TEXT,
-    credit_limit NUMERIC(12, 2) NOT NULL DEFAULT 0.00,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     notes TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -215,20 +214,20 @@ CREATE TABLE IF NOT EXISTS public.supplier_receipt_items (
 -- 3. VIEWS FOR AUTOMATED CALCULATIONS & OWNER REPORTING
 -- =============================================================================
 
--- 3.1 Customer Balances & Credit Exposure View
+-- 3.1 Customer Balances (Buy Now Pay Later Balances) View
 CREATE OR REPLACE VIEW public.customer_balances AS
 SELECT 
     c.id AS customer_id,
     c.full_name,
     c.phone,
     c.company_name,
-    c.credit_limit,
     c.is_active,
-    COALESCE(SUM(CASE WHEN cl.entry_type = 'debit' THEN cl.amount ELSE -cl.amount END), 0.00) AS current_balance,
-    (c.credit_limit - COALESCE(SUM(CASE WHEN cl.entry_type = 'debit' THEN cl.amount ELSE -cl.amount END), 0.00)) AS available_credit
+    COALESCE(SUM(CASE WHEN cl.entry_type = 'debit' THEN cl.amount ELSE 0 END), 0.00) AS total_purchases,
+    COALESCE(SUM(CASE WHEN cl.entry_type = 'credit' THEN cl.amount ELSE 0 END), 0.00) AS total_paid,
+    COALESCE(SUM(CASE WHEN cl.entry_type = 'debit' THEN cl.amount ELSE -cl.amount END), 0.00) AS current_unpaid_balance
 FROM public.customers c
 LEFT JOIN public.credit_ledger cl ON c.id = cl.customer_id
-GROUP BY c.id, c.full_name, c.phone, c.company_name, c.credit_limit, c.is_active;
+GROUP BY c.id, c.full_name, c.phone, c.company_name, c.is_active;
 
 -- 3.2 Branch Stock Overview with Low Stock Indicator
 CREATE OR REPLACE VIEW public.branch_stock_overview AS
@@ -564,28 +563,28 @@ INSERT INTO public.location_stock (location_id, product_id, quantity) VALUES
 ('44444444-4444-4444-4444-444444444444', 'p00000010-0000-0000-0000-000000000010', 110)
 ON CONFLICT (location_id, product_id) DO UPDATE SET quantity = EXCLUDED.quantity;
 
--- 6.5 Insert Commercial & Credit Customers
-INSERT INTO public.customers (id, full_name, phone, email, company_name, tin_number, address, credit_limit, is_active, notes) VALUES
-('c1111111-1111-1111-1111-111111111111', 'Alhaji Haruna Issah', '0244987654', 'haruna.const@yahoo.com', 'Haruna Electro-Tech Engineering', 'C0028919283', 'Lapaz New Road, Accra', 50000.00, true, 'Approved for solar inverter installs and commercial building projects'),
-('c2222222-2222-2222-2222-222222222222', 'Ing. Samuel K. Osei', '0208112233', 'samuel.osei@oseicontracting.com', 'Osei & Partners Contracting Ltd', 'C0019284711', 'Ahodwo Roundabout, Kumasi', 80000.00, true, 'High credit standing. 30-day payment cycle.'),
-('c3333333-3333-3333-3333-333333333333', 'Vida Adobea Boadi', '0553445566', 'vida.adobea@gmail.com', 'Sunlight Volt Energy Services', 'C0093847261', 'Medie Pokuase Interchange Area', 35000.00, true, 'Reliable contractor customer. Prompt MoMo repayments.'),
-('c4444444-4444-4444-4444-444444444444', 'Nana Kwasi Agyemang', '0243123789', 'nana.agyemang@buildghana.com', 'Agyemang Commercial Builders', 'C0037192834', 'Adum Commercial Area, Kumasi', 40000.00, true, 'Regular buyer of distribution boards and industrial conduit')
+-- 6.5 Insert Commercial Customers (Buy Now Pay Later Accounts)
+INSERT INTO public.customers (id, full_name, phone, email, company_name, tin_number, address, is_active, notes) VALUES
+('c1111111-1111-1111-1111-111111111111', 'Alhaji Haruna Issah', '0244987654', 'haruna.const@yahoo.com', 'Haruna Electro-Tech Engineering', 'C0028919283', 'Lapaz New Road, Accra', true, 'Approved for solar inverter installs and commercial building projects'),
+('c2222222-2222-2222-2222-222222222222', 'Ing. Samuel K. Osei', '0208112233', 'samuel.osei@oseicontracting.com', 'Osei & Partners Contracting Ltd', 'C0019284711', 'Ahodwo Roundabout, Kumasi', true, 'High credit standing. 30-day payment cycle.'),
+('c3333333-3333-3333-3333-333333333333', 'Vida Adobea Boadi', '0553445566', 'vida.adobea@gmail.com', 'Sunlight Volt Energy Services', 'C0093847261', 'Medie Pokuase Interchange Area', true, 'Reliable contractor customer. Prompt MoMo repayments.'),
+('c4444444-4444-4444-4444-444444444444', 'Nana Kwasi Agyemang', '0243123789', 'nana.agyemang@buildghana.com', 'Agyemang Commercial Builders', 'C0037192834', 'Adum Commercial Area, Kumasi', true, 'Regular buyer of distribution boards and industrial conduit')
 ON CONFLICT (phone) DO NOTHING;
 
 -- 6.6 Insert Credit Ledger Seed Records
--- Alhaji Haruna: GHS 50,000 limit, currently owes GHS 22,700
+-- Alhaji Haruna: Owes GHS 22,700 (Purchases 31,200 - Paid 8,500)
 INSERT INTO public.credit_ledger (customer_id, entry_type, amount, payment_method, reference_number, notes) VALUES
 ('c1111111-1111-1111-1111-111111111111', 'debit', 31200.00, 'Invoice', 'INV-2026-0891', 'Supply of 2x Growatt 5kVA Inverters + 1x Lithium Battery'),
 ('c1111111-1111-1111-1111-111111111111', 'credit', 8500.00, 'MTN MoMo', 'MM-2026-9921', 'Interim debt settlement by Alhaji Haruna via MoMo transfer')
 ON CONFLICT DO NOTHING;
 
--- Ing. Samuel K. Osei: GHS 80,000 limit, currently owes GHS 42,600
+-- Ing. Samuel K. Osei: Owes GHS 42,600 (Purchases 57,600 - Paid 15,000)
 INSERT INTO public.credit_ledger (customer_id, entry_type, amount, payment_method, reference_number, notes) VALUES
 ('c2222222-2222-2222-2222-222222222222', 'debit', 57600.00, 'Invoice', 'INV-2026-0840', 'Kumasi Hospital Solar Backup Phase 1 equipment'),
 ('c2222222-2222-2222-2222-222222222222', 'credit', 15000.00, 'Bank Transfer', 'GCB-TRF-4819', 'Payment into Centric Systems GCB Bank Account')
 ON CONFLICT DO NOTHING;
 
--- Vida Adobea: GHS 35,000 limit, currently owes GHS 14,200
+-- Vida Adobea: Owes GHS 14,200 (Purchases 14,200 - Paid 0)
 INSERT INTO public.credit_ledger (customer_id, entry_type, amount, payment_method, reference_number, notes) VALUES
 ('c3333333-3333-3333-3333-333333333333', 'debit', 14200.00, 'Invoice', 'INV-2026-0912', '1x Dyness 4.8kWh Lithium Battery 48V')
 ON CONFLICT DO NOTHING;

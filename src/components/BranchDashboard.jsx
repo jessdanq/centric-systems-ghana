@@ -153,21 +153,10 @@ export function BranchDashboard({
       return
     }
 
-    // Verify credit limit if credit chosen
+    // Verify customer selected if Buy Now Pay Later chosen (no artificial limits - billed directly)
     if (paymentMode === 'credit') {
       if (!selectedCustomerId) {
-        setPosError('Please select a registered commercial customer for Credit transactions.')
-        return
-      }
-      if (selectedCustomerData && cartTotal > selectedCustomerData.available) {
-        setPosError(
-          `Customer credit limit exceeded! Available credit is ₵${selectedCustomerData.available.toLocaleString(
-            'en-US',
-            { minimumFractionDigits: 2 }
-          )}, but order total is ₵${cartTotal.toLocaleString('en-US', {
-            minimumFractionDigits: 2
-          })}.`
-        )
+        setPosError('Please select a registered customer for Buy Now, Pay Later transactions.')
         return
       }
     }
@@ -521,28 +510,19 @@ export function BranchDashboard({
                     {selectedCustomerData && (
                       <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
                         <div className="flex justify-between text-slate-600">
-                          <span>Pay Later Limit:</span>
-                          <span className="font-mono font-semibold text-slate-900">
-                            ₵{selectedCustomerData.limit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                          </span>
-                        </div>
-                        <div className="flex justify-between text-slate-600">
-                          <span>Unpaid Bill Balance:</span>
+                          <span>Current Unpaid Balance:</span>
                           <span className="font-mono font-bold text-rose-700">
                             ₵{selectedCustomerData.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                         </div>
-                        <div className="flex justify-between text-slate-600 pt-1 border-t border-slate-200">
-                          <span>Can Still Order Up To:</span>
-                          <span
-                            className={`font-mono font-bold ${
-                              selectedCustomerData.available >= cartTotal
-                                ? 'text-emerald-700'
-                                : 'text-rose-700'
-                            }`}
-                          >
-                            ₵{selectedCustomerData.available.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        <div className="flex justify-between text-slate-600">
+                          <span>Total Past Purchases:</span>
+                          <span className="font-mono font-semibold text-slate-800">
+                            ₵{selectedCustomerData.totalPurchases.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
+                        </div>
+                        <div className="text-[11px] text-emerald-700 font-medium pt-1 border-t border-slate-200">
+                          This purchase will be charged to customer's account upon checkout.
                         </div>
                       </div>
                     )}

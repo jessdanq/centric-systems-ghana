@@ -49,12 +49,14 @@ export function OwnerDashboard({
 
   // 2. Total Credit Outstanding & Customer Balances
   let totalCreditOutstanding = 0
-  let totalCreditCeiling = 0
+  let totalPurchasesAllTime = 0
+  let totalPaidAllTime = 0
 
   const customerBalanceList = store.customers.map((c) => {
     const balData = store.getCustomerBalance(c.id)
     totalCreditOutstanding += balData.balance
-    totalCreditCeiling += balData.limit
+    totalPurchasesAllTime += balData.totalPurchases
+    totalPaidAllTime += balData.totalPaid
     return {
       ...c,
       ...balData
@@ -193,21 +195,21 @@ export function OwnerDashboard({
           className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all"
         >
           <div className="flex items-center justify-between text-slate-600">
-            <span className="text-xs font-bold uppercase tracking-wider">Unpaid Pay Later Bills</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Unpaid Pay Later Invoices</span>
             <div className="p-2 rounded-xl bg-amber-50 text-amber-700">
               <CreditCard className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-800">
-              ₵{totalCreditOutstanding.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+              ₵{totalCreditOutstanding.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
-            <span className="text-xs text-slate-500">
-              / ₵{(totalCreditCeiling / 1000).toFixed(0)}k limit
+            <span className="text-xs text-slate-500 font-bold">
+              GHS
             </span>
           </div>
           <p className="text-[11px] text-slate-500 mt-1.5">
-            Goods supplied upfront waiting for customer payment settlement.
+            Total goods taken upfront by registered contractors awaiting payment settlement.
           </p>
         </div>
       </div>
@@ -547,7 +549,7 @@ export function OwnerDashboard({
                   Customer Pay Later Accounts (Buy Now, Pay Later)
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Set allowed Pay Later limits, record bill settlements, and track how much each contractor can still order.
+                  Record contractor bill settlements and track how much each customer currently owes for goods taken upfront.
                 </p>
               </div>
 
@@ -567,10 +569,9 @@ export function OwnerDashboard({
                   <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
                     <th className="py-3 px-4">Customer / Contractor</th>
                     <th className="py-3 px-4">Phone & TIN</th>
-                    <th className="py-3 px-4 text-right">Pay Later Limit</th>
-                    <th className="py-3 px-4 text-right">Unpaid Bill (Owed)</th>
-                    <th className="py-3 px-4 text-right text-emerald-700">Can Still Order Up To</th>
-                    <th className="py-3 px-4">Limit Used</th>
+                    <th className="py-3 px-4 text-right">Total Purchases (Billed)</th>
+                    <th className="py-3 px-4 text-right">Total Payments Settled</th>
+                    <th className="py-3 px-4 text-right text-rose-700">Current Unpaid Balance</th>
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
@@ -586,32 +587,13 @@ export function OwnerDashboard({
                         <div className="text-slate-400">{cust.tin_number || 'No TIN'}</div>
                       </td>
                       <td className="py-3 px-4 text-right font-mono font-semibold text-slate-900">
-                        ₵{cust.limit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        ₵{cust.totalPurchases.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </td>
+                      <td className="py-3 px-4 text-right font-mono font-semibold text-emerald-700">
+                        ₵{cust.totalPaid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </td>
                       <td className="py-3 px-4 text-right font-mono font-bold text-rose-700">
                         ₵{cust.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                      </td>
-                      <td className="py-3 px-4 text-right font-mono font-bold text-emerald-700">
-                        ₵{cust.available.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                      </td>
-                      <td className="py-3 px-4 w-32">
-                        <div className="flex items-center gap-2">
-                          <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
-                            <div
-                              className={`h-full rounded-full ${
-                                cust.percentUsed > 80
-                                  ? 'bg-rose-500'
-                                  : cust.percentUsed > 50
-                                    ? 'bg-amber-500'
-                                    : 'bg-emerald-500'
-                              }`}
-                              style={{ width: `${cust.percentUsed}%` }}
-                            />
-                          </div>
-                          <span className="text-[10px] font-mono text-slate-500">
-                            {cust.percentUsed.toFixed(0)}%
-                          </span>
-                        </div>
                       </td>
                       <td className="py-3 px-4 text-right space-x-2">
                         <button

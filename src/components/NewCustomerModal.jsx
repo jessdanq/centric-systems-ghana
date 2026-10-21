@@ -9,7 +9,6 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
   const [phone, setPhone] = useState('')
   const [companyName, setCompanyName] = useState('')
   const [tinNumber, setTinNumber] = useState('')
-  const [creditLimit, setCreditLimit] = useState(25000)
   const [email, setEmail] = useState('')
   const [address, setAddress] = useState('')
   const [notes, setNotes] = useState('')
@@ -28,7 +27,6 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
         phone,
         companyName,
         tinNumber,
-        creditLimit: Number(creditLimit) || 0,
         email,
         address,
         notes
@@ -36,7 +34,7 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
 
       if (onCustomerCreated) onCustomerCreated()
       onClose()
-      alert(`Customer ${fullName} now has a Pay Later account with ₵${Number(creditLimit).toLocaleString()} limit!`)
+      alert(`Customer ${fullName} registered successfully for Buy Now, Pay Later!`)
     } catch (err) {
       setErrorMsg(err.message)
     }
@@ -127,26 +125,6 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
                 className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
               />
             </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">
-              Approved Pay Later Limit (GHS ₵)
-            </label>
-            <div className="relative">
-              <span className="absolute left-3.5 top-2 text-slate-400 font-mono text-sm font-bold">₵</span>
-              <input
-                type="number"
-                min="0"
-                step="500"
-                value={creditLimit}
-                onChange={(e) => setCreditLimit(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 rounded-xl bg-white border border-emerald-300 font-mono text-base font-bold text-slate-900 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
-              />
-            </div>
-            <p className="text-[11px] text-slate-500 mt-1">
-              Maximum value of goods this customer can take from Centric shops before having to pay.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

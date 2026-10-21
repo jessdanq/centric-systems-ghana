@@ -5,7 +5,7 @@ import { store } from '../services/store'
 export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorded }) {
   if (!isOpen || !customer) return null
 
-  const { balance, available, limit } = store.getCustomerBalance(customer.id)
+  const { balance, totalPurchases, totalPaid } = store.getCustomerBalance(customer.id)
 
   const [amount, setAmount] = useState(balance > 0 ? balance : '')
   const [paymentMethod, setPaymentMethod] = useState('MTN MoMo')
@@ -73,21 +73,21 @@ export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorde
           {/* Customer Bill Overview */}
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
             <div className="flex justify-between text-slate-600">
-              <span>Approved Pay Later Limit:</span>
-              <span className="font-mono font-bold text-slate-900">
-                ₵{limit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              <span>Total Purchases (Billed):</span>
+              <span className="font-mono font-semibold text-slate-900">
+                ₵{totalPurchases.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             </div>
             <div className="flex justify-between text-slate-600">
-              <span>Current Unpaid Bill (Owed):</span>
-              <span className="font-mono font-bold text-rose-700">
-                ₵{balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              <span>Total Payments Settled:</span>
+              <span className="font-mono font-semibold text-emerald-700">
+                ₵{totalPaid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             </div>
             <div className="flex justify-between text-slate-600 pt-1 border-t border-slate-200">
-              <span>Can Still Order Up To:</span>
-              <span className="font-mono font-bold text-emerald-700">
-                ₵{available.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              <span className="font-bold text-slate-900">Current Unpaid Balance (Owed):</span>
+              <span className="font-mono font-bold text-rose-700">
+                ₵{balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             </div>
           </div>

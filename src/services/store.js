@@ -101,10 +101,10 @@ export class CentricStore {
     return this.locations.find((l) => l.type === 'warehouse') || this.locations[0]
   }
 
-  // --- Customer & Credit Balance Queries ---
+  // --- Customer & Pay Later Balance Queries ---
   getCustomerBalance(customerId) {
     const customer = this.customers.find((c) => c.id === customerId)
-    if (!customer) return { balance: 0, available: 0, limit: 0, percentUsed: 0 }
+    if (!customer) return { balance: 0, totalPurchases: 0, totalPaid: 0, totalDebits: 0, totalCredits: 0 }
 
     const ledger = this.creditLedger.filter((entry) => entry.customer_id === customerId)
     const totalDebits = ledger
@@ -114,19 +114,16 @@ export class CentricStore {
       .filter((e) => e.entry_type === 'credit')
       .reduce((sum, e) => sum + Number(e.amount), 0)
 
+    // Current unpaid bill balance
     const balance = Math.max(0, totalDebits - totalCredits)
-    const limit = Number(customer.credit_limit) || 0
-    const available = Math.max(0, limit - balance)
-    const percentUsed = limit > 0 ? Math.min(100, (balance / limit) * 100) : 0
 
     return {
       customer,
       balance,
-      available,
-      limit,
+      totalPurchases: totalDebits,
+      totalPaid: totalCredits,
       totalDebits,
-      totalCredits,
-      percentUsed
+      totalCredits
     }
   }
 
@@ -196,18 +193,10 @@ export class CentricStore {
     const taxAmount = (taxableSubtotal * (Number(taxRate) || 0)) / 100
     const totalAmount = taxableSubtotal + taxAmount
 
-    // If payment is credit, check customer limit
+    // If payment is Pay Later, verify customer is selected (no limit restriction - billed directly to customer)
     if (paymentMode === 'credit') {
       if (!customerId) {
-        throw new Error('A registered commercial credit customer must be selected for Credit sales.')
-      }
-      const { available } = this.getCustomerBalance(customerId)
-      if (totalAmount > available) {
-        throw new Error(
-          `Credit limit exceeded. Available credit is GHS ${available.toLocaleString('en-US', {
-            minimumFractionDigits: 2
-          })}, but order total is GHS ${totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}.`
-        )
+        throw new Error('Please select a registered customer for Buy Now, Pay Later.')
       }
     }
 
@@ -523,19 +512,8 @@ export class CentricStore {
     return newEntry
   }
 
-  // 9. Update Customer Credit Limit
-  updateCustomerCreditLimit(customerId, newLimit) {
-    const customer = this.customers.find((c) => c.id === customerId)
-    if (!customer) throw new Error('Customer not found')
-
-    customer.credit_limit = Number(newLimit)
-    saveToStorage('customers', this.customers)
-    this.notify()
-    return customer
-  }
-
-  // 10. Create New Customer
-  createCustomer({ fullName, phone, email, companyName, tinNumber, address, creditLimit = 0, notes }) {
+  // 9. Create New Pay Later Customer
+  createCustomer({ fullName, phone, email, companyName, tinNumber, address, notes }) {
     const exists = this.customers.find((c) => c.phone === phone)
     if (exists) throw new Error(`A customer with phone number ${phone} already exists.`)
 
@@ -547,7 +525,6 @@ export class CentricStore {
       company_name: companyName || '',
       tin_number: tinNumber || '',
       address: address || '',
-      credit_limit: Number(creditLimit) || 0,
       is_active: true,
       notes: notes || '',
       created_at: new Date().toISOString()

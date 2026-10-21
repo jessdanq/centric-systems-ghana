@@ -51,18 +51,19 @@ CREATE TABLE public.location_stock (
     CONSTRAINT unique_product_location UNIQUE (location_id, product_id)
 );
 
--- 5. Customer Balances Automated View
+-- 5. Customer Balances Automated View (Buy Now Pay Later)
 CREATE OR REPLACE VIEW public.customer_balances AS
 SELECT 
     c.id AS customer_id,
     c.full_name,
     c.phone,
-    c.credit_limit,
-    COALESCE(SUM(CASE WHEN cl.entry_type = 'debit' THEN cl.amount ELSE -cl.amount END), 0.00) AS current_balance,
-    (c.credit_limit - COALESCE(SUM(CASE WHEN cl.entry_type = 'debit' THEN cl.amount ELSE -cl.amount END), 0.00)) AS available_credit
+    c.company_name,
+    COALESCE(SUM(CASE WHEN cl.entry_type = 'debit' THEN cl.amount ELSE 0 END), 0.00) AS total_purchases,
+    COALESCE(SUM(CASE WHEN cl.entry_type = 'credit' THEN cl.amount ELSE 0 END), 0.00) AS total_paid,
+    COALESCE(SUM(CASE WHEN cl.entry_type = 'debit' THEN cl.amount ELSE -cl.amount END), 0.00) AS current_unpaid_balance
 FROM public.customers c
 LEFT JOIN public.credit_ledger cl ON c.id = cl.customer_id
-GROUP BY c.id, c.full_name, c.phone, c.credit_limit;
+GROUP BY c.id, c.full_name, c.phone, c.company_name;
 
 -- Full file available in: ./supabase_schema.sql`
 
