@@ -200,49 +200,87 @@ export function RequestRestockModal({ isOpen, onClose, currentLocation, onSubmit
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Products in this Request ({requestItems.length} Items):
+                Products in this Request ({requestItems.length} Item{requestItems.length === 1 ? '' : 's'}):
               </span>
             </div>
 
             {requestItems.length > 0 ? (
-              <div className="overflow-x-auto border border-slate-200 rounded-xl">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[10px]">
-                      <th className="py-2.5 px-3">#</th>
-                      <th className="py-2.5 px-3">Product Name</th>
-                      <th className="py-2.5 px-3">SKU</th>
-                      <th className="py-2.5 px-3 text-center">Shelf Stock</th>
-                      <th className="py-2.5 px-3 text-center">WH Stock</th>
-                      <th className="py-2.5 px-3 text-center text-amber-800">Requested Qty</th>
-                      <th className="py-2.5 px-3 text-center">Remove</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 text-slate-800">
-                    {requestItems.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-slate-50">
-                        <td className="py-2.5 px-3 text-slate-400 font-mono">{idx + 1}</td>
-                        <td className="py-2.5 px-3 font-semibold text-slate-900">{item.product_name}</td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] text-slate-500">{item.sku}</td>
-                        <td className="py-2.5 px-3 text-center font-mono">{item.current_shelf_stock}</td>
-                        <td className="py-2.5 px-3 text-center font-mono font-bold text-emerald-700">{item.warehouse_stock}</td>
-                        <td className="py-2.5 px-3 text-center font-mono font-extrabold text-amber-700 text-sm">
-                          {item.quantity_requested}
-                        </td>
-                        <td className="py-2.5 px-3 text-center">
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveItem(idx)}
-                            className="p-1 text-slate-400 hover:text-rose-600 rounded transition-colors"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </td>
+              <>
+                {/* Desktop Table View */}
+                <div className="hidden sm:block overflow-x-auto border border-slate-200 rounded-xl">
+                  <table className="w-full text-left text-xs">
+                    <thead>
+                      <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[10px]">
+                        <th className="py-2.5 px-3">#</th>
+                        <th className="py-2.5 px-3">Product Name</th>
+                        <th className="py-2.5 px-3">SKU</th>
+                        <th className="py-2.5 px-3 text-center">Shelf Stock</th>
+                        <th className="py-2.5 px-3 text-center">WH Stock</th>
+                        <th className="py-2.5 px-3 text-center text-amber-800">Requested Qty</th>
+                        <th className="py-2.5 px-3 text-center">Remove</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 text-slate-800">
+                      {requestItems.map((item, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50">
+                          <td className="py-2.5 px-3 text-slate-400 font-mono">{idx + 1}</td>
+                          <td className="py-2.5 px-3 font-semibold text-slate-900">{item.product_name}</td>
+                          <td className="py-2.5 px-3 font-mono text-[11px] text-slate-500">{item.sku}</td>
+                          <td className="py-2.5 px-3 text-center font-mono">{item.current_shelf_stock}</td>
+                          <td className="py-2.5 px-3 text-center font-mono font-bold text-emerald-700">{item.warehouse_stock}</td>
+                          <td className="py-2.5 px-3 text-center font-mono font-extrabold text-amber-700 text-sm">
+                            {item.quantity_requested}
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveItem(idx)}
+                              className="p-1 text-slate-400 hover:text-rose-600 rounded transition-colors"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Card List View */}
+                <div className="block sm:hidden space-y-2">
+                  {requestItems.map((item, idx) => (
+                    <div key={idx} className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <span className="font-bold text-slate-900 block">{item.product_name}</span>
+                          <span className="text-[11px] font-mono text-slate-500">{item.sku}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveItem(idx)}
+                          className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-white transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4 text-rose-500" />
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2 bg-white p-2 rounded-lg border border-slate-200 text-center">
+                        <div>
+                          <span className="text-[9px] uppercase font-bold text-slate-400 block">Shelf Stock</span>
+                          <span className="font-mono font-bold text-slate-700">{item.current_shelf_stock}</span>
+                        </div>
+                        <div>
+                          <span className="text-[9px] uppercase font-bold text-slate-400 block">Warehouse</span>
+                          <span className="font-mono font-bold text-emerald-700">{item.warehouse_stock}</span>
+                        </div>
+                        <div>
+                          <span className="text-[9px] uppercase font-bold text-amber-800 block">Requested</span>
+                          <span className="font-mono font-extrabold text-amber-700 text-sm">{item.quantity_requested}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
             ) : (
               <div className="p-6 text-center text-xs text-slate-500 italic bg-slate-50 rounded-xl border border-slate-200">
                 No items added yet. Choose products above to add them to your request.

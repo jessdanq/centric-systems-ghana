@@ -215,11 +215,11 @@ export function OwnerDashboard({
       </div>
 
       {/* Navigation Tabs Bar */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar scroll-smooth">
         <button
           type="button"
           onClick={() => setActiveTab('approvals')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'approvals'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -239,7 +239,7 @@ export function OwnerDashboard({
         <button
           type="button"
           onClick={() => setActiveTab('inventory')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'inventory'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -252,20 +252,20 @@ export function OwnerDashboard({
         <button
           type="button"
           onClick={() => setActiveTab('credit')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'credit'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
           <CreditCard className="w-4 h-4" />
-          Pay Later Accounts & Unpaid Bills
+          Pay Later Accounts
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('sales')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'sales'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -280,23 +280,23 @@ export function OwnerDashboard({
       {activeTab === 'approvals' && (
         <div className="space-y-6">
           {/* Pending Section */}
-          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center justify-between">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               <div>
-                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-amber-600" />
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-amber-600 shrink-0" />
                   Stock Requests from Branches (Waiting for Approval)
                 </h2>
                 <p className="text-xs text-slate-500 mt-1">
                   Click on any request to check previous 30-day branch sales and customer names before approving.
                 </p>
               </div>
-              <span className={`px-3 py-1 text-xs font-bold rounded-lg border ${
+              <span className={`px-3 py-1 text-xs font-bold rounded-lg border self-start sm:self-auto shrink-0 ${
                 pendingTransfers.length > 0
                   ? 'bg-amber-50 text-amber-800 border-amber-200'
                   : 'bg-emerald-50 text-emerald-800 border-emerald-200'
               }`}>
-                {pendingTransfers.length} Action Needed
+                {pendingTransfers.length} Action{pendingTransfers.length === 1 ? '' : 's'} Needed
               </span>
             </div>
 
@@ -305,20 +305,18 @@ export function OwnerDashboard({
                 {pendingTransfers.map((transfer) => (
                   <div
                     key={transfer.id}
-                    className="p-5 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+                    className="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
                   >
-                    <div className="space-y-1.5 flex-1">
+                    <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                           {transfer.transfer_number}
                         </span>
-                        <span className="text-slate-300">•</span>
-                        <span className="text-xs font-bold text-slate-800 flex items-center gap-1">
+                        <span className="text-xs font-bold text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-200 flex items-center gap-1">
                           <Building2 className="w-3.5 h-3.5 text-slate-500" />
                           {transfer.to_name}
                         </span>
-                        <span className="text-slate-300">•</span>
-                        <span className="text-xs text-slate-500">
+                        <span className="text-[11px] text-slate-500">
                           {new Date(transfer.created_at).toLocaleDateString('en-GB', {
                             day: 'numeric',
                             month: 'short',

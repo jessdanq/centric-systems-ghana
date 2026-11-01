@@ -257,20 +257,20 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
             </div>
 
             {/* Velocity Metrics Row */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+              <div className="p-3 sm:p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
                 <span className="text-[11px] text-slate-500 block font-medium">30-Day Units Sold</span>
-                <span className="text-lg font-bold font-mono text-slate-900">{total30DayUnitsSold} units</span>
+                <span className="text-base sm:text-lg font-bold font-mono text-slate-900">{total30DayUnitsSold} units</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
+              <div className="p-3 sm:p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
                 <span className="text-[11px] text-slate-500 block font-medium">30-Day Sales Total</span>
-                <span className="text-lg font-bold font-mono text-emerald-700">
+                <span className="text-base sm:text-lg font-bold font-mono text-emerald-700">
                   ₵{total30DayRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </span>
               </div>
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
+              <div className="p-3 sm:p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
                 <span className="text-[11px] text-slate-500 block font-medium">Average Sales Speed</span>
-                <span className="text-lg font-bold font-mono text-amber-700">
+                <span className="text-base sm:text-lg font-bold font-mono text-amber-700 whitespace-nowrap">
                   {salesVelocity} units / day
                 </span>
               </div>
@@ -278,59 +278,93 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
 
             {/* Sales Records Cross-Referenced with Customer Names */}
             {recentSales.length > 0 ? (
-              <div className="overflow-x-auto border border-slate-200 rounded-xl bg-white shadow-xs">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
-                      <th className="py-2.5 px-3">Date</th>
-                      <th className="py-2.5 px-3">Receipt #</th>
-                      <th className="py-2.5 px-3">Customer Name</th>
-                      <th className="py-2.5 px-3">Phone</th>
-                      <th className="py-2.5 px-3 text-center">Qty Sold</th>
-                      <th className="py-2.5 px-3 text-right">Subtotal</th>
-                      <th className="py-2.5 px-3 text-center">Payment Mode</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 text-slate-700">
-                    {recentSales.map((sale, idx) => (
-                      <tr key={idx} className="hover:bg-slate-50">
-                        <td className="py-2.5 px-3 text-slate-500">
-                          {new Date(sale.sale_date).toLocaleDateString('en-GB', {
-                            day: '2-digit',
-                            month: 'short'
-                          })}
-                        </td>
-                        <td className="py-2.5 px-3 font-mono text-emerald-700 font-semibold">
-                          {sale.invoice_number}
-                        </td>
-                        <td className="py-2.5 px-3 font-bold text-slate-900">
-                          {sale.customer_name}
-                        </td>
-                        <td className="py-2.5 px-3 text-slate-500 font-mono text-[11px]">
-                          {sale.customer_phone || 'N/A'}
-                        </td>
-                        <td className="py-2.5 px-3 text-center font-bold text-slate-900">
-                          {sale.quantity_sold}
-                        </td>
-                        <td className="py-2.5 px-3 text-right font-mono text-slate-900 font-medium">
-                          ₵{Number(sale.subtotal).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                        </td>
-                        <td className="py-2.5 px-3 text-center">
-                          <span
-                            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                              sale.payment_mode === 'credit'
-                                ? 'bg-amber-50 text-amber-800 border border-amber-200'
-                                : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                            }`}
-                          >
-                            {sale.payment_mode}
-                          </span>
-                        </td>
+              <>
+                {/* Desktop Table View */}
+                <div className="hidden sm:block overflow-x-auto border border-slate-200 rounded-xl bg-white shadow-xs">
+                  <table className="w-full text-left text-xs">
+                    <thead>
+                      <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
+                        <th className="py-2.5 px-3">Date</th>
+                        <th className="py-2.5 px-3">Receipt #</th>
+                        <th className="py-2.5 px-3">Customer Name</th>
+                        <th className="py-2.5 px-3">Phone</th>
+                        <th className="py-2.5 px-3 text-center">Qty Sold</th>
+                        <th className="py-2.5 px-3 text-right">Subtotal</th>
+                        <th className="py-2.5 px-3 text-center">Payment Mode</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 text-slate-700">
+                      {recentSales.map((sale, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50">
+                          <td className="py-2.5 px-3 text-slate-500">
+                            {new Date(sale.sale_date).toLocaleDateString('en-GB', {
+                              day: '2-digit',
+                              month: 'short'
+                            })}
+                          </td>
+                          <td className="py-2.5 px-3 font-mono text-emerald-700 font-semibold">
+                            {sale.invoice_number}
+                          </td>
+                          <td className="py-2.5 px-3 font-bold text-slate-900">
+                            {sale.customer_name}
+                          </td>
+                          <td className="py-2.5 px-3 text-slate-500 font-mono text-[11px]">
+                            {sale.customer_phone || 'N/A'}
+                          </td>
+                          <td className="py-2.5 px-3 text-center font-bold text-slate-900">
+                            {sale.quantity_sold}
+                          </td>
+                          <td className="py-2.5 px-3 text-right font-mono text-slate-900 font-medium">
+                            ₵{Number(sale.subtotal).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            <span
+                              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                                sale.payment_mode === 'credit'
+                                  ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                                  : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                              }`}
+                            >
+                              {sale.payment_mode}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Card List View */}
+                <div className="block sm:hidden space-y-2.5">
+                  {recentSales.map((sale, idx) => (
+                    <div key={idx} className="p-3 rounded-xl bg-white border border-slate-200 text-xs space-y-1.5 shadow-xs">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-mono font-bold text-emerald-700 text-xs">
+                          {sale.invoice_number}
+                        </span>
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                          {sale.payment_mode}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-start text-xs">
+                        <div>
+                          <span className="font-bold text-slate-900 block">{sale.customer_name}</span>
+                          <span className="text-[11px] text-slate-500 font-mono">{sale.customer_phone || 'No phone'}</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="font-bold text-slate-900 block">{sale.quantity_sold} sold</span>
+                          <span className="font-mono font-bold text-emerald-700">
+                            ₵{Number(sale.subtotal).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-[10px] text-slate-400 pt-1 border-t border-slate-100">
+                        Date: {new Date(sale.sale_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
             ) : (
               <div className="p-6 text-center rounded-xl bg-white border border-slate-200 text-xs text-slate-500">
                 <AlertTriangle className="w-6 h-6 text-amber-600 mx-auto mb-2" />

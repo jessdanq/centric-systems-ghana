@@ -42,55 +42,65 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
   })
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm overflow-y-auto print-modal-overlay">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto print-modal-overlay">
       {/* Container */}
-      <div className="relative w-full max-w-4xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden my-8 no-print:max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-4xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[94vh] print:max-h-none flex flex-col">
         {/* Header Controls (Hidden on Print) */}
-        <div className="flex items-center justify-between px-6 py-4 bg-slate-50 border-b border-slate-200 no-print">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">Document Type:</span>
-            <div className="inline-flex rounded-xl bg-slate-200/70 p-1">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3.5 bg-slate-50 border-b border-slate-200 gap-2 shrink-0 no-print">
+          <div className="flex items-center justify-between sm:justify-start gap-2 overflow-x-auto pb-1 sm:pb-0">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 shrink-0 hidden xs:inline">Type:</span>
+            <div className="inline-flex rounded-xl bg-slate-200/70 p-1 shrink-0">
               <button
                 type="button"
                 onClick={() => setDocType('invoice')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold rounded-lg transition-colors ${
                   docType === 'invoice'
                     ? 'bg-emerald-600 text-white shadow-xs'
                     : 'text-slate-700 hover:text-slate-900'
                 }`}
               >
-                Official Invoice
+                Invoice
               </button>
               <button
                 type="button"
                 onClick={() => setDocType('receipt')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold rounded-lg transition-colors ${
                   docType === 'receipt'
                     ? 'bg-emerald-600 text-white shadow-xs'
                     : 'text-slate-700 hover:text-slate-900'
                 }`}
               >
-                Payment Receipt
+                Receipt
               </button>
               <button
                 type="button"
                 onClick={() => setDocType('quotation')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold rounded-lg transition-colors ${
                   docType === 'quotation'
                     ? 'bg-emerald-600 text-white shadow-xs'
                     : 'text-slate-700 hover:text-slate-900'
                 }`}
               >
-                Proforma Quote
+                Quote
               </button>
             </div>
+
+            {/* Mobile close button on right of toolbar */}
+            <button
+              type="button"
+              onClick={onClose}
+              className="sm:hidden p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 rounded-lg transition-colors shrink-0"
+              title="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={handlePrint}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all shadow-xs active:scale-95"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all shadow-xs active:scale-95"
             >
               <Printer className="w-4 h-4" />
               Print / Save PDF
@@ -98,7 +108,8 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
             <button
               type="button"
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
+              className="hidden sm:inline-flex p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
+              title="Close modal"
             >
               <X className="w-5 h-5" />
             </button>
@@ -106,7 +117,7 @@ export function DocumentPrintModal({ isOpen, onClose, documentData, initialType 
         </div>
 
         {/* Printable Document Sheet (Strict 1-Page A4 Layout) */}
-        <div className="overflow-y-auto p-4 sm:p-6 bg-slate-100 print:p-0 print:m-0 print:bg-white print:overflow-visible print-modal-sheet-container">
+        <div className="flex-1 overflow-y-auto p-2 sm:p-6 bg-slate-100 print:p-0 print:m-0 print:bg-white print:overflow-visible print-modal-sheet-container">
           <div
             id="printable-document"
             className="w-full max-w-[210mm] mx-auto bg-white text-slate-900 p-6 sm:p-8 print:p-4 rounded-xl shadow-md border border-slate-200 print:border-none print:shadow-none print:rounded-none"

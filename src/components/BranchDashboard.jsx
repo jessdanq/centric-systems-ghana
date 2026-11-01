@@ -231,11 +231,11 @@ export function BranchDashboard({
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar scroll-smooth">
         <button
           type="button"
           onClick={() => setActiveTab('pos')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'pos'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -248,7 +248,7 @@ export function BranchDashboard({
         <button
           type="button"
           onClick={() => setActiveTab('inventory')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'inventory'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -261,7 +261,7 @@ export function BranchDashboard({
         <button
           type="button"
           onClick={() => setActiveTab('transfers')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'transfers'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -281,7 +281,7 @@ export function BranchDashboard({
         <button
           type="button"
           onClick={() => setActiveTab('sales')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'sales'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -400,14 +400,14 @@ export function BranchDashboard({
           </div>
 
           {/* Right Column: Active Cart & Checkout (5 cols) */}
-          <div className="lg:col-span-5 space-y-4">
+          <div id="pos-cart-panel" className="lg:col-span-5 space-y-4">
             <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4 sticky top-20">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
                   <ShoppingCart className="w-5 h-5 text-emerald-600" />
                   <h2 className="text-base font-bold text-slate-900">Current Cart</h2>
                   <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-xs font-mono font-bold text-slate-800">
-                    {cart.reduce((sum, i) => sum + i.quantity, 0)} items
+                    {cart.reduce((sum, i) => sum + i.quantity, 0)} item{cart.reduce((sum, i) => sum + i.quantity, 0) === 1 ? '' : 's'}
                   </span>
                 </div>
 
@@ -647,6 +647,31 @@ export function BranchDashboard({
               </button>
             </div>
           </div>
+
+          {/* Sticky Mobile Checkout Bar (visible on small screens when cart has items) */}
+          {cart.length > 0 && (
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 p-3 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-2xl z-40 flex items-center justify-between gap-3">
+              <div>
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                  {cart.reduce((sum, i) => sum + i.quantity, 0)} item{cart.reduce((sum, i) => sum + i.quantity, 0) === 1 ? '' : 's'} in cart
+                </span>
+                <span className="text-sm font-extrabold font-mono text-emerald-800">
+                  ₵{cartTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })} GHS
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('pos-cart-panel')
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md active:scale-95 transition-all"
+              >
+                <ShoppingCart className="w-4 h-4" />
+                Go to Cart →
+              </button>
+            </div>
+          )}
         </div>
       )}
 

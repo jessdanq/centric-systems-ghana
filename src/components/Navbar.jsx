@@ -104,17 +104,17 @@ export function Navbar({ currentUser, onSwitchUser, onResetData, onOpenSchemaMod
               {dropdownOpen && (
                 <>
                   <div
-                    className="fixed inset-0 z-30"
+                    className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-xs"
                     onClick={() => setDropdownOpen(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-white border border-slate-200 shadow-xl py-2 z-40 text-xs">
+                  <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] max-w-xs sm:w-72 rounded-2xl bg-white border border-slate-200 shadow-2xl py-2 z-50 text-xs">
                     <div className="px-3.5 py-2 border-b border-slate-100">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                         Switch User Account:
                       </span>
                     </div>
 
-                    <div className="max-h-80 overflow-y-auto py-1">
+                    <div className="max-h-[65vh] overflow-y-auto py-1 divide-y divide-slate-50">
                       {DEMO_USERS.map((user) => {
                         const isCurrent = user.id === currentUser.id
                         return (

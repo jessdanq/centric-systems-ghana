@@ -37,6 +37,15 @@
   animation: pulse-emerald 3s infinite ease-in-out;
 }
 
+/* Utility to hide raw scrollbar track on touch/mobile while preserving smooth scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Print optimization: Print ONLY #printable-document, exactly on 1 clean A4 page */
 @media print {
   @page {
