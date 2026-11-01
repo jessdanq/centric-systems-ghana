@@ -306,7 +306,8 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
               Dispatched (On the Way) & Completed Deliveries
             </h3>
 
-            <div className="overflow-x-auto border border-slate-200 rounded-xl">
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto border border-slate-200 rounded-xl">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
@@ -355,6 +356,50 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Card List View */}
+            <div className="block md:hidden space-y-3">
+              {dispatchedTransfers.map((t) => (
+                <div key={t.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-xs font-bold text-emerald-700">
+                      {t.transfer_number}
+                    </span>
+                    <span
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                        t.status === 'received'
+                          ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                          : 'bg-blue-50 text-blue-800 border border-blue-200'
+                      }`}
+                    >
+                      {t.status === 'received' ? 'Delivered' : 'On the Way'}
+                    </span>
+                  </div>
+
+                  <div className="text-xs">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Destination:</span>
+                    <span className="font-bold text-slate-900">{t.to_name}</span>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-xs">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Waybill & Driver:</span>
+                    <span className="font-mono font-bold text-slate-900 block">{t.waybill_number || 'No Waybill #'}</span>
+                    <span className="text-[11px] text-slate-600 block mt-0.5">
+                      {t.driver_name} {t.driver_phone && `(${t.driver_phone})`}
+                    </span>
+                  </div>
+
+                  <div className="text-[11px] text-slate-500 pt-1 flex justify-between items-center border-t border-slate-200">
+                    <span>Dispatched:</span>
+                    <span className="font-medium text-slate-700">
+                      {t.dispatched_at
+                        ? new Date(t.dispatched_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
+                        : 'Pending'}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -377,7 +422,8 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
             </button>
           </div>
 
-          <div className="overflow-x-auto border border-slate-200 rounded-xl">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto border border-slate-200 rounded-xl">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
@@ -415,6 +461,45 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Card List View */}
+          <div className="block md:hidden space-y-3">
+            {warehouseStockList.map((item) => (
+              <div key={item.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">{item.name}</h4>
+                    <span className="text-[11px] font-mono text-slate-500">{item.sku} • {item.category}</span>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 font-mono font-extrabold text-xs shrink-0 border border-blue-200">
+                    {item.quantity} {item.unit_of_measure}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-xs bg-white p-2.5 rounded-lg border border-slate-200">
+                  <div>
+                    <span className="text-[10px] text-slate-400 font-semibold uppercase block">Cost (Landed)</span>
+                    <span className="font-mono text-slate-700 font-bold">
+                      ₵{item.cost_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-emerald-700 font-semibold uppercase block">Selling Price</span>
+                    <span className="font-mono text-emerald-800 font-bold">
+                      ₵{item.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center text-xs pt-1 border-t border-slate-200">
+                  <span className="text-slate-500">Total Bulk Value:</span>
+                  <span className="font-mono font-extrabold text-slate-900">
+                    ₵{(item.quantity * item.unit_price).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
@@ -423,7 +508,8 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
         <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
           <h2 className="text-base font-bold text-slate-900">Past Supplier Deliveries Received</h2>
 
-          <div className="overflow-x-auto border border-slate-200 rounded-xl">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto border border-slate-200 rounded-xl">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
@@ -460,6 +546,39 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card List View */}
+          <div className="block md:hidden space-y-3">
+            {store.supplierIntakes.map((intake) => (
+              <div key={intake.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-xs font-bold text-emerald-700">
+                    {intake.receipt_number}
+                  </span>
+                  <span className="text-[11px] text-slate-500 font-medium">
+                    {new Date(intake.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </span>
+                </div>
+
+                <div className="text-xs">
+                  <span className="font-bold text-slate-900 block">{intake.supplier_name}</span>
+                  <span className="text-[11px] font-mono text-slate-500">Invoice: {intake.supplier_invoice_ref}</span>
+                </div>
+
+                <div className="text-[11px] text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200">
+                  <span className="font-bold text-slate-400 block text-[10px] uppercase mb-0.5">Received Items:</span>
+                  {intake.items.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}
+                </div>
+
+                <div className="flex justify-between items-center text-xs pt-1 border-t border-slate-200">
+                  <span className="text-slate-500">Total Landed Cost:</span>
+                  <span className="font-mono font-bold text-slate-950 text-sm">
+                    ₵{intake.total_cost.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

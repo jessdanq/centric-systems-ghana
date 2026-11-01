@@ -121,7 +121,8 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
           </div>
         </div>
 
-        <div className="overflow-x-auto border border-slate-200 rounded-xl">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto border border-slate-200 rounded-xl">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
@@ -164,6 +165,45 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card List View */}
+        <div className="block md:hidden space-y-3">
+          {ledgerEntries.map((entry) => (
+            <div key={entry.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-mono text-xs font-bold text-slate-900">
+                  {entry.reference_number || 'Entry'}
+                </span>
+                <span
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                    entry.entry_type === 'debit'
+                      ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                      : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  }`}
+                >
+                  {entry.entry_type === 'debit' ? 'Supplies Added' : 'Payment Settled'}
+                </span>
+              </div>
+
+              <div className="text-xs text-slate-800 font-medium">
+                {entry.notes}
+              </div>
+
+              <div className="flex justify-between items-center text-xs pt-2 border-t border-slate-200">
+                <span className="text-[11px] text-slate-500">
+                  {new Date(entry.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })} • {entry.payment_method}
+                </span>
+                <span
+                  className={`font-mono font-extrabold text-sm ${
+                    entry.entry_type === 'debit' ? 'text-rose-700' : 'text-emerald-700'
+                  }`}
+                >
+                  {entry.entry_type === 'debit' ? '+' : '-'}₵{Number(entry.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
