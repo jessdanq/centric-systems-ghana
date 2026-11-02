@@ -248,6 +248,7 @@ export function OwnerDashboard({
       {/* Navigation Tabs Bar Container - target for scroll down */}
       <div id="owner-content-panel" className="scroll-mt-4">
         <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar scroll-smooth">
+          {/* Tab 1: Matches Card 1 (Stock Requests) */}
           <button
             type="button"
             onClick={() => setActiveTab('approvals')}
@@ -268,6 +269,21 @@ export function OwnerDashboard({
             )}
           </button>
 
+          {/* Tab 2: Matches Card 2 (Total Sales Made) */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('sales')}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              activeTab === 'sales'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <TrendingUp className="w-4 h-4" />
+            All Sales & Receipts
+          </button>
+
+          {/* Tab 3: Matches Card 3 (Total Stock Value) */}
           <button
             type="button"
             onClick={() => setActiveTab('inventory')}
@@ -281,6 +297,7 @@ export function OwnerDashboard({
             Check Stock Across All Shops
           </button>
 
+          {/* Tab 4: Matches Card 4 (Unpaid Pay Later Invoices) */}
           <button
             type="button"
             onClick={() => setActiveTab('credit')}
@@ -292,19 +309,6 @@ export function OwnerDashboard({
           >
             <CreditCard className="w-4 h-4" />
             Pay Later Accounts
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('sales')}
-            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
-              activeTab === 'sales'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-          >
-            <FileText className="w-4 h-4" />
-            All Sales & Receipts
           </button>
         </div>
       </div>
@@ -548,6 +552,157 @@ export function OwnerDashboard({
       )}
 
       {/* TAB CONTENT 2: Check Stock Across All Shops */}
+      
+
+      {activeTab === 'sales' && (
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+              <h2 className="text-base font-bold text-slate-900">All Branch Sales & Receipts</h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Every customer invoice issued across Medie, Lapaz, and Kumasi retail points.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+              {/* Branch Filter */}
+              <select
+                value={branchFilter}
+                onChange={(e) => setBranchFilter(e.target.value)}
+                className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
+              >
+                <option value="ALL">All Branches</option>
+                {retailLocations.map((l) => (
+                  <option key={l.id} value={l.id}>
+                    {l.name}
+                  </option>
+                ))}
+              </select>
+
+              {/* Search */}
+              <div className="relative flex-1 sm:w-60">
+                <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search customer or branch..."
+                  value={salesSearch}
+                  onChange={(e) => setSalesSearch(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Table View (Hidden on mobile) */}
+          <div className="hidden md:block overflow-x-auto border border-slate-200 rounded-xl">
+            <table className="w-full text-left text-xs">
+              <thead>
+                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
+                  <th className="py-3 px-4">Date & Time</th>
+                  <th className="py-3 px-4">Branch Shop</th>
+                  <th className="py-3 px-4">Customer Name</th>
+                  <th className="py-3 px-4">Items Sold</th>
+                  <th className="py-3 px-4 text-right">Amount (GHS)</th>
+                  <th className="py-3 px-4 text-center">Payment Mode</th>
+                  <th className="py-3 px-4 text-right">Receipt</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 text-slate-700">
+                {filteredSales.map((sale) => (
+                  <tr key={sale.id} className="hover:bg-slate-50">
+                    <td className="py-3 px-4 text-slate-600 font-medium">
+                      {new Date(sale.created_at).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </td>
+                    <td className="py-3 px-4 font-semibold text-slate-900">{sale.location_name}</td>
+                    <td className="py-3 px-4 text-slate-800 font-medium">{sale.customer_name}</td>
+                    <td className="py-3 px-4 text-slate-600">
+                      {sale.items?.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}
+                    </td>
+                    <td className="py-3 px-4 text-right font-mono font-bold text-slate-900">
+                      ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    </td>
+                    <td className="py-3 px-4 text-center">
+                      <span
+                        className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                          sale.payment_mode === 'credit'
+                            ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                            : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                        }`}
+                      >
+                        {sale.payment_mode === 'credit' ? 'Pay Later' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-right">
+                      <button
+                        type="button"
+                        onClick={() => onOpenDocumentPrint(sale)}
+                        title="Print Official Receipt / Invoice"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors font-medium text-xs"
+                      >
+                        <Printer className="w-3.5 h-3.5 text-emerald-700" />
+                        Print
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Card List View (Visible only on mobile) */}
+          <div className="block md:hidden space-y-3">
+            {filteredSales.map((sale) => (
+              <div key={sale.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-bold text-slate-900 text-sm">
+                    {sale.customer_name}
+                  </span>
+                  <span
+                    className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                      sale.payment_mode === 'credit'
+                        ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                        : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    }`}
+                  >
+                    {sale.payment_mode === 'credit' ? 'Pay Later' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
+                  </span>
+                </div>
+
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-[11px] text-slate-500">
+                    {sale.location_name} • {new Date(sale.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  <span className="font-mono font-extrabold text-slate-950 text-sm">
+                    ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  </span>
+                </div>
+
+                <div className="text-[11px] text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200">
+                  <span className="font-bold text-slate-400 block text-[10px] uppercase mb-0.5">Items Sold:</span>
+                  {sale.items?.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}
+                </div>
+
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    onClick={() => onOpenDocumentPrint(sale)}
+                    className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors shadow-xs"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-emerald-700" />
+                    Print Official Receipt
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {activeTab === 'inventory' && (
         <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
           <div>
@@ -717,6 +872,8 @@ export function OwnerDashboard({
       )}
 
       {/* TAB CONTENT 3: Customer Pay Later Accounts & Unpaid Bills */}
+      
+
       {activeTab === 'credit' && (
         <div className="space-y-6">
           <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
@@ -834,154 +991,7 @@ export function OwnerDashboard({
       )}
 
       {/* TAB CONTENT 4: All Sales & Receipts */}
-      {activeTab === 'sales' && (
-        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <div>
-              <h2 className="text-base font-bold text-slate-900">All Branch Sales & Receipts</h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Every customer invoice issued across Medie, Lapaz, and Kumasi retail points.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-              {/* Branch Filter */}
-              <select
-                value={branchFilter}
-                onChange={(e) => setBranchFilter(e.target.value)}
-                className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
-              >
-                <option value="ALL">All Branches</option>
-                {retailLocations.map((l) => (
-                  <option key={l.id} value={l.id}>
-                    {l.name}
-                  </option>
-                ))}
-              </select>
-
-              {/* Search */}
-              <div className="relative flex-1 sm:w-60">
-                <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Search customer or branch..."
-                  value={salesSearch}
-                  onChange={(e) => setSalesSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Desktop Table View (Hidden on mobile) */}
-          <div className="hidden md:block overflow-x-auto border border-slate-200 rounded-xl">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
-                  <th className="py-3 px-4">Date & Time</th>
-                  <th className="py-3 px-4">Branch Shop</th>
-                  <th className="py-3 px-4">Customer Name</th>
-                  <th className="py-3 px-4">Items Sold</th>
-                  <th className="py-3 px-4 text-right">Amount (GHS)</th>
-                  <th className="py-3 px-4 text-center">Payment Mode</th>
-                  <th className="py-3 px-4 text-right">Receipt</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 text-slate-700">
-                {filteredSales.map((sale) => (
-                  <tr key={sale.id} className="hover:bg-slate-50">
-                    <td className="py-3 px-4 text-slate-600 font-medium">
-                      {new Date(sale.created_at).toLocaleDateString('en-GB', {
-                        day: '2-digit',
-                        month: 'short',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </td>
-                    <td className="py-3 px-4 font-semibold text-slate-900">{sale.location_name}</td>
-                    <td className="py-3 px-4 text-slate-800 font-medium">{sale.customer_name}</td>
-                    <td className="py-3 px-4 text-slate-600">
-                      {sale.items?.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}
-                    </td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-slate-900">
-                      ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      <span
-                        className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
-                          sale.payment_mode === 'credit'
-                            ? 'bg-amber-50 text-amber-800 border border-amber-200'
-                            : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                        }`}
-                      >
-                        {sale.payment_mode === 'credit' ? 'Pay Later' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <button
-                        type="button"
-                        onClick={() => onOpenDocumentPrint(sale)}
-                        title="Print Official Receipt / Invoice"
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors font-medium text-xs"
-                      >
-                        <Printer className="w-3.5 h-3.5 text-emerald-700" />
-                        Print
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile Card List View (Visible only on mobile) */}
-          <div className="block md:hidden space-y-3">
-            {filteredSales.map((sale) => (
-              <div key={sale.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-bold text-slate-900 text-sm">
-                    {sale.customer_name}
-                  </span>
-                  <span
-                    className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
-                      sale.payment_mode === 'credit'
-                        ? 'bg-amber-50 text-amber-800 border border-amber-200'
-                        : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                    }`}
-                  >
-                    {sale.payment_mode === 'credit' ? 'Pay Later' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-[11px] text-slate-500">
-                    {sale.location_name} • {new Date(sale.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                  <span className="font-mono font-extrabold text-slate-950 text-sm">
-                    ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                  </span>
-                </div>
-
-                <div className="text-[11px] text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200">
-                  <span className="font-bold text-slate-400 block text-[10px] uppercase mb-0.5">Items Sold:</span>
-                  {sale.items?.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}
-                </div>
-
-                <div className="pt-1">
-                  <button
-                    type="button"
-                    onClick={() => onOpenDocumentPrint(sale)}
-                    className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors shadow-xs"
-                  >
-                    <Printer className="w-3.5 h-3.5 text-emerald-700" />
-                    Print Official Receipt
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      
     </div>
   )
 }
