@@ -4,6 +4,7 @@ import { OwnerDashboard } from './components/OwnerDashboard'
 import { BranchDashboard } from './components/BranchDashboard'
 import { WarehouseDashboard } from './components/WarehouseDashboard'
 import { CustomerPortal } from './components/CustomerPortal'
+import { LoginPage } from './components/LoginPage'
 import { RestockReviewModal } from './components/RestockReviewModal'
 import { DocumentPrintModal } from './components/DocumentPrintModal'
 import { NewCustomerModal } from './components/NewCustomerModal'
@@ -16,7 +17,13 @@ import { store } from './services/store'
 import { ToastProvider, showNotification } from './context/ToastContext'
 
 function AppContent() {
-  const [currentUser, setCurrentUser] = useState(DEMO_USERS[0]) // Kwame Yeboah (Owner)
+  const [currentUser, setCurrentUser] = useState(() => {
+    const savedId = localStorage.getItem('centric_systems_gh_current_user_id')
+    if (savedId) {
+      return DEMO_USERS.find((u) => u.id === savedId) || null
+    }
+    return null // Show login page by default so the user can test auto login accounts!
+  })
   const [, setVersion] = useState(0) // triggers re-render on store notification
 
   // Modals state
@@ -43,6 +50,27 @@ function AppContent() {
     }
   }
 
+  const handleLogin = (user) => {
+    localStorage.setItem('centric_systems_gh_current_user_id', user.id)
+    setCurrentUser(user)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('centric_systems_gh_current_user_id')
+    setCurrentUser(null)
+    showNotification('Logged out successfully.', 'info', 2500)
+  }
+
+  const handleSwitchUser = (user) => {
+    localStorage.setItem('centric_systems_gh_current_user_id', user.id)
+    setCurrentUser(user)
+  }
+
+  // If no user is logged in, show the Login Page with demo auto-login accounts
+  if (!currentUser) {
+    return <LoginPage onLogin={handleLogin} />
+  }
+
   // Get active location for branch staff
   const activeBranchLocation =
     store.locations.find((l) => l.id === currentUser.assigned_location_id) ||
@@ -54,9 +82,10 @@ function AppContent() {
       <div className="no-print print:hidden">
         <Navbar
           currentUser={currentUser}
-          onSwitchUser={setCurrentUser}
+          onSwitchUser={handleSwitchUser}
           onResetData={handleResetData}
           onOpenSchemaModal={() => setIsSchemaModalOpen(true)}
+          onLogout={handleLogout}
         />
       </div>
 
