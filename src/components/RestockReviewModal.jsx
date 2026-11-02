@@ -15,6 +15,7 @@ import {
   DollarSign
 } from 'lucide-react'
 import { store } from '../services/store'
+import { showNotification } from '../context/ToastContext'
 
 export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRejected }) {
   if (!isOpen || !transfer) return null
@@ -69,7 +70,7 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
 
       if (onApproved) onApproved()
       onClose()
-      alert('Stock request approved and sent to Central Warehouse for loading!')
+      showNotification('Stock request approved and sent to Central Warehouse for loading!')
     } catch (err) {
       setErrorMsg(err.message)
     } finally {
@@ -92,7 +93,7 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
       )
       if (onRejected) onRejected()
       onClose()
-      alert('Stock request has been declined.')
+      showNotification('Stock request has been declined.', 'info')
     } catch (err) {
       setErrorMsg(err.message)
     } finally {
@@ -119,7 +120,7 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
                 </span>
               </div>
               <h2 className="text-xl font-bold text-slate-900 tracking-tight mt-0.5">
-                Review Stock Request: {transfer.transfer_number}
+                Review Stock Request: {transfer.to_name}
               </h2>
             </div>
           </div>
@@ -211,8 +212,8 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
                   >
                     <div className="flex justify-between items-start">
                       <div className="font-bold text-sm text-slate-900">{item.product_name}</div>
-                      <span className="font-mono text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
-                        {item.sku}
+                      <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
+                        {product?.category || 'Item'}
                       </span>
                     </div>
 
@@ -285,7 +286,6 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
                     <thead>
                       <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
                         <th className="py-2.5 px-3">Date</th>
-                        <th className="py-2.5 px-3">Receipt #</th>
                         <th className="py-2.5 px-3">Customer Name</th>
                         <th className="py-2.5 px-3">Phone</th>
                         <th className="py-2.5 px-3 text-center">Qty Sold</th>
@@ -296,14 +296,11 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
                     <tbody className="divide-y divide-slate-100 text-slate-700">
                       {recentSales.map((sale, idx) => (
                         <tr key={idx} className="hover:bg-slate-50">
-                          <td className="py-2.5 px-3 text-slate-500">
+                          <td className="py-2.5 px-3 text-slate-500 font-medium">
                             {new Date(sale.sale_date).toLocaleDateString('en-GB', {
                               day: '2-digit',
                               month: 'short'
                             })}
-                          </td>
-                          <td className="py-2.5 px-3 font-mono text-emerald-700 font-semibold">
-                            {sale.invoice_number}
                           </td>
                           <td className="py-2.5 px-3 font-bold text-slate-900">
                             {sale.customer_name}
@@ -339,8 +336,8 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
                   {recentSales.map((sale, idx) => (
                     <div key={idx} className="p-3 rounded-xl bg-white border border-slate-200 text-xs space-y-1.5 shadow-xs">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="font-mono font-bold text-emerald-700 text-xs">
-                          {sale.invoice_number}
+                        <span className="font-bold text-slate-900 text-xs">
+                          {sale.customer_name}
                         </span>
                         <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
                           {sale.payment_mode}
@@ -348,8 +345,10 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
                       </div>
                       <div className="flex justify-between items-start text-xs">
                         <div>
-                          <span className="font-bold text-slate-900 block">{sale.customer_name}</span>
-                          <span className="text-[11px] text-slate-500 font-mono">{sale.customer_phone || 'No phone'}</span>
+                          <span className="text-[11px] text-slate-500">
+                            {new Date(sale.sale_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+                          </span>
+                          <span className="text-[11px] text-slate-500 font-mono block">{sale.customer_phone || 'No phone'}</span>
                         </div>
                         <div className="text-right">
                           <span className="font-bold text-slate-900 block">{sale.quantity_sold} sold</span>

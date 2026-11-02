@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { X, PackagePlus, Plus, Trash2, ArrowRight, CheckCircle2, AlertTriangle } from 'lucide-react'
 import { store } from '../services/store'
+import { showNotification } from '../context/ToastContext'
 
 export function RequestRestockModal({ isOpen, onClose, currentLocation, onSubmitted }) {
   if (!isOpen || !currentLocation) return null
@@ -95,7 +96,7 @@ export function RequestRestockModal({ isOpen, onClose, currentLocation, onSubmit
 
       if (onSubmitted) onSubmitted()
       onClose()
-      alert(`Restock request for ${requestItems.length} items sent to Kwame Yeboah for approval!`)
+      showNotification(`Restock request for ${requestItems.length} product${requestItems.length === 1 ? '' : 's'} sent to Kwame Yeboah for approval!`)
     } catch (err) {
       setErrorMsg(err.message)
     }
@@ -213,7 +214,6 @@ export function RequestRestockModal({ isOpen, onClose, currentLocation, onSubmit
                       <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[10px]">
                         <th className="py-2.5 px-3">#</th>
                         <th className="py-2.5 px-3">Product Name</th>
-                        <th className="py-2.5 px-3">SKU</th>
                         <th className="py-2.5 px-3 text-center">Shelf Stock</th>
                         <th className="py-2.5 px-3 text-center">WH Stock</th>
                         <th className="py-2.5 px-3 text-center text-amber-800">Requested Qty</th>
@@ -225,7 +225,6 @@ export function RequestRestockModal({ isOpen, onClose, currentLocation, onSubmit
                         <tr key={idx} className="hover:bg-slate-50">
                           <td className="py-2.5 px-3 text-slate-400 font-mono">{idx + 1}</td>
                           <td className="py-2.5 px-3 font-semibold text-slate-900">{item.product_name}</td>
-                          <td className="py-2.5 px-3 font-mono text-[11px] text-slate-500">{item.sku}</td>
                           <td className="py-2.5 px-3 text-center font-mono">{item.current_shelf_stock}</td>
                           <td className="py-2.5 px-3 text-center font-mono font-bold text-emerald-700">{item.warehouse_stock}</td>
                           <td className="py-2.5 px-3 text-center font-mono font-extrabold text-amber-700 text-sm">
@@ -253,7 +252,6 @@ export function RequestRestockModal({ isOpen, onClose, currentLocation, onSubmit
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <span className="font-bold text-slate-900 block">{item.product_name}</span>
-                          <span className="text-[11px] font-mono text-slate-500">{item.sku}</span>
                         </div>
                         <button
                           type="button"

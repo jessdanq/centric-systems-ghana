@@ -29,6 +29,16 @@ export function OwnerDashboard({
   const [salesSearch, setSalesSearch] = useState('')
   const [branchFilter, setBranchFilter] = useState('ALL')
 
+  const handleCardClick = (tabKey) => {
+    setActiveTab(tabKey)
+    setTimeout(() => {
+      const panel = document.getElementById('owner-content-panel')
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 60)
+  }
+
   // Calculate High-Level Metrics
   const warehouse = store.getWarehouseLocation()
   const retailLocations = store.locations.filter((l) => l.type === 'branch')
@@ -70,7 +80,6 @@ export function OwnerDashboard({
   // Filtered Sales
   const filteredSales = store.sales.filter((sale) => {
     const matchesSearch =
-      sale.invoice_number.toLowerCase().includes(salesSearch.toLowerCase()) ||
       sale.customer_name.toLowerCase().includes(salesSearch.toLowerCase()) ||
       sale.location_name.toLowerCase().includes(salesSearch.toLowerCase())
 
@@ -109,12 +118,14 @@ export function OwnerDashboard({
         </div>
       </div>
 
-      {/* KPI Cards Grid */}
+      {/* KPI Cards Grid - Tapping scrolls down to section on mobile */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1: Stock Requests from Branches */}
         <div
-          onClick={() => setActiveTab('approvals')}
-          className={`p-5 rounded-2xl border cursor-pointer transition-all ${
+          onClick={() => handleCardClick('approvals')}
+          role="button"
+          tabIndex={0}
+          className={`p-5 rounded-2xl border cursor-pointer transition-all active:scale-[0.98] ${
             pendingTransfers.length > 0
               ? 'bg-amber-50/60 border-amber-300 hover:border-amber-400 shadow-xs'
               : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
@@ -143,12 +154,17 @@ export function OwnerDashboard({
           <p className="text-[11px] text-slate-500 mt-1.5">
             Check past branch sales before approving new stock.
           </p>
+          <span className="text-[10px] text-amber-700 font-bold block sm:hidden mt-2">
+            Tap to view requests ↓
+          </span>
         </div>
 
         {/* Metric 2: Total Sales Made */}
         <div
-          onClick={() => setActiveTab('sales')}
-          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all"
+          onClick={() => handleCardClick('sales')}
+          role="button"
+          tabIndex={0}
+          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all active:scale-[0.98]"
         >
           <div className="flex items-center justify-between text-slate-600">
             <span className="text-xs font-bold uppercase tracking-wider">Total Sales Made</span>
@@ -165,12 +181,17 @@ export function OwnerDashboard({
           <p className="text-[11px] text-slate-500 mt-1.5">
             From {store.sales.length} verified receipts across all shops.
           </p>
+          <span className="text-[10px] text-emerald-700 font-bold block sm:hidden mt-2">
+            Tap to view sales & receipts ↓
+          </span>
         </div>
 
         {/* Metric 3: Total Stock Value */}
         <div
-          onClick={() => setActiveTab('inventory')}
-          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all"
+          onClick={() => handleCardClick('inventory')}
+          role="button"
+          tabIndex={0}
+          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all active:scale-[0.98]"
         >
           <div className="flex items-center justify-between text-slate-600">
             <span className="text-xs font-bold uppercase tracking-wider">Total Stock Value</span>
@@ -187,12 +208,17 @@ export function OwnerDashboard({
           <p className="text-[11px] text-slate-500 mt-1.5">
             In warehouse & 3 branches ({totalLowStockCount} items running low).
           </p>
+          <span className="text-[10px] text-blue-700 font-bold block sm:hidden mt-2">
+            Tap to view stock across shops ↓
+          </span>
         </div>
 
         {/* Metric 4: Unpaid Customer Bills (Buy Now, Pay Later) */}
         <div
-          onClick={() => setActiveTab('credit')}
-          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all"
+          onClick={() => handleCardClick('credit')}
+          role="button"
+          tabIndex={0}
+          className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer transition-all active:scale-[0.98]"
         >
           <div className="flex items-center justify-between text-slate-600">
             <span className="text-xs font-bold uppercase tracking-wider">Unpaid Pay Later Invoices</span>
@@ -211,69 +237,74 @@ export function OwnerDashboard({
           <p className="text-[11px] text-slate-500 mt-1.5">
             Total goods taken upfront by registered contractors awaiting payment settlement.
           </p>
+          <span className="text-[10px] text-amber-800 font-bold block sm:hidden mt-2">
+            Tap to view customer balances ↓
+          </span>
         </div>
       </div>
 
-      {/* Navigation Tabs Bar */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar scroll-smooth">
-        <button
-          type="button"
-          onClick={() => setActiveTab('approvals')}
-          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
-            activeTab === 'approvals'
-              ? 'bg-emerald-600 text-white shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <Clock className="w-4 h-4" />
-          Approve Restock
-          {pendingTransfers.length > 0 && (
-            <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-              activeTab === 'approvals' ? 'bg-white text-emerald-800' : 'bg-amber-500 text-white'
-            }`}>
-              {pendingTransfers.length}
-            </span>
-          )}
-        </button>
+      {/* Navigation Tabs Bar Container - target for scroll down */}
+      <div id="owner-content-panel" className="scroll-mt-4">
+        <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar scroll-smooth">
+          <button
+            type="button"
+            onClick={() => setActiveTab('approvals')}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              activeTab === 'approvals'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <Clock className="w-4 h-4" />
+            Approve Restock
+            {pendingTransfers.length > 0 && (
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+                activeTab === 'approvals' ? 'bg-white text-emerald-800' : 'bg-amber-500 text-white'
+              }`}>
+                {pendingTransfers.length}
+              </span>
+            )}
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActiveTab('inventory')}
-          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
-            activeTab === 'inventory'
-              ? 'bg-emerald-600 text-white shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <Boxes className="w-4 h-4" />
-          Check Stock Across All Shops
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('inventory')}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              activeTab === 'inventory'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <Boxes className="w-4 h-4" />
+            Check Stock Across All Shops
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActiveTab('credit')}
-          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
-            activeTab === 'credit'
-              ? 'bg-emerald-600 text-white shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <CreditCard className="w-4 h-4" />
-          Pay Later Accounts
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('credit')}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              activeTab === 'credit'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <CreditCard className="w-4 h-4" />
+            Pay Later Accounts
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActiveTab('sales')}
-          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
-            activeTab === 'sales'
-              ? 'bg-emerald-600 text-white shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <FileText className="w-4 h-4" />
-          All Sales & Receipts
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('sales')}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              activeTab === 'sales'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <FileText className="w-4 h-4" />
+            All Sales & Receipts
+          </button>
+        </div>
       </div>
 
       {/* TAB CONTENT 1: Approve Restock & Sales Verification */}
@@ -309,15 +340,12 @@ export function OwnerDashboard({
                   >
                     <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          {transfer.transfer_number}
-                        </span>
-                        <span className="text-xs font-bold text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-200 flex items-center gap-1">
-                          <Building2 className="w-3.5 h-3.5 text-slate-500" />
+                        <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5">
+                          <Building2 className="w-3.5 h-3.5 text-emerald-600" />
                           {transfer.to_name}
                         </span>
                         <span className="text-[11px] text-slate-500">
-                          {new Date(transfer.created_at).toLocaleDateString('en-GB', {
+                          Requested on {new Date(transfer.created_at).toLocaleDateString('en-GB', {
                             day: 'numeric',
                             month: 'short',
                             hour: '2-digit',
@@ -372,7 +400,6 @@ export function OwnerDashboard({
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="bg-slate-50 text-slate-700 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-200">
-                    <th className="py-3 px-4">Request #</th>
                     <th className="py-3 px-4">Destination Shop</th>
                     <th className="py-3 px-4">Items</th>
                     <th className="py-3 px-4">Delivery Waybill / Driver</th>
@@ -385,10 +412,12 @@ export function OwnerDashboard({
                     .filter((t) => t.status !== 'pending_approval')
                     .map((t) => (
                       <tr key={t.id} className="hover:bg-slate-50">
-                        <td className="py-3 px-4 font-mono font-bold text-emerald-700">
-                          {t.transfer_number}
+                        <td className="py-3 px-4 font-bold text-slate-900">
+                          <div className="flex items-center gap-1.5">
+                            <Building2 className="w-4 h-4 text-slate-500 shrink-0" />
+                            {t.to_name}
+                          </div>
                         </td>
-                        <td className="py-3 px-4 font-semibold text-slate-900">{t.to_name}</td>
                         <td className="py-3 px-4 text-slate-700">
                           {t.items
                             .map((i) => `${i.quantity_approved || i.quantity_requested}x ${i.product_name}`)
@@ -449,9 +478,10 @@ export function OwnerDashboard({
                 .map((t) => (
                   <div key={t.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-xs font-bold text-emerald-700">
-                        {t.transfer_number}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <Building2 className="w-4 h-4 text-slate-600 shrink-0" />
+                        <span className="font-bold text-slate-900 text-sm">{t.to_name}</span>
+                      </div>
                       <span
                         className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase shrink-0 ${
                           t.status === 'received'
@@ -468,14 +498,9 @@ export function OwnerDashboard({
                           : t.status === 'dispatched'
                             ? 'On The Way'
                             : t.status === 'approved'
-                              ? 'Approved (At Warehouse)'
+                              ? 'Approved'
                               : 'Declined'}
                       </span>
-                    </div>
-
-                    <div className="text-xs">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Destination Shop:</span>
-                      <span className="font-bold text-slate-900">{t.to_name}</span>
                     </div>
 
                     <div className="text-xs">
@@ -510,7 +535,7 @@ export function OwnerDashboard({
                         onClick={() => onOpenRestockReview(t)}
                         className="w-full py-2 px-3 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl transition-colors text-center"
                       >
-                        View Full Record & Verification
+                        View Verification Details
                       </button>
                     </div>
                   </div>
@@ -523,15 +548,11 @@ export function OwnerDashboard({
       {/* TAB CONTENT 2: Check Stock Across All Shops */}
       {activeTab === 'inventory' && (
         <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-            <div>
-              <h2 className="text-base font-bold text-slate-900">
-                Stock Levels Across All Shops
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Suppliers deliver only to Central Warehouse in Spintex. Goods are sent out to Medie, Lapaz, and Kumasi upon your approval.
-              </p>
-            </div>
+          <div>
+            <h2 className="text-base font-bold text-slate-900">Stock Levels Across All Shops</h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Suppliers deliver only to Central Warehouse in Spintex. Goods are sent out to Medie, Lapaz, and Kumasi upon your approval.
+            </p>
           </div>
 
           {/* Desktop Table View (Hidden on mobile) */}
@@ -540,7 +561,7 @@ export function OwnerDashboard({
               <thead>
                 <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
                   <th className="py-3 px-4 font-semibold">Product Name</th>
-                  <th className="py-3 px-4 font-semibold">SKU / Category</th>
+                  <th className="py-3 px-4 font-semibold">Category</th>
                   <th className="py-3 px-4 text-right font-semibold">Unit Price</th>
                   <th className="py-3 px-4 text-center font-semibold text-blue-700 bg-blue-50/50">Central Warehouse</th>
                   <th className="py-3 px-4 text-center font-semibold">Centric Medie</th>
@@ -560,8 +581,10 @@ export function OwnerDashboard({
                   return (
                     <tr key={p.id} className="hover:bg-slate-50">
                       <td className="py-3 px-4 font-bold text-slate-900">{p.name}</td>
-                      <td className="py-3 px-4 font-mono text-[11px] text-slate-500">
-                        {p.sku} <span className="text-slate-400">({p.category})</span>
+                      <td className="py-3 px-4 text-xs font-medium text-slate-600">
+                        <span className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200">
+                          {p.category}
+                        </span>
                       </td>
                       <td className="py-3 px-4 text-right font-mono text-slate-900 font-medium">
                         ₵{p.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -573,8 +596,8 @@ export function OwnerDashboard({
                         <span
                           className={
                             medieQty <= p.low_stock_threshold
-                              ? 'text-rose-700 font-bold px-2 py-0.5 rounded bg-rose-50 border border-rose-200'
-                              : 'text-slate-800'
+                              ? 'text-rose-700 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200'
+                              : 'text-slate-700'
                           }
                         >
                           {medieQty}
@@ -584,8 +607,8 @@ export function OwnerDashboard({
                         <span
                           className={
                             lapazQty <= p.low_stock_threshold
-                              ? 'text-rose-700 font-bold px-2 py-0.5 rounded bg-rose-50 border border-rose-200'
-                              : 'text-slate-800'
+                              ? 'text-rose-700 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200'
+                              : 'text-slate-700'
                           }
                         >
                           {lapazQty}
@@ -595,14 +618,14 @@ export function OwnerDashboard({
                         <span
                           className={
                             kumasiQty <= p.low_stock_threshold
-                              ? 'text-rose-700 font-bold px-2 py-0.5 rounded bg-rose-50 border border-rose-200'
-                              : 'text-slate-800'
+                              ? 'text-rose-700 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200'
+                              : 'text-slate-700'
                           }
                         >
                           {kumasiQty}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-center font-mono font-extrabold text-slate-900">
+                      <td className="py-3 px-4 text-center font-mono font-bold text-slate-950">
                         {total}
                       </td>
                     </tr>
@@ -620,26 +643,36 @@ export function OwnerDashboard({
               const lapazQty = store.getProductStock('33333333-3333-3333-3333-333333333333', p.id)
               const kumasiQty = store.getProductStock('44444444-4444-4444-4444-444444444444', p.id)
               const total = whQty + medieQty + lapazQty + kumasiQty
+              const hasLowStockBranch = medieQty <= p.low_stock_threshold || lapazQty <= p.low_stock_threshold || kumasiQty <= p.low_stock_threshold
 
               return (
                 <div key={p.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                  <div className="flex items-start justify-between gap-2">
+                  <div className="flex justify-between items-start gap-2">
                     <div>
                       <h4 className="font-bold text-slate-900 text-sm leading-snug">{p.name}</h4>
-                      <span className="text-[11px] font-mono text-slate-500">{p.sku} • {p.category}</span>
+                      <span className="text-[11px] font-medium text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 mt-1 inline-block">
+                        {p.category}
+                      </span>
                     </div>
                     <div className="text-right shrink-0">
-                      <span className="text-xs font-mono font-bold text-emerald-800 block">
-                        ₵{p.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      <span className="font-mono font-bold text-slate-900 text-sm">
+                        ₵{p.unit_price.toLocaleString('en-US', { minimumFractionDigits: 0 })}
                       </span>
-                      <span className="text-[10px] text-slate-400 font-semibold uppercase">Selling Price</span>
+                      <span className="text-[10px] text-slate-500 block">Unit Price</span>
                     </div>
                   </div>
 
+                  {hasLowStockBranch && (
+                    <div className="flex items-center gap-1.5 text-xs text-rose-700 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
+                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                      <span className="font-semibold">One or more retail shops running low</span>
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="p-2 rounded-lg bg-blue-50/70 border border-blue-200">
-                      <span className="text-[10px] uppercase font-bold text-blue-700 block">Central Hub</span>
-                      <span className="font-mono text-sm font-extrabold text-blue-800">{whQty} units</span>
+                    <div className="p-2 rounded-lg bg-blue-50/60 border border-blue-200">
+                      <span className="text-[10px] uppercase font-bold text-blue-700 block">Central Warehouse</span>
+                      <span className="font-mono text-sm font-extrabold text-blue-900">{whQty} units</span>
                     </div>
                     <div className={`p-2 rounded-lg border ${medieQty <= p.low_stock_threshold ? 'bg-rose-50 border-rose-200' : 'bg-white border-slate-200'}`}>
                       <div className="flex justify-between items-center">
@@ -829,7 +862,7 @@ export function OwnerDashboard({
                 <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Search receipt # or customer..."
+                  placeholder="Search customer or branch..."
                   value={salesSearch}
                   onChange={(e) => setSalesSearch(e.target.value)}
                   className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
@@ -843,23 +876,19 @@ export function OwnerDashboard({
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
-                  <th className="py-3 px-4">Receipt #</th>
                   <th className="py-3 px-4">Date & Time</th>
                   <th className="py-3 px-4">Branch Shop</th>
                   <th className="py-3 px-4">Customer Name</th>
                   <th className="py-3 px-4">Items Sold</th>
                   <th className="py-3 px-4 text-right">Amount (GHS)</th>
                   <th className="py-3 px-4 text-center">Payment Mode</th>
-                  <th className="py-3 px-4 text-right">Print</th>
+                  <th className="py-3 px-4 text-right">Receipt</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
                 {filteredSales.map((sale) => (
                   <tr key={sale.id} className="hover:bg-slate-50">
-                    <td className="py-3 px-4 font-mono font-bold text-emerald-700">
-                      {sale.invoice_number}
-                    </td>
-                    <td className="py-3 px-4 text-slate-500">
+                    <td className="py-3 px-4 text-slate-600 font-medium">
                       {new Date(sale.created_at).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: 'short',
@@ -891,9 +920,10 @@ export function OwnerDashboard({
                         type="button"
                         onClick={() => onOpenDocumentPrint(sale)}
                         title="Print Official Receipt / Invoice"
-                        className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors font-medium text-xs"
                       >
-                        <Printer className="w-3.5 h-3.5" />
+                        <Printer className="w-3.5 h-3.5 text-emerald-700" />
+                        Print
                       </button>
                     </td>
                   </tr>
@@ -907,8 +937,8 @@ export function OwnerDashboard({
             {filteredSales.map((sale) => (
               <div key={sale.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-xs font-bold text-emerald-700">
-                    {sale.invoice_number}
+                  <span className="font-bold text-slate-900 text-sm">
+                    {sale.customer_name}
                   </span>
                   <span
                     className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
@@ -922,17 +952,12 @@ export function OwnerDashboard({
                 </div>
 
                 <div className="flex justify-between items-center text-xs">
-                  <div>
-                    <span className="font-bold text-slate-900 block">{sale.customer_name}</span>
-                    <span className="text-[11px] text-slate-500">
-                      {sale.location_name} • {new Date(sale.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-mono font-extrabold text-slate-950 text-sm">
-                      ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                    </span>
-                  </div>
+                  <span className="text-[11px] text-slate-500">
+                    {sale.location_name} • {new Date(sale.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  <span className="font-mono font-extrabold text-slate-950 text-sm">
+                    ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  </span>
                 </div>
 
                 <div className="text-[11px] text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200">
@@ -947,7 +972,7 @@ export function OwnerDashboard({
                     className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors shadow-xs"
                   >
                     <Printer className="w-3.5 h-3.5 text-emerald-700" />
-                    Print Official Receipt / Invoice
+                    Print Official Receipt
                   </button>
                 </div>
               </div>

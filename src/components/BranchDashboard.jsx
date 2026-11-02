@@ -20,6 +20,7 @@ import {
   Percent
 } from 'lucide-react'
 import { store } from '../services/store'
+import { showNotification } from '../context/ToastContext'
 
 export function BranchDashboard({
   currentUser,
@@ -180,7 +181,8 @@ export function BranchDashboard({
         amountPaid: Number(amountTendered) || cartTotal
       })
 
-      setPosSuccessMsg(`Sale ${newSale.invoice_number} completed successfully!`)
+      setPosSuccessMsg('Sale completed successfully!')
+      showNotification(`Sale of ₵${(Number(amountTendered) || cartTotal).toLocaleString('en-US', { minimumFractionDigits: 2 })} completed successfully!`)
       handleClearCart()
 
       // Prompt document modal immediately
@@ -194,9 +196,9 @@ export function BranchDashboard({
   const handleConfirmReceipt = (transferId) => {
     try {
       store.confirmReceiptTransfer(transferId, currentUser.name)
-      alert('Stock successfully received and added to this branch inventory!')
+      showNotification('Stock successfully received and added to branch inventory!')
     } catch (err) {
-      alert(`Error receiving stock: ${err.message}`)
+      showNotification(`Error receiving stock: ${err.message}`, 'error')
     }
   }
 
@@ -303,7 +305,7 @@ export function BranchDashboard({
                 <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Search products by name or SKU..."
+                  placeholder="Search products by name or category..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
@@ -347,8 +349,8 @@ export function BranchDashboard({
                   >
                     <div>
                       <div className="flex justify-between items-start gap-2">
-                        <span className="font-mono text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
-                          {product.sku}
+                        <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
+                          {product.category}
                         </span>
                         <span
                           className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
@@ -701,7 +703,6 @@ export function BranchDashboard({
               <thead>
                 <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
                   <th className="py-3 px-4">Item Name</th>
-                  <th className="py-3 px-4">SKU</th>
                   <th className="py-3 px-4">Category</th>
                   <th className="py-3 px-4 text-center">Shelf Stock</th>
                   <th className="py-3 px-4 text-center">Min Threshold</th>
@@ -714,8 +715,11 @@ export function BranchDashboard({
                 {branchStockList.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50">
                     <td className="py-3 px-4 font-bold text-slate-900">{item.name}</td>
-                    <td className="py-3 px-4 font-mono text-[11px] text-slate-500">{item.sku}</td>
-                    <td className="py-3 px-4 text-slate-600">{item.category}</td>
+                    <td className="py-3 px-4 text-slate-600 font-medium">
+                      <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-xs">
+                        {item.category}
+                      </span>
+                    </td>
                     <td className="py-3 px-4 text-center font-mono font-bold text-sm">
                       <span className={item.isLowStock ? 'text-rose-700' : 'text-emerald-700'}>
                         {item.quantity} {item.unit_of_measure}
@@ -762,7 +766,7 @@ export function BranchDashboard({
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <h4 className="font-bold text-slate-900 text-sm leading-snug">{item.name}</h4>
-                    <span className="text-[11px] font-mono text-slate-500">{item.sku} • {item.category}</span>
+                    <span className="text-[11px] font-medium text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 mt-1 inline-block">{item.category}</span>
                   </div>
                   <span
                     className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase shrink-0 ${
@@ -833,10 +837,9 @@ export function BranchDashboard({
                   >
                     <div className="space-y-1.5 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          {transfer.transfer_number}
+                        <span className="text-xs font-bold text-slate-800 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                          Requested on {new Date(transfer.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                         </span>
-                        <span className="text-slate-300">•</span>
                         <span
                           className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
                             isReceived
@@ -932,22 +935,18 @@ export function BranchDashboard({
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
-                  <th className="py-3 px-4">Receipt #</th>
                   <th className="py-3 px-4">Date & Time</th>
                   <th className="py-3 px-4">Customer</th>
                   <th className="py-3 px-4">Items Sold</th>
                   <th className="py-3 px-4 text-right">Amount (GHS)</th>
                   <th className="py-3 px-4 text-center">Payment Mode</th>
-                  <th className="py-3 px-4 text-right">Print</th>
+                  <th className="py-3 px-4 text-right">Receipt</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
                 {branchSales.map((sale) => (
                   <tr key={sale.id} className="hover:bg-slate-50">
-                    <td className="py-3 px-4 font-mono font-bold text-emerald-700">
-                      {sale.invoice_number}
-                    </td>
-                    <td className="py-3 px-4 text-slate-500">
+                    <td className="py-3 px-4 text-slate-600 font-medium">
                       {new Date(sale.created_at).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: 'short',
@@ -987,8 +986,8 @@ export function BranchDashboard({
             {branchSales.map((sale) => (
               <div key={sale.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-xs font-bold text-emerald-700">
-                    {sale.invoice_number}
+                  <span className="font-bold text-slate-900 text-sm">
+                    {sale.customer_name}
                   </span>
                   <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-white text-slate-700 border border-slate-200">
                     {sale.payment_mode === 'credit' ? 'Pay Later' : sale.payment_mode === 'momo' ? 'MoMo' : 'Cash'}
@@ -996,12 +995,9 @@ export function BranchDashboard({
                 </div>
 
                 <div className="flex justify-between items-center text-xs">
-                  <div>
-                    <span className="font-bold text-slate-900 block">{sale.customer_name}</span>
-                    <span className="text-[11px] text-slate-500">
-                      {new Date(sale.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
+                  <span className="text-[11px] text-slate-500">
+                    {new Date(sale.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                  </span>
                   <div className="text-right">
                     <span className="font-mono font-extrabold text-slate-950 text-sm">
                       ₵{sale.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}

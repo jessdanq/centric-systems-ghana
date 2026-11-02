@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { X, CheckCircle2, Wallet, DollarSign } from 'lucide-react'
 import { store } from '../services/store'
+import { showNotification } from '../context/ToastContext'
 
 export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorded }) {
   if (!isOpen || !customer) return null
@@ -33,7 +34,7 @@ export function PaymentRecordModal({ isOpen, onClose, customer, onPaymentRecorde
 
       if (onPaymentRecorded) onPaymentRecorded()
       onClose()
-      alert(`Payment of ₵${numAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })} recorded! ${customer.full_name}'s unpaid bill has been reduced.`)
+      showNotification(`Payment of ₵${numAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })} recorded for ${customer.full_name}!`)
     } catch (err) {
       setErrorMsg(err.message)
     }

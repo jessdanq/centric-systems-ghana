@@ -14,6 +14,7 @@ import {
   ShieldCheck
 } from 'lucide-react'
 import { store } from '../services/store'
+import { showNotification } from '../context/ToastContext'
 
 export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
   const [activeTab, setActiveTab] = useState('dispatch') // 'dispatch', 'stock', 'intakes'
@@ -49,7 +50,7 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
 
       setSelectedTransferForDispatch(null)
       setDispatchNotes('')
-      alert('Goods successfully marked as dispatched! Driver is now on the way to the branch.')
+      showNotification('Goods successfully marked as dispatched! Driver is now on the way to the branch.')
     } catch (err) {
       setDispatchError(err.message)
     }
@@ -146,8 +147,7 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
                 <div className="flex items-center gap-2">
                   <Truck className="w-5 h-5 text-emerald-600" />
                   <h3 className="font-bold text-base text-slate-900">
-                    Send Goods for Request {selectedTransferForDispatch.transfer_number} to{' '}
-                    {selectedTransferForDispatch.to_name}
+                    Send Stock Delivery to {selectedTransferForDispatch.to_name}
                   </h3>
                 </div>
                 <button
@@ -253,12 +253,10 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
                   >
                     <div className="space-y-1.5 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          {transfer.transfer_number}
+                        <span className="text-xs font-bold text-slate-900 bg-white px-2.5 py-1 rounded-lg border border-slate-200 flex items-center gap-1.5">
+                          <Building2 className="w-3.5 h-3.5 text-blue-600" />
+                          {transfer.to_name}
                         </span>
-                        <span className="text-slate-300">•</span>
-                        <span className="text-xs font-bold text-slate-900">{transfer.to_name}</span>
-                        <span className="text-slate-300">•</span>
                         <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-50 text-amber-800 border border-amber-200">
                           Approved by Kwame Yeboah
                         </span>
@@ -311,7 +309,6 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
-                    <th className="py-3 px-4">Request #</th>
                     <th className="py-3 px-4">Destination</th>
                     <th className="py-3 px-4">Waybill #</th>
                     <th className="py-3 px-4">Driver & Phone</th>
@@ -322,10 +319,12 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
                 <tbody className="divide-y divide-slate-100 text-slate-700">
                   {dispatchedTransfers.map((t) => (
                     <tr key={t.id} className="hover:bg-slate-50">
-                      <td className="py-3 px-4 font-mono font-bold text-emerald-700">
-                        {t.transfer_number}
+                      <td className="py-3 px-4 font-bold text-slate-900">
+                        <div className="flex items-center gap-1.5">
+                          <Building2 className="w-4 h-4 text-blue-600 shrink-0" />
+                          {t.to_name}
+                        </div>
                       </td>
-                      <td className="py-3 px-4 font-semibold text-slate-900">{t.to_name}</td>
                       <td className="py-3 px-4 font-mono text-slate-900 font-medium">{t.waybill_number || 'N/A'}</td>
                       <td className="py-3 px-4 text-slate-800">
                         {t.driver_name} <span className="text-slate-500">({t.driver_phone})</span>
@@ -362,9 +361,10 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
               {dispatchedTransfers.map((t) => (
                 <div key={t.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-xs font-bold text-emerald-700">
-                      {t.transfer_number}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <Building2 className="w-4 h-4 text-blue-600 shrink-0" />
+                      <span className="font-bold text-slate-900 text-sm">{t.to_name}</span>
+                    </div>
                     <span
                       className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                         t.status === 'received'
@@ -428,7 +428,6 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
               <thead>
                 <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
                   <th className="py-3 px-4">Item Name</th>
-                  <th className="py-3 px-4">SKU</th>
                   <th className="py-3 px-4">Category</th>
                   <th className="py-3 px-4 text-center">Warehouse Stock</th>
                   <th className="py-3 px-4 text-right">Cost Price (GHS)</th>
@@ -440,8 +439,11 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
                 {warehouseStockList.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50">
                     <td className="py-3 px-4 font-bold text-slate-900">{item.name}</td>
-                    <td className="py-3 px-4 font-mono text-[11px] text-slate-500">{item.sku}</td>
-                    <td className="py-3 px-4 text-slate-600">{item.category}</td>
+                    <td className="py-3 px-4 text-slate-600 font-medium">
+                      <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-xs">
+                        {item.category}
+                      </span>
+                    </td>
                     <td className="py-3 px-4 text-center font-mono font-extrabold text-blue-700 text-sm">
                       {item.quantity} {item.unit_of_measure}
                     </td>
@@ -469,7 +471,7 @@ export function WarehouseDashboard({ currentUser, onOpenSupplierIntake }) {
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <h4 className="font-bold text-slate-900 text-sm">{item.name}</h4>
-                    <span className="text-[11px] font-mono text-slate-500">{item.sku} • {item.category}</span>
+                    <span className="text-[11px] font-medium text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 mt-1 inline-block">{item.category}</span>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 font-mono font-extrabold text-xs shrink-0 border border-blue-200">
                     {item.quantity} {item.unit_of_measure}

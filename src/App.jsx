@@ -13,8 +13,9 @@ import { RequestRestockModal } from './components/RequestRestockModal'
 import { SchemaModal } from './components/SchemaModal'
 import { DEMO_USERS } from './data/initialData'
 import { store } from './services/store'
+import { ToastProvider, showNotification } from './context/ToastContext'
 
-export default function App() {
+function AppContent() {
   const [currentUser, setCurrentUser] = useState(DEMO_USERS[0]) // Kwame Yeboah (Owner)
   const [, setVersion] = useState(0) // triggers re-render on store notification
 
@@ -38,7 +39,7 @@ export default function App() {
   const handleResetData = () => {
     if (window.confirm('Reset all demo data back to the default Ghanaian sample data?')) {
       store.resetToDefault()
-      alert('All sample data has been reset to defaults.')
+      showNotification('All sample data has been reset to defaults.', 'info')
     }
   }
 
@@ -143,5 +144,13 @@ export default function App() {
         onClose={() => setIsSchemaModalOpen(false)}
       />
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <ToastProvider>
+      <AppContent />
+    </ToastProvider>
   )
 }

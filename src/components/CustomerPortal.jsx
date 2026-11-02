@@ -127,7 +127,7 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
             <thead>
               <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
                 <th className="py-3 px-4">Date</th>
-                <th className="py-3 px-4">Order / Payment Ref</th>
+                <th className="py-3 px-4">Activity</th>
                 <th className="py-3 px-4">Supplied Items / Notes</th>
                 <th className="py-3 px-4">Payment Method / Staff</th>
                 <th className="py-3 px-4 text-right text-rose-700">Added to Bill (Supplies)</th>
@@ -144,8 +144,8 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
                       year: 'numeric'
                     })}
                   </td>
-                  <td className="py-3 px-4 font-mono font-bold text-slate-900">
-                    {entry.reference_number || 'N/A'}
+                  <td className="py-3 px-4 font-semibold text-slate-900">
+                    {entry.entry_type === 'debit' ? 'Supplies Received' : 'Payment Settled'}
                   </td>
                   <td className="py-3 px-4 font-medium text-slate-800">{entry.notes}</td>
                   <td className="py-3 px-4 text-slate-600">
@@ -172,8 +172,8 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
           {ledgerEntries.map((entry) => (
             <div key={entry.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
               <div className="flex items-center justify-between gap-2">
-                <span className="font-mono text-xs font-bold text-slate-900">
-                  {entry.reference_number || 'Entry'}
+                <span className="font-bold text-slate-900 text-xs">
+                  {entry.entry_type === 'debit' ? 'Supplies Received' : 'Payment Settled'}
                 </span>
                 <span
                   className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
@@ -219,8 +219,12 @@ export function CustomerPortal({ currentUser, onOpenDocumentPrint }) {
                 className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3 hover:border-emerald-300 transition-all"
               >
                 <div>
-                  <span className="font-mono text-xs font-bold text-emerald-800">
-                    {sale.invoice_number}
+                  <span className="text-xs font-bold text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-200">
+                    {new Date(sale.created_at).toLocaleDateString('en-GB', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric'
+                    })}
                   </span>
                   <p className="text-xs text-slate-900 font-semibold mt-0.5">
                     {sale.items?.map((i) => `${i.quantity}x ${i.product_name}`).join(', ')}

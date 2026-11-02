@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { X, Truck, Plus, Trash2, ArrowRight, PackagePlus, CheckCircle2 } from 'lucide-react'
 import { store } from '../services/store'
+import { showNotification } from '../context/ToastContext'
 
 export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
   if (!isOpen) return null
@@ -99,7 +100,7 @@ export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
 
       if (onIntakeCompleted) onIntakeCompleted()
       onClose()
-      alert(`Success! Delivery truck with ${truckItems.length} product lines added to Central Warehouse stock.`)
+      showNotification(`Success! Delivery truck with ${truckItems.length} product${truckItems.length === 1 ? '' : 's'} added to Central Warehouse stock.`)
     } catch (err) {
       setErrorMsg(err.message)
     }
@@ -181,7 +182,7 @@ export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
                 >
                   {products.map((p) => (
                     <option key={p.id} value={p.id}>
-                      {p.name} ({p.sku})
+                      {p.name} ({p.category})
                     </option>
                   ))}
                 </select>
@@ -243,7 +244,6 @@ export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
                       <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[10px]">
                         <th className="py-2.5 px-3">#</th>
                         <th className="py-2.5 px-3">Product Name</th>
-                        <th className="py-2.5 px-3">SKU</th>
                         <th className="py-2.5 px-3 text-center">Qty</th>
                         <th className="py-2.5 px-3 text-right">Landed Cost (GHS)</th>
                         <th className="py-2.5 px-3 text-right">Total (GHS)</th>
@@ -255,7 +255,6 @@ export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
                         <tr key={idx} className="hover:bg-slate-50">
                           <td className="py-2.5 px-3 text-slate-400 font-mono">{idx + 1}</td>
                           <td className="py-2.5 px-3 font-semibold text-slate-900">{item.product_name}</td>
-                          <td className="py-2.5 px-3 font-mono text-[11px] text-slate-500">{item.sku}</td>
                           <td className="py-2.5 px-3 text-center font-bold text-slate-900 font-mono">{item.quantity}</td>
                           <td className="py-2.5 px-3 text-right font-mono text-slate-600">
                             ₵{Number(item.unit_cost).toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -285,7 +284,6 @@ export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <span className="font-bold text-slate-900 block">{item.product_name}</span>
-                          <span className="text-[11px] font-mono text-slate-500">{item.sku}</span>
                         </div>
                         <button
                           type="button"

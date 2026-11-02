@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { X, UserPlus, ShieldCheck, CheckCircle2 } from 'lucide-react'
 import { store } from '../services/store'
+import { showNotification } from '../context/ToastContext'
 
 export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
   if (!isOpen) return null
@@ -34,7 +35,7 @@ export function NewCustomerModal({ isOpen, onClose, onCustomerCreated }) {
 
       if (onCustomerCreated) onCustomerCreated()
       onClose()
-      alert(`Customer ${fullName} registered successfully for Buy Now, Pay Later!`)
+      showNotification(`Customer ${fullName} registered successfully for Buy Now, Pay Later!`)
     } catch (err) {
       setErrorMsg(err.message)
     }
