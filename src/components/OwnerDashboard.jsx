@@ -35,8 +35,10 @@ export function OwnerDashboard({
       const panel = document.getElementById('owner-content-panel')
       if (panel) {
         panel.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        const top = panel.getBoundingClientRect().top + window.pageYOffset - 16
+        window.scrollTo({ top, behavior: 'smooth' })
       }
-    }, 60)
+    }, 80)
   }
 
   // Calculate High-Level Metrics

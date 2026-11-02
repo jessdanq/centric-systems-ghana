@@ -31,6 +31,9 @@ export function ToastProvider({ children }) {
 
   useEffect(() => {
     globalToastHandler = addToast
+    if (typeof window !== 'undefined') {
+      window.alert = (msg) => addToast(String(msg), 'info', 3500)
+    }
     return () => {
       globalToastHandler = null
     }

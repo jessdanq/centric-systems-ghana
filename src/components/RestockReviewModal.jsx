@@ -213,7 +213,7 @@ export function RestockReviewModal({ isOpen, onClose, transfer, onApproved, onRe
                     <div className="flex justify-between items-start">
                       <div className="font-bold text-sm text-slate-900">{item.product_name}</div>
                       <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
-                        {product?.category || 'Item'}
+                        {(store.products.find(p => p.id === item.product_id)?.category) || 'Item'}
                       </span>
                     </div>
 
