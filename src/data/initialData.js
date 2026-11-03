@@ -1,5 +1,6 @@
 // =============================================================================
 // Centric Systems Ghana Limited - Canonical Initial Data & State
+// Gate Automation, Access Control & Security Supplies Catalog
 // Built for Kwame Yeboah (Owner)
 // =============================================================================
 
@@ -118,175 +119,1448 @@ export const DEMO_USERS = [
 
 export const PRODUCTS = [
   {
-    id: 'p0000001-0000-0000-0000-000000000001',
-    sku: 'INV-5KW-HYB',
-    name: 'Growatt 5kVA Hybrid Solar Inverter 48V',
-    category: 'Inverters',
-    description: 'Pure sine wave hybrid inverter with 80A MPPT solar charge controller and grid failover',
-    unit_of_measure: 'unit',
-    cost_price: 6800.00,
-    unit_price: 8500.00,
-    low_stock_threshold: 5,
-    is_active: true
+    "id": "p0000001-0000-0000-0000-000000000001",
+    "sku": "CEN-D5-EVO-SMART-PLU",
+    "name": "D5 Evo Smart Plus",
+    "category": "Gate Motors & Kits",
+    "description": "High-speed sliding gate motor full kit for domestic and light-industrial gates up to 500kg with battery backup.",
+    "unit_of_measure": "kit",
+    "cost_price": 4773,
+    "unit_price": 6450,
+    "low_stock_threshold": 4,
+    "is_active": true
   },
   {
-    id: 'p0000002-0000-0000-0000-000000000002',
-    sku: 'BAT-LITH-48V',
-    name: 'Dyness 4.8kWh LiFePO4 Lithium Battery 48V',
-    category: 'Batteries',
-    description: 'Deep cycle lithium iron phosphate battery module with intelligent BMS and 6000 cycles',
-    unit_of_measure: 'unit',
-    cost_price: 11500.00,
-    unit_price: 14200.00,
-    low_stock_threshold: 4,
-    is_active: true
+    "id": "p0000002-0000-0000-0000-000000000001",
+    "sku": "CEN-D6-SMART-PLUS",
+    "name": "D6 Smart Plus",
+    "category": "Gate Motors & Kits",
+    "description": "Next-generation intelligent sliding gate automation kit with MyCentsys smartphone setup and ultra-rapid travel speed.",
+    "unit_of_measure": "kit",
+    "cost_price": 5402,
+    "unit_price": 7300,
+    "low_stock_threshold": 4,
+    "is_active": true
   },
   {
-    id: 'p0000003-0000-0000-0000-000000000003',
-    sku: 'PAN-550W-MONO',
-    name: 'Canadian Solar 550W Monocrystalline Panel',
-    category: 'Solar Panels',
-    description: 'High-efficiency tier-1 half-cell solar photovoltaic module with IP68 junction box',
-    unit_of_measure: 'pcs',
-    cost_price: 1100.00,
-    unit_price: 1450.00,
-    low_stock_threshold: 15,
-    is_active: true
+    "id": "p0000003-0000-0000-0000-000000000001",
+    "sku": "CEN-D10-SMART-PLUS",
+    "name": "D10 Smart plus",
+    "category": "Gate Motors & Kits",
+    "description": "Heavy-duty commercial sliding gate motor system for demanding industrial gates up to 1000kg with intelligent speed control.",
+    "unit_of_measure": "kit",
+    "cost_price": 8732,
+    "unit_price": 11800,
+    "low_stock_threshold": 3,
+    "is_active": true
   },
   {
-    id: 'p0000004-0000-0000-0000-000000000004',
-    sku: 'CBL-16MM-CU',
-    name: '16mm² Single Core Copper Cable (100m Roll)',
-    category: 'Cables & Wiring',
-    description: 'Pure copper flame-retardant heavy-duty conduit building wire for main distribution',
-    unit_of_measure: 'roll',
-    cost_price: 1450.00,
-    unit_price: 1950.00,
-    low_stock_threshold: 8,
-    is_active: true
+    "id": "p0000004-0000-0000-0000-000000000001",
+    "sku": "CEN-D10-TURBO-SMART-",
+    "name": "D10 Turbo smart plus",
+    "category": "Gate Motors & Kits",
+    "description": "High-speed commercial operator kit for high-traffic gates, delivering exceptional velocity and sustained duty cycle.",
+    "unit_of_measure": "kit",
+    "cost_price": 8658,
+    "unit_price": 11700,
+    "low_stock_threshold": 3,
+    "is_active": true
   },
   {
-    id: 'p0000005-0000-0000-0000-000000000005',
-    sku: 'CBL-2.5MM-3C',
-    name: '2.5mm² 3-Core Flat Twin & Earth Cable (100m)',
-    category: 'Cables & Wiring',
-    description: 'Standard domestic & commercial electrical installation cable with earth lead',
-    unit_of_measure: 'roll',
-    cost_price: 720.00,
-    unit_price: 980.00,
-    low_stock_threshold: 12,
-    is_active: true
+    "id": "p0000005-0000-0000-0000-000000000001",
+    "sku": "CEN-VANTAGE",
+    "name": "Vantage",
+    "category": "Gate Motors & Kits",
+    "description": "Heavy-duty linear swing gate automation complete system with dual articulated arms and electronic master controller.",
+    "unit_of_measure": "kit",
+    "cost_price": 9250,
+    "unit_price": 12500,
+    "low_stock_threshold": 2,
+    "is_active": true
   },
   {
-    id: 'p0000006-0000-0000-0000-000000000006',
-    sku: 'DB-12WAY-3PH',
-    name: 'Schneider 12-Way Three Phase Distribution Board',
-    category: 'Switchgear',
-    description: 'Sheet steel consumer unit with 100A main isolator switch and busbar assembly',
-    unit_of_measure: 'unit',
-    cost_price: 850.00,
-    unit_price: 1200.00,
-    low_stock_threshold: 6,
-    is_active: true
+    "id": "p0000006-0000-0000-0000-000000000001",
+    "sku": "CEN-BATTERY",
+    "name": "Battery",
+    "category": "Chargers & Power",
+    "description": "12V 7.2Ah / 8Ah rechargeable sealed lead-acid (SLA) deep-cycle gate motor standby backup battery.",
+    "unit_of_measure": "pcs",
+    "cost_price": 296,
+    "unit_price": 400,
+    "low_stock_threshold": 15,
+    "is_active": true
   },
   {
-    id: 'p0000007-0000-0000-0000-000000000007',
-    sku: 'MCB-63A-2P',
-    name: 'ABB 63A Double Pole Miniature Circuit Breaker',
-    category: 'Switchgear',
-    description: '6kA breaking capacity DIN rail mount protection circuit breaker 230/400V',
-    unit_of_measure: 'pcs',
-    cost_price: 75.00,
-    unit_price: 120.00,
-    low_stock_threshold: 20,
-    is_active: true
+    "id": "p0000007-0000-0000-0000-000000000001",
+    "sku": "CEN-D5-EVO-CHARGER",
+    "name": "D5 Evo charger",
+    "category": "Chargers & Power",
+    "description": "Replacement switch-mode 2A internal battery charger unit for Centurion D5 Evo gate motor series.",
+    "unit_of_measure": "pcs",
+    "cost_price": 740,
+    "unit_price": 1000,
+    "low_stock_threshold": 5,
+    "is_active": true
   },
   {
-    id: 'p0000008-0000-0000-0000-000000000008',
-    sku: 'SPD-40KA-AC',
-    name: 'Chint 40kA AC Surge Protective Device Type 2',
-    category: 'Surge Protection',
-    description: 'Lightning and voltage surge arrester module 385V pluggable cartridge',
-    unit_of_measure: 'pcs',
-    cost_price: 180.00,
-    unit_price: 275.00,
-    low_stock_threshold: 10,
-    is_active: true
+    "id": "p0000008-0000-0000-0000-000000000001",
+    "sku": "CEN-D10-STANDARD-CHA",
+    "name": "D10 standard charger",
+    "category": "Chargers & Power",
+    "description": "Standard 27V / 2A switch-mode battery charger module for Centurion D10 and A10 commercial operators.",
+    "unit_of_measure": "pcs",
+    "cost_price": 777,
+    "unit_price": 1050,
+    "low_stock_threshold": 4,
+    "is_active": true
   },
   {
-    id: 'p0000009-0000-0000-0000-000000000009',
-    sku: 'SWT-13A-TWIN',
-    name: 'Legrand 13A Double Switched Socket with USB-C',
-    category: 'Accessories',
-    description: 'Modern brushed metallic finish flush wall socket with dual 3.1A fast USB charge ports',
-    unit_of_measure: 'pcs',
-    cost_price: 45.00,
-    unit_price: 75.00,
-    low_stock_threshold: 25,
-    is_active: true
+    "id": "p0000009-0000-0000-0000-000000000001",
+    "sku": "CEN-D5-EVO-SMART-CHA",
+    "name": "D5 evo smart charger",
+    "category": "Chargers & Power",
+    "description": "Intelligent multi-stage plug-in battery charger power pack for D5 Evo Smart automation systems.",
+    "unit_of_measure": "pcs",
+    "cost_price": 703,
+    "unit_price": 950,
+    "low_stock_threshold": 5,
+    "is_active": true
   },
   {
-    id: 'p0000010-0000-0000-0000-000000000010',
-    sku: 'CON-20MM-PVC',
-    name: '20mm High-Impact PVC Conduit Pipe (3m Length)',
-    category: 'Piping & Trunking',
-    description: 'Corrosion-proof rigid electrical conduit for surface or concealed wiring installations',
-    unit_of_measure: 'pcs',
-    cost_price: 18.00,
-    unit_price: 32.00,
-    low_stock_threshold: 40,
-    is_active: true
+    "id": "p0000010-0000-0000-0000-000000000001",
+    "sku": "CEN-D10-SMART-CHARGE",
+    "name": "D10 smart charger",
+    "category": "Chargers & Power",
+    "description": "High-capacity multi-stage intelligent battery charger module for D10 and D20 Smart series.",
+    "unit_of_measure": "pcs",
+    "cost_price": 777,
+    "unit_price": 1050,
+    "low_stock_threshold": 4,
+    "is_active": true
+  },
+  {
+    "id": "p0000011-0000-0000-0000-000000000001",
+    "sku": "CEN-D6-SMART-CHARGER",
+    "name": "D6 Smart charger",
+    "category": "Chargers & Power",
+    "description": "Intelligent plug-in charger module designed specifically for Centurion D6 Smart gate automation.",
+    "unit_of_measure": "pcs",
+    "cost_price": 703,
+    "unit_price": 950,
+    "low_stock_threshold": 5,
+    "is_active": true
+  },
+  {
+    "id": "p0000012-0000-0000-0000-000000000001",
+    "sku": "CEN-PHOTON-SMART",
+    "name": "Photon smart",
+    "category": "Remotes & Beams",
+    "description": "Centurion Photon Smart wireless infrared safety beams with 30-meter detection range and audible alignment buzzer.",
+    "unit_of_measure": "pair",
+    "cost_price": 666,
+    "unit_price": 900,
+    "low_stock_threshold": 8,
+    "is_active": true
+  },
+  {
+    "id": "p0000013-0000-0000-0000-000000000001",
+    "sku": "CEN-D5-SMART-CHARGER",
+    "name": "D5 Smart charger",
+    "category": "Chargers & Power",
+    "description": "Compact 1.8A plug-in charger power unit for Centurion D5 Smart gate motor controller systems.",
+    "unit_of_measure": "pcs",
+    "cost_price": 481,
+    "unit_price": 650,
+    "low_stock_threshold": 6,
+    "is_active": true
+  },
+  {
+    "id": "p0000014-0000-0000-0000-000000000001",
+    "sku": "CEN-STEEL-RACK",
+    "name": "Steel Rack",
+    "category": "Hardware & Racks",
+    "description": "Heavy-duty galvanized steel toothed gear rack (1 metre piece with mounting spacers & hardware).",
+    "unit_of_measure": "pcs",
+    "cost_price": 333,
+    "unit_price": 450,
+    "low_stock_threshold": 20,
+    "is_active": true
+  },
+  {
+    "id": "p0000015-0000-0000-0000-000000000001",
+    "sku": "CEN-ONE-BUTTON-REMOT",
+    "name": "One button Remote",
+    "category": "Remotes & Beams",
+    "description": "Centurion Nova 1-button secure code-hopping 433MHz remote transmitter for gate access.",
+    "unit_of_measure": "pcs",
+    "cost_price": 185,
+    "unit_price": 250,
+    "low_stock_threshold": 25,
+    "is_active": true
+  },
+  {
+    "id": "p0000016-0000-0000-0000-000000000001",
+    "sku": "CEN-TWO-BUTTON-REMOT",
+    "name": "Two button Remote",
+    "category": "Remotes & Beams",
+    "description": "Centurion Nova 2-button secure code-hopping 433MHz remote transmitter with silicone push buttons.",
+    "unit_of_measure": "pcs",
+    "cost_price": 222,
+    "unit_price": 300,
+    "low_stock_threshold": 25,
+    "is_active": true
+  },
+  {
+    "id": "p0000017-0000-0000-0000-000000000001",
+    "sku": "CEN-FOUR-BUTTON-REMO",
+    "name": "Four button Remote",
+    "category": "Remotes & Beams",
+    "description": "Centurion Nova 4-button multi-channel code-hopping transmitter for gates, garage doors, and alarms.",
+    "unit_of_measure": "pcs",
+    "cost_price": 259,
+    "unit_price": 350,
+    "low_stock_threshold": 30,
+    "is_active": true
+  },
+  {
+    "id": "p0000018-0000-0000-0000-000000000001",
+    "sku": "CEN-G-SPEAK-ULTRA",
+    "name": "G speak ultra",
+    "category": "Control Boards & GSM",
+    "description": "4G LTE wireless intercom and access automation module with phone call alerts, missed-call gate trigger, and SMS notifications.",
+    "unit_of_measure": "unit",
+    "cost_price": 1924,
+    "unit_price": 2600,
+    "low_stock_threshold": 4,
+    "is_active": true
+  },
+  {
+    "id": "p0000019-0000-0000-0000-000000000001",
+    "sku": "CEN-SDO5",
+    "name": "SDO5",
+    "category": "Gate Motors & Kits",
+    "description": "Centurion SDO5 smart sectional and tip-up garage door automation operator with battery backup and whisper-quiet belt drive.",
+    "unit_of_measure": "kit",
+    "cost_price": 2590,
+    "unit_price": 3500,
+    "low_stock_threshold": 3,
+    "is_active": true
+  },
+  {
+    "id": "p0000020-0000-0000-0000-000000000001",
+    "sku": "CEN-I5V3",
+    "name": "I5V3",
+    "category": "Remotes & Beams",
+    "description": "Centurion i5 hardwired infrared safety photo-beams (up to 40m range) for anti-crush entrapment protection.",
+    "unit_of_measure": "pair",
+    "cost_price": 370,
+    "unit_price": 500,
+    "low_stock_threshold": 8,
+    "is_active": true
+  },
+  {
+    "id": "p0000021-0000-0000-0000-000000000001",
+    "sku": "CEN-PHOTON",
+    "name": "Photon",
+    "category": "Remotes & Beams",
+    "description": "Centurion Photon wireless infrared gate safety beam kit with battery-powered transmitter for easy installation.",
+    "unit_of_measure": "pair",
+    "cost_price": 666,
+    "unit_price": 900,
+    "low_stock_threshold": 8,
+    "is_active": true
+  },
+  {
+    "id": "p0000022-0000-0000-0000-000000000001",
+    "sku": "CEN-SMART-GUARD-AIR",
+    "name": "Smart Guard air",
+    "category": "Remotes & Beams",
+    "description": "Wireless weatherproof 1000-user code-hopping digital keypad for keyless gate and door entry.",
+    "unit_of_measure": "unit",
+    "cost_price": 703,
+    "unit_price": 950,
+    "low_stock_threshold": 5,
+    "is_active": true
+  },
+  {
+    "id": "p0000023-0000-0000-0000-000000000001",
+    "sku": "CEN-SMART-GUARD",
+    "name": "Smart Guard",
+    "category": "Remotes & Beams",
+    "description": "Hardwired backlit digital access control keypad with multi-channel relay output for secure pedestrian access.",
+    "unit_of_measure": "unit",
+    "cost_price": 666,
+    "unit_price": 900,
+    "low_stock_threshold": 5,
+    "is_active": true
+  },
+  {
+    "id": "p0000024-0000-0000-0000-000000000001",
+    "sku": "CEN-ONE-CHANNEL-RECE",
+    "name": "one channel receiver",
+    "category": "Control Boards & GSM",
+    "description": "Centurion 1-channel 433MHz Nova code-hopping standalone receiver unit for gate/alarm integration.",
+    "unit_of_measure": "pcs",
+    "cost_price": 333,
+    "unit_price": 450,
+    "low_stock_threshold": 10,
+    "is_active": true
+  },
+  {
+    "id": "p0000025-0000-0000-0000-000000000001",
+    "sku": "CEN-D5-EVO-BOARD",
+    "name": "D5 Evo board",
+    "category": "Control Boards & GSM",
+    "description": "Genuine replacement main controller PCB mother board with LCD display for Centurion D5 Evo sliding motor.",
+    "unit_of_measure": "pcs",
+    "cost_price": 1258,
+    "unit_price": 1700,
+    "low_stock_threshold": 5,
+    "is_active": true
+  },
+  {
+    "id": "p0000026-0000-0000-0000-000000000001",
+    "sku": "CEN-G-SWITCH-ULTRA",
+    "name": "G Switch ultra",
+    "category": "Control Boards & GSM",
+    "description": "GSM cellular access control and monitoring module for remote gate opening via missed call, mobile app, or SMS.",
+    "unit_of_measure": "unit",
+    "cost_price": 1702,
+    "unit_price": 2300,
+    "low_stock_threshold": 4,
+    "is_active": true
+  },
+  {
+    "id": "p0000027-0000-0000-0000-000000000001",
+    "sku": "CEN-D10-BOARD",
+    "name": "D10 board",
+    "category": "Control Boards & GSM",
+    "description": "Replacement main control board with multi-function display for Centurion D10 and D10 Turbo commercial motors.",
+    "unit_of_measure": "pcs",
+    "cost_price": 1332,
+    "unit_price": 1800,
+    "low_stock_threshold": 4,
+    "is_active": true
+  },
+  {
+    "id": "p0000028-0000-0000-0000-000000000001",
+    "sku": "CEN-DX-BOARD",
+    "name": "DX board",
+    "category": "Control Boards & GSM",
+    "description": "Industrial logic controller board for Centurion heavy sliding and swing automation equipment.",
+    "unit_of_measure": "pcs",
+    "cost_price": 1332,
+    "unit_price": 1800,
+    "low_stock_threshold": 4,
+    "is_active": true
+  },
+  {
+    "id": "p0000029-0000-0000-0000-000000000001",
+    "sku": "CEN-D6-SMART-OPERATO",
+    "name": "D6 Smart Operator",
+    "category": "Motor Operators",
+    "description": "Standalone motor gearbox operator unit for Centurion D6 Smart (without full accessory kit).",
+    "unit_of_measure": "unit",
+    "cost_price": 4699,
+    "unit_price": 6350,
+    "low_stock_threshold": 3,
+    "is_active": true
+  },
+  {
+    "id": "p0000030-0000-0000-0000-000000000001",
+    "sku": "CEN-D5-EVO-SMART-OPE",
+    "name": "D5 Evo Smart Operator",
+    "category": "Motor Operators",
+    "description": "Centurion D5 Evo Smart standalone motor operator unit with gearbox, motor, and controller base.",
+    "unit_of_measure": "unit",
+    "cost_price": 4218,
+    "unit_price": 5700,
+    "low_stock_threshold": 3,
+    "is_active": true
+  },
+  {
+    "id": "p0000031-0000-0000-0000-000000000001",
+    "sku": "CEN-D2-FULL-KIT",
+    "name": "D2 full kit",
+    "category": "Gate Motors & Kits",
+    "description": "Centurion D2 Turbo compact residential sliding gate motor full kit for domestic gates up to 250kg.",
+    "unit_of_measure": "kit",
+    "cost_price": 3145,
+    "unit_price": 4250,
+    "low_stock_threshold": 4,
+    "is_active": true
+  },
+  {
+    "id": "p0000032-0000-0000-0000-000000000001",
+    "sku": "CEN-D20-SMART-PLUS-O",
+    "name": "D20 Smart plus OPerator",
+    "category": "Motor Operators",
+    "description": "Ultra-heavy-duty industrial standalone operator unit for Centurion D20 Smart gates up to 2000kg.",
+    "unit_of_measure": "unit",
+    "cost_price": 8399,
+    "unit_price": 11350,
+    "low_stock_threshold": 2,
+    "is_active": true
+  },
+  {
+    "id": "p0000033-0000-0000-0000-000000000001",
+    "sku": "CEN-D10-TURBO-SMART-",
+    "name": "D10 Turbo Smart Plus operator",
+    "category": "Motor Operators",
+    "description": "High-speed commercial standalone motor operator unit for Centurion D10 Turbo Smart series.",
+    "unit_of_measure": "unit",
+    "cost_price": 7918,
+    "unit_price": 10700,
+    "low_stock_threshold": 2,
+    "is_active": true
+  },
+  {
+    "id": "p0000034-0000-0000-0000-000000000001",
+    "sku": "CEN-D20-SMART-PLUS-K",
+    "name": "D20 Smart Plus Kit",
+    "category": "Gate Motors & Kits",
+    "description": "Industrial sliding gate automation complete kit for heavy community and factory gates up to 2 tonnes.",
+    "unit_of_measure": "kit",
+    "cost_price": 9176,
+    "unit_price": 12400,
+    "low_stock_threshold": 2,
+    "is_active": true
+  },
+  {
+    "id": "p0000035-0000-0000-0000-000000000001",
+    "sku": "CEN-D10-SMART-PLUS-O",
+    "name": "D10 Smart plus Operator",
+    "category": "Motor Operators",
+    "description": "Commercial standalone motor gearbox operator for Centurion D10 Smart sliding gate series.",
+    "unit_of_measure": "unit",
+    "cost_price": 7970,
+    "unit_price": 10770,
+    "low_stock_threshold": 2,
+    "is_active": true
+  },
+  {
+    "id": "p0000036-0000-0000-0000-000000000001",
+    "sku": "CEN-SURGE-PROTECTOR",
+    "name": "Surge Protector",
+    "category": "Chargers & Power",
+    "description": "Lightning and voltage surge protector unit for Centurion gate motor controllers and power mains.",
+    "unit_of_measure": "pcs",
+    "cost_price": 407,
+    "unit_price": 550,
+    "low_stock_threshold": 10,
+    "is_active": true
+  },
+  {
+    "id": "p0000037-0000-0000-0000-000000000001",
+    "sku": "CEN-D6-BASE-PLATE",
+    "name": "D6 Base plate",
+    "category": "Hardware & Racks",
+    "description": "Foundation steel mounting base plate kit with anchor bolts for Centurion D6 Smart motor.",
+    "unit_of_measure": "pcs",
+    "cost_price": 222,
+    "unit_price": 300,
+    "low_stock_threshold": 10,
+    "is_active": true
+  },
+  {
+    "id": "p0000038-0000-0000-0000-000000000001",
+    "sku": "CEN-D10-BASE-PLATE",
+    "name": "D10 Base Plate",
+    "category": "Hardware & Racks",
+    "description": "Heavy-gauge foundation steel mounting plate with J-bolts for Centurion D10 / D20 series.",
+    "unit_of_measure": "pcs",
+    "cost_price": 259,
+    "unit_price": 350,
+    "low_stock_threshold": 8,
+    "is_active": true
+  },
+  {
+    "id": "p0000039-0000-0000-0000-000000000001",
+    "sku": "CEN-D20-SMART-OPERAT",
+    "name": "D20 Smart Operator",
+    "category": "Motor Operators",
+    "description": "Heavy commercial gate motor operator mechanism for Centurion D20 industrial systems.",
+    "unit_of_measure": "unit",
+    "cost_price": 6216,
+    "unit_price": 8400,
+    "low_stock_threshold": 2,
+    "is_active": true
+  },
+  {
+    "id": "p0000040-0000-0000-0000-000000000001",
+    "sku": "CEN-VANTAGE-ARM",
+    "name": "Vantage Arm",
+    "category": "Hardware & Racks",
+    "description": "Replacement linear actuator swing arm assembly for Centurion Vantage swing gate operator.",
+    "unit_of_measure": "pcs",
+    "cost_price": 3515,
+    "unit_price": 4750,
+    "low_stock_threshold": 3,
+    "is_active": true
+  },
+  {
+    "id": "p0000041-0000-0000-0000-000000000001",
+    "sku": "CEN-VANTAGE-CONTROLL",
+    "name": "Vantage Controller",
+    "category": "Control Boards & GSM",
+    "description": "Complete V-Series electronic controller unit in weatherproof housing for Vantage swing gates.",
+    "unit_of_measure": "unit",
+    "cost_price": 2035,
+    "unit_price": 2750,
+    "low_stock_threshold": 3,
+    "is_active": true
+  },
+  {
+    "id": "p0000042-0000-0000-0000-000000000001",
+    "sku": "CEN-D3-SMART-PLUS",
+    "name": "D3 smart plus",
+    "category": "Gate Motors & Kits",
+    "description": "Compact high-speed residential sliding gate motor full kit for domestic gates up to 300kg.",
+    "unit_of_measure": "kit",
+    "cost_price": 3626,
+    "unit_price": 4900,
+    "low_stock_threshold": 4,
+    "is_active": true
+  },
+  {
+    "id": "p0000043-0000-0000-0000-000000000001",
+    "sku": "CEN-D4-SMART-PLUS",
+    "name": "D4 smart plus",
+    "category": "Gate Motors & Kits",
+    "description": "Domestic sliding gate motor full kit with intelligent speed profiling for gates up to 400kg.",
+    "unit_of_measure": "kit",
+    "cost_price": 4181,
+    "unit_price": 5650,
+    "low_stock_threshold": 4,
+    "is_active": true
+  },
+  {
+    "id": "p0000044-0000-0000-0000-000000000001",
+    "sku": "CEN-D4-SMART-PLUS-OP",
+    "name": "D4 smart plus operator",
+    "category": "Motor Operators",
+    "description": "Standalone motor gearbox operator unit for Centurion D4 Smart residential sliding series.",
+    "unit_of_measure": "unit",
+    "cost_price": 3700,
+    "unit_price": 5000,
+    "low_stock_threshold": 3,
+    "is_active": true
+  },
+  {
+    "id": "p0000045-0000-0000-0000-000000000001",
+    "sku": "CEN-D3-SMART-PLUS-OP",
+    "name": "d3 smart plus operator",
+    "category": "Motor Operators",
+    "description": "Standalone residential sliding gate motor operator for Centurion D3 Smart series.",
+    "unit_of_measure": "unit",
+    "cost_price": 3182,
+    "unit_price": 4300,
+    "low_stock_threshold": 3,
+    "is_active": true
   }
 ];
 
 export const INITIAL_LOCATION_STOCK = [
-  // Central Warehouse (Bulk supplier inventory)
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000001-0000-0000-0000-000000000001', quantity: 45 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000002-0000-0000-0000-000000000002', quantity: 32 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000003-0000-0000-0000-000000000003', quantity: 180 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000004-0000-0000-0000-000000000004', quantity: 65 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000005-0000-0000-0000-000000000005', quantity: 120 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000006-0000-0000-0000-000000000006', quantity: 40 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000007-0000-0000-0000-000000000007', quantity: 150 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000008-0000-0000-0000-000000000008', quantity: 90 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000009-0000-0000-0000-000000000009', quantity: 240 },
-  { location_id: '11111111-1111-1111-1111-111111111111', product_id: 'p0000010-0000-0000-0000-000000000010', quantity: 400 },
-
-  // Medie Branch (Low stock on Growatt Inverters & Dyness Batteries)
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000001-0000-0000-0000-000000000001', quantity: 3 }, // LOW (threshold: 5)
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000002-0000-0000-0000-000000000002', quantity: 2 }, // LOW (threshold: 4)
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000003-0000-0000-0000-000000000003', quantity: 24 },
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000004-0000-0000-0000-000000000004', quantity: 12 },
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000005-0000-0000-0000-000000000005', quantity: 25 },
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000006-0000-0000-0000-000000000006', quantity: 7 },
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000007-0000-0000-0000-000000000007', quantity: 35 },
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000008-0000-0000-0000-000000000008', quantity: 14 },
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000009-0000-0000-0000-000000000009', quantity: 42 },
-  { location_id: '22222222-2222-2222-2222-222222222222', product_id: 'p0000010-0000-0000-0000-000000000010', quantity: 80 },
-
-  // Lapaz Branch (Critical low on inverters, batteries & copper cable)
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000001-0000-0000-0000-000000000001', quantity: 2 }, // LOW
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000002-0000-0000-0000-000000000002', quantity: 1 }, // CRITICAL LOW
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000003-0000-0000-0000-000000000003', quantity: 10 }, // LOW
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000004-0000-0000-0000-000000000004', quantity: 5 },  // LOW
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000005-0000-0000-0000-000000000005', quantity: 18 },
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000006-0000-0000-0000-000000000006', quantity: 4 },  // LOW
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000007-0000-0000-0000-000000000007', quantity: 48 },
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000008-0000-0000-0000-000000000008', quantity: 8 },  // LOW
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000009-0000-0000-0000-000000000009', quantity: 55 },
-  { location_id: '33333333-3333-3333-3333-333333333333', product_id: 'p0000010-0000-0000-0000-000000000010', quantity: 95 },
-
-  // Kumasi Branch
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000001-0000-0000-0000-000000000001', quantity: 6 },
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000002-0000-0000-0000-000000000002', quantity: 3 }, // LOW
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000003-0000-0000-0000-000000000003', quantity: 30 },
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000004-0000-0000-0000-000000000004', quantity: 15 },
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000005-0000-0000-0000-000000000005', quantity: 22 },
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000006-0000-0000-0000-000000000006', quantity: 9 },
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000007-0000-0000-0000-000000000007', quantity: 40 },
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000008-0000-0000-0000-000000000008', quantity: 12 },
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000009-0000-0000-0000-000000000009', quantity: 30 },
-  { location_id: '44444444-4444-4444-4444-444444444444', product_id: 'p0000010-0000-0000-0000-000000000010', quantity: 110 }
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000001-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000001-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000001-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000001-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000002-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000002-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000002-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000002-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000003-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000003-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000003-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000003-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000004-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000004-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000004-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000004-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000005-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000005-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000005-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000005-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000006-0000-0000-0000-000000000001",
+    "quantity": 120
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000006-0000-0000-0000-000000000001",
+    "quantity": 14
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000006-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000006-0000-0000-0000-000000000001",
+    "quantity": 12
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000007-0000-0000-0000-000000000001",
+    "quantity": 40
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000007-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000007-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000007-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000008-0000-0000-0000-000000000001",
+    "quantity": 40
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000008-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000008-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000008-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000009-0000-0000-0000-000000000001",
+    "quantity": 40
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000009-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000009-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000009-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000010-0000-0000-0000-000000000001",
+    "quantity": 40
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000010-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000010-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000010-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000011-0000-0000-0000-000000000001",
+    "quantity": 40
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000011-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000011-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000011-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000012-0000-0000-0000-000000000001",
+    "quantity": 150
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000012-0000-0000-0000-000000000001",
+    "quantity": 18
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000012-0000-0000-0000-000000000001",
+    "quantity": 22
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000012-0000-0000-0000-000000000001",
+    "quantity": 15
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000013-0000-0000-0000-000000000001",
+    "quantity": 40
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000013-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000013-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000013-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000014-0000-0000-0000-000000000001",
+    "quantity": 200
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000014-0000-0000-0000-000000000001",
+    "quantity": 12
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000014-0000-0000-0000-000000000001",
+    "quantity": 30
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000014-0000-0000-0000-000000000001",
+    "quantity": 20
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000015-0000-0000-0000-000000000001",
+    "quantity": 150
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000015-0000-0000-0000-000000000001",
+    "quantity": 18
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000015-0000-0000-0000-000000000001",
+    "quantity": 22
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000015-0000-0000-0000-000000000001",
+    "quantity": 15
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000016-0000-0000-0000-000000000001",
+    "quantity": 150
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000016-0000-0000-0000-000000000001",
+    "quantity": 18
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000016-0000-0000-0000-000000000001",
+    "quantity": 22
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000016-0000-0000-0000-000000000001",
+    "quantity": 15
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000017-0000-0000-0000-000000000001",
+    "quantity": 150
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000017-0000-0000-0000-000000000001",
+    "quantity": 8
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000017-0000-0000-0000-000000000001",
+    "quantity": 22
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000017-0000-0000-0000-000000000001",
+    "quantity": 15
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000018-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000018-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000018-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000018-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000019-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000019-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000019-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000019-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000020-0000-0000-0000-000000000001",
+    "quantity": 150
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000020-0000-0000-0000-000000000001",
+    "quantity": 18
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000020-0000-0000-0000-000000000001",
+    "quantity": 22
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000020-0000-0000-0000-000000000001",
+    "quantity": 15
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000021-0000-0000-0000-000000000001",
+    "quantity": 150
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000021-0000-0000-0000-000000000001",
+    "quantity": 18
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000021-0000-0000-0000-000000000001",
+    "quantity": 22
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000021-0000-0000-0000-000000000001",
+    "quantity": 15
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000022-0000-0000-0000-000000000001",
+    "quantity": 150
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000022-0000-0000-0000-000000000001",
+    "quantity": 18
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000022-0000-0000-0000-000000000001",
+    "quantity": 22
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000022-0000-0000-0000-000000000001",
+    "quantity": 15
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000023-0000-0000-0000-000000000001",
+    "quantity": 150
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000023-0000-0000-0000-000000000001",
+    "quantity": 18
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000023-0000-0000-0000-000000000001",
+    "quantity": 22
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000023-0000-0000-0000-000000000001",
+    "quantity": 15
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000024-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000024-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000024-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000024-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000025-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000025-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000025-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000025-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000026-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000026-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000026-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000026-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000027-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000027-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000027-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000027-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000028-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000028-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000028-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000028-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000029-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000029-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000029-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000029-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000030-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000030-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000030-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000030-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000031-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000031-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000031-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000031-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000032-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000032-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000032-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000032-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000033-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000033-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000033-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000033-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000034-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000034-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000034-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000034-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000035-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000035-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000035-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000035-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000036-0000-0000-0000-000000000001",
+    "quantity": 40
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000036-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000036-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000036-0000-0000-0000-000000000001",
+    "quantity": 4
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000037-0000-0000-0000-000000000001",
+    "quantity": 60
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000037-0000-0000-0000-000000000001",
+    "quantity": 7
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000037-0000-0000-0000-000000000001",
+    "quantity": 9
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000037-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000038-0000-0000-0000-000000000001",
+    "quantity": 60
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000038-0000-0000-0000-000000000001",
+    "quantity": 7
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000038-0000-0000-0000-000000000001",
+    "quantity": 9
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000038-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000039-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000039-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000039-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000039-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000040-0000-0000-0000-000000000001",
+    "quantity": 60
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000040-0000-0000-0000-000000000001",
+    "quantity": 7
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000040-0000-0000-0000-000000000001",
+    "quantity": 9
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000040-0000-0000-0000-000000000001",
+    "quantity": 6
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000041-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000041-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000041-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000041-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000042-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000042-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000042-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000042-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000043-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000043-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000043-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000043-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000044-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000044-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000044-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000044-0000-0000-0000-000000000001",
+    "quantity": 2
+  },
+  {
+    "location_id": "11111111-1111-1111-1111-111111111111",
+    "product_id": "p0000045-0000-0000-0000-000000000001",
+    "quantity": 25
+  },
+  {
+    "location_id": "22222222-2222-2222-2222-222222222222",
+    "product_id": "p0000045-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "33333333-3333-3333-3333-333333333333",
+    "product_id": "p0000045-0000-0000-0000-000000000001",
+    "quantity": 3
+  },
+  {
+    "location_id": "44444444-4444-4444-4444-444444444444",
+    "product_id": "p0000045-0000-0000-0000-000000000001",
+    "quantity": 2
+  }
 ];
 
 export const CUSTOMERS = [
@@ -299,7 +1573,7 @@ export const CUSTOMERS = [
     tin_number: 'C0028919283',
     address: 'Lapaz New Road, Accra',
     is_active: true,
-    notes: 'Approved commercial solar contractor. Prompt payment history.'
+    notes: 'Approved commercial gate automation & electrical contractor. Prompt payment history.'
   },
   {
     id: 'c2222222-2222-2222-2222-222222222222',
@@ -310,18 +1584,18 @@ export const CUSTOMERS = [
     tin_number: 'C0019284711',
     address: 'Ahodwo Roundabout, Kumasi',
     is_active: true,
-    notes: 'Top tier industrial electrical engineering contractor.'
+    notes: 'Top tier industrial automation contractor for estates & institutional gates in Ashanti Region.'
   },
   {
     id: 'c3333333-3333-3333-3333-333333333333',
     full_name: 'Vida Adobea Boadi',
     phone: '0553445566',
     email: 'vida.adobea@gmail.com',
-    company_name: 'Sunlight Volt Energy Services',
+    company_name: 'Sunlight Volt Energy & Security',
     tin_number: 'C0093847261',
     address: 'Medie Pokuase Interchange Corridor',
     is_active: true,
-    notes: 'Regular buyer of Growatt inverters and solar PV panels at Medie shop.'
+    notes: 'Regular installer of Centurion D5 Evo and D6 Smart sliding motors at Medie shop.'
   },
   {
     id: 'c4444444-4444-4444-4444-444444444444',
@@ -332,21 +1606,21 @@ export const CUSTOMERS = [
     tin_number: 'C0037192834',
     address: 'Adum Commercial Area, Kumasi',
     is_active: true,
-    notes: 'Clean balance, approved for distribution boards & conduit pipes.'
+    notes: 'Approved for Vantage swing gate kits and steel gear racks.'
   }
 ];
 
 export const INITIAL_CREDIT_LEDGER = [
-  // Alhaji Haruna: Owes 22,700 (Purchases 31,200 - Paid 8,500)
+  // Alhaji Haruna: Purchases 27,600 - Paid 8,500 = Owes 19,100
   {
     id: 'l1111111-1111-1111-1111-111111111111',
     customer_id: 'c1111111-1111-1111-1111-111111111111',
     sale_id: 's2222222-2222-2222-2222-222222222221',
     entry_type: 'debit',
-    amount: 31200.00,
+    amount: 27600.00,
     payment_method: 'Invoice',
     reference_number: 'INV-LPZ-2026-201',
-    notes: 'Supply of 2x Growatt 5kVA Inverters + 1x Lithium Battery',
+    notes: 'Supply of 2x D10 Smart plus + 1x G speak ultra + 4x Four button Remote on 30-day terms',
     recorded_by_name: 'Yaw Ofori',
     created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
   },
@@ -363,16 +1637,16 @@ export const INITIAL_CREDIT_LEDGER = [
     created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
   },
 
-  // Ing. Samuel K. Osei: Owes 42,600 (Purchases 57,600 - Paid 15,000)
+  // Ing. Samuel K. Osei: Purchases 41,500 - Paid 15,000 = Owes 26,500
   {
     id: 'l2222222-2222-2222-2222-222222222221',
     customer_id: 'c2222222-2222-2222-2222-222222222222',
     sale_id: null,
     entry_type: 'debit',
-    amount: 57600.00,
+    amount: 41500.00,
     payment_method: 'Invoice',
     reference_number: 'INV-KMS-2026-0840',
-    notes: 'Kumasi Hospital Solar Backup Phase 1 equipment & cabling',
+    notes: 'Kumasi Gated Community project: 3x D10 Turbo smart plus + 20m Steel Rack + 10x Remotes',
     recorded_by_name: 'Akosua Darko',
     created_at: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString()
   },
@@ -389,16 +1663,16 @@ export const INITIAL_CREDIT_LEDGER = [
     created_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
   },
 
-  // Vida Adobea: Owes 14,200 (Purchases 14,200 - Paid 0)
+  // Vida Adobea: Owes 7,550
   {
     id: 'l3333333-3333-3333-3333-333333333331',
     customer_id: 'c3333333-3333-3333-3333-333333333333',
     sale_id: 's1111111-1111-1111-1111-111111111111',
     entry_type: 'debit',
-    amount: 14200.00,
+    amount: 7550.00,
     payment_method: 'Invoice',
     reference_number: 'INV-MED-2026-101',
-    notes: '1x Dyness 4.8kWh LiFePO4 Lithium Battery 48V on credit terms',
+    notes: '1x D5 Evo Smart Plus kit + 2x Four button Remote + 1x Battery on credit terms',
     recorded_by_name: 'Ama Boateng',
     created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
   }
@@ -417,23 +1691,39 @@ export const INITIAL_SALES = [
     cashier_name: 'Ama Boateng',
     status: 'completed',
     payment_mode: 'credit',
-    subtotal: 14200.00,
+    subtotal: 7550.00,
     discount: 0,
     tax_rate: 0,
     tax_amount: 0,
-    total_amount: 14200.00,
+    total_amount: 7550.00,
     amount_paid: 0.00,
     change_due: 0.00,
-    notes: 'Solar backup client order - 30 days settlement agreement',
+    notes: 'Pokuase Residential Estate installation - 30 days settlement agreement',
     created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
     items: [
       {
-        product_id: 'p0000002-0000-0000-0000-000000000002',
-        product_name: 'Dyness 4.8kWh LiFePO4 Lithium Battery 48V',
-        sku: 'BAT-LITH-48V',
+        product_id: 'p0000001-0000-0000-0000-000000000001',
+        product_name: 'D5 Evo Smart Plus',
+        sku: 'CEN-D5-EVO-SMART-PLU',
         quantity: 1,
-        unit_price: 14200.00,
-        subtotal: 14200.00
+        unit_price: 6450.00,
+        subtotal: 6450.00
+      },
+      {
+        product_id: 'p0000017-0000-0000-0000-000000000001',
+        product_name: 'Four button Remote',
+        sku: 'CEN-FOUR-BUTTON-REMO',
+        quantity: 2,
+        unit_price: 350.00,
+        subtotal: 700.00
+      },
+      {
+        product_id: 'p0000006-0000-0000-0000-000000000001',
+        product_name: 'Battery',
+        sku: 'CEN-BATTERY',
+        quantity: 1,
+        unit_price: 400.00,
+        subtotal: 400.00
       }
     ]
   },
@@ -443,28 +1733,28 @@ export const INITIAL_SALES = [
     location_id: '22222222-2222-2222-2222-222222222222',
     location_name: 'Centric - Medie',
     customer_id: null,
-    customer_name: 'Kojo Appiah (Electrician Walk-in)',
+    customer_name: 'Kojo Appiah (Gate Installer Walk-in)',
     customer_phone: '0244712399',
     cashier_name: 'Ama Boateng',
     status: 'completed',
     payment_mode: 'cash',
-    subtotal: 8500.00,
+    subtotal: 7300.00,
     discount: 0,
     tax_rate: 0,
     tax_amount: 0,
-    total_amount: 8500.00,
-    amount_paid: 8500.00,
+    total_amount: 7300.00,
+    amount_paid: 7300.00,
     change_due: 0.00,
-    notes: 'Cash sale Growatt Inverter for residential site in Pokuase',
+    notes: 'Cash sale D6 Smart Plus full kit for residential sliding gate in Amasaman',
     created_at: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
     items: [
       {
-        product_id: 'p0000001-0000-0000-0000-000000000001',
-        product_name: 'Growatt 5kVA Hybrid Solar Inverter 48V',
-        sku: 'INV-5KW-HYB',
+        product_id: 'p0000002-0000-0000-0000-000000000001',
+        product_name: 'D6 Smart Plus',
+        sku: 'CEN-D6-SMART-PLUS',
         quantity: 1,
-        unit_price: 8500.00,
-        subtotal: 8500.00
+        unit_price: 7300.00,
+        subtotal: 7300.00
       }
     ]
   },
@@ -474,28 +1764,36 @@ export const INITIAL_SALES = [
     location_id: '22222222-2222-2222-2222-222222222222',
     location_name: 'Centric - Medie',
     customer_id: null,
-    customer_name: 'Dr. Evans Mensah (Residential Client)',
+    customer_name: 'Dr. Evans Mensah (Homeowner)',
     customer_phone: '0205882211',
     cashier_name: 'Ama Boateng',
     status: 'completed',
     payment_mode: 'momo',
-    subtotal: 17000.00,
+    subtotal: 9100.00,
     discount: 0,
     tax_rate: 0,
     tax_amount: 0,
-    total_amount: 17000.00,
-    amount_paid: 17000.00,
+    total_amount: 9100.00,
+    amount_paid: 9100.00,
     change_due: 0.00,
-    notes: '2x Growatt Inverters paid via MTN Mobile Money',
+    notes: 'D6 Smart Plus kit + 4x Steel Rack paid via MTN Mobile Money',
     created_at: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
     items: [
       {
-        product_id: 'p0000001-0000-0000-0000-000000000001',
-        product_name: 'Growatt 5kVA Hybrid Solar Inverter 48V',
-        sku: 'INV-5KW-HYB',
-        quantity: 2,
-        unit_price: 8500.00,
-        subtotal: 17000.00
+        product_id: 'p0000002-0000-0000-0000-000000000001',
+        product_name: 'D6 Smart Plus',
+        sku: 'CEN-D6-SMART-PLUS',
+        quantity: 1,
+        unit_price: 7300.00,
+        subtotal: 7300.00
+      },
+      {
+        product_id: 'p0000014-0000-0000-0000-000000000001',
+        product_name: 'Steel Rack',
+        sku: 'CEN-STEEL-RACK',
+        quantity: 4,
+        unit_price: 450.00,
+        subtotal: 1800.00
       }
     ]
   },
@@ -512,31 +1810,39 @@ export const INITIAL_SALES = [
     cashier_name: 'Yaw Ofori',
     status: 'completed',
     payment_mode: 'credit',
-    subtotal: 31200.00,
+    subtotal: 27600.00,
     discount: 0,
     tax_rate: 0,
     tax_amount: 0,
-    total_amount: 31200.00,
+    total_amount: 27600.00,
     amount_paid: 0.00,
     change_due: 0.00,
-    notes: 'Commercial site installation equipment on credit account',
+    notes: 'Warehouse complex automation project on credit account',
     created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
     items: [
       {
-        product_id: 'p0000001-0000-0000-0000-000000000001',
-        product_name: 'Growatt 5kVA Hybrid Solar Inverter 48V',
-        sku: 'INV-5KW-HYB',
+        product_id: 'p0000003-0000-0000-0000-000000000001',
+        product_name: 'D10 Smart plus',
+        sku: 'CEN-D10-SMART-PLUS',
         quantity: 2,
-        unit_price: 8500.00,
-        subtotal: 17000.00
+        unit_price: 11800.00,
+        subtotal: 23600.00
       },
       {
-        product_id: 'p0000002-0000-0000-0000-000000000002',
-        product_name: 'Dyness 4.8kWh LiFePO4 Lithium Battery 48V',
-        sku: 'BAT-LITH-48V',
+        product_id: 'p0000018-0000-0000-0000-000000000001',
+        product_name: 'G speak ultra',
+        sku: 'CEN-G-SPEAK-ULTRA',
         quantity: 1,
-        unit_price: 14200.00,
-        subtotal: 14200.00
+        unit_price: 2600.00,
+        subtotal: 2600.00
+      },
+      {
+        product_id: 'p0000017-0000-0000-0000-000000000001',
+        product_name: 'Four button Remote',
+        sku: 'CEN-FOUR-BUTTON-REMO',
+        quantity: 4,
+        unit_price: 350.00,
+        subtotal: 1400.00
       }
     ]
   },
@@ -551,23 +1857,31 @@ export const INITIAL_SALES = [
     cashier_name: 'Yaw Ofori',
     status: 'completed',
     payment_mode: 'cash',
-    subtotal: 14200.00,
+    subtotal: 4100.00,
     discount: 0,
     tax_rate: 0,
     tax_amount: 0,
-    total_amount: 14200.00,
-    amount_paid: 14200.00,
+    total_amount: 4100.00,
+    amount_paid: 4100.00,
     change_due: 0.00,
-    notes: 'Clinic solar backup battery paid in cash',
+    notes: 'Clinic ambulance garage automation motor + remotes paid in cash',
     created_at: new Date(Date.now() - 11 * 24 * 60 * 60 * 1000).toISOString(),
     items: [
       {
-        product_id: 'p0000002-0000-0000-0000-000000000002',
-        product_name: 'Dyness 4.8kWh LiFePO4 Lithium Battery 48V',
-        sku: 'BAT-LITH-48V',
+        product_id: 'p0000019-0000-0000-0000-000000000001',
+        product_name: 'SDO5',
+        sku: 'CEN-SDO5',
         quantity: 1,
-        unit_price: 14200.00,
-        subtotal: 14200.00
+        unit_price: 3500.00,
+        subtotal: 3500.00
+      },
+      {
+        product_id: 'p0000016-0000-0000-0000-000000000001',
+        product_name: 'Two button Remote',
+        sku: 'CEN-TWO-BUTTON-REMOT',
+        quantity: 2,
+        unit_price: 300.00,
+        subtotal: 600.00
       }
     ]
   },
@@ -582,23 +1896,31 @@ export const INITIAL_SALES = [
     cashier_name: 'Yaw Ofori',
     status: 'completed',
     payment_mode: 'momo',
-    subtotal: 8500.00,
+    subtotal: 7350.00,
     discount: 0,
     tax_rate: 0,
     tax_amount: 0,
-    total_amount: 8500.00,
-    amount_paid: 8500.00,
+    total_amount: 7350.00,
+    amount_paid: 7350.00,
     change_due: 0.00,
-    notes: 'Growatt Inverter unit paid via Telecel Cash',
+    notes: 'D5 Evo Smart Plus + Photon safety beams paid via Telecel Cash',
     created_at: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000).toISOString(),
     items: [
       {
         product_id: 'p0000001-0000-0000-0000-000000000001',
-        product_name: 'Growatt 5kVA Hybrid Solar Inverter 48V',
-        sku: 'INV-5KW-HYB',
+        product_name: 'D5 Evo Smart Plus',
+        sku: 'CEN-D5-EVO-SMART-PLU',
         quantity: 1,
-        unit_price: 8500.00,
-        subtotal: 8500.00
+        unit_price: 6450.00,
+        subtotal: 6450.00
+      },
+      {
+        product_id: 'p0000012-0000-0000-0000-000000000001',
+        product_name: 'Photon smart',
+        sku: 'CEN-PHOTON-SMART',
+        quantity: 1,
+        unit_price: 900.00,
+        subtotal: 900.00
       }
     ]
   }
@@ -615,23 +1937,32 @@ export const INITIAL_STOCK_TRANSFERS = [
     to_name: 'Centric - Medie',
     status: 'pending_approval',
     requested_by_name: 'Ama Boateng (Medie Clerk)',
-    notes: 'Urgent restock requested: Current shelf count is only 3 inverters and 2 lithium batteries. Contractor requests are high for Pokuase estates.',
+    notes: 'Urgent restock requested: Current shelf count is only 2 D5 Evo Smart Plus motors and 8 remotes. Installer demand is high around Pokuase/Amasaman.',
     created_at: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
     items: [
       {
         product_id: 'p0000001-0000-0000-0000-000000000001',
-        product_name: 'Growatt 5kVA Hybrid Solar Inverter 48V',
-        sku: 'INV-5KW-HYB',
+        product_name: 'D5 Evo Smart Plus',
+        sku: 'CEN-D5-EVO-SMART-PLU',
         quantity_requested: 5,
         quantity_approved: 0,
         quantity_dispatched: 0,
         quantity_received: 0
       },
       {
-        product_id: 'p0000002-0000-0000-0000-000000000002',
-        product_name: 'Dyness 4.8kWh LiFePO4 Lithium Battery 48V',
-        sku: 'BAT-LITH-48V',
-        quantity_requested: 3,
+        product_id: 'p0000017-0000-0000-0000-000000000001',
+        product_name: 'Four button Remote',
+        sku: 'CEN-FOUR-BUTTON-REMO',
+        quantity_requested: 20,
+        quantity_approved: 0,
+        quantity_dispatched: 0,
+        quantity_received: 0
+      },
+      {
+        product_id: 'p0000006-0000-0000-0000-000000000001',
+        product_name: 'Battery',
+        sku: 'CEN-BATTERY',
+        quantity_requested: 15,
         quantity_approved: 0,
         quantity_dispatched: 0,
         quantity_received: 0
@@ -650,25 +1981,25 @@ export const INITIAL_STOCK_TRANSFERS = [
     status: 'approved',
     requested_by_name: 'Yaw Ofori (Lapaz Clerk)',
     approved_by_name: 'Kwame Yeboah (Owner)',
-    owner_review_notes: 'Approved for 10 rolls 16mm copper cable and 5 distribution units after verifying rapid turnover at Lapaz shop.',
+    owner_review_notes: 'Approved 30 steel racks and 10 D5 replacement boards after verifying fast turnover at Lapaz counter.',
     created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
     approved_at: new Date(Date.now() - 16 * 60 * 60 * 1000).toISOString(),
     items: [
       {
-        product_id: 'p0000004-0000-0000-0000-000000000004',
-        product_name: '16mm² Single Core Copper Cable (100m Roll)',
-        sku: 'CBL-16MM-CU',
-        quantity_requested: 10,
-        quantity_approved: 10,
+        product_id: 'p0000014-0000-0000-0000-000000000001',
+        product_name: 'Steel Rack',
+        sku: 'CEN-STEEL-RACK',
+        quantity_requested: 30,
+        quantity_approved: 30,
         quantity_dispatched: 0,
         quantity_received: 0
       },
       {
-        product_id: 'p0000006-0000-0000-0000-000000000006',
-        product_name: 'Schneider 12-Way Three Phase Distribution Board',
-        sku: 'DB-12WAY-3PH',
-        quantity_requested: 5,
-        quantity_approved: 5,
+        product_id: 'p0000025-0000-0000-0000-000000000001',
+        product_name: 'D5 Evo board',
+        sku: 'CEN-D5-EVO-BOARD',
+        quantity_requested: 10,
+        quantity_approved: 10,
         quantity_dispatched: 0,
         quantity_received: 0
       }
@@ -696,21 +2027,30 @@ export const INITIAL_STOCK_TRANSFERS = [
     dispatched_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
     items: [
       {
-        product_id: 'p0000002-0000-0000-0000-000000000002',
-        product_name: 'Dyness 4.8kWh LiFePO4 Lithium Battery 48V',
-        sku: 'BAT-LITH-48V',
+        product_id: 'p0000005-0000-0000-0000-000000000001',
+        product_name: 'Vantage',
+        sku: 'CEN-VANTAGE',
+        quantity_requested: 3,
+        quantity_approved: 3,
+        quantity_dispatched: 3,
+        quantity_received: 0
+      },
+      {
+        product_id: 'p0000003-0000-0000-0000-000000000001',
+        product_name: 'D10 Smart plus',
+        sku: 'CEN-D10-SMART-PLUS',
         quantity_requested: 4,
         quantity_approved: 4,
         quantity_dispatched: 4,
         quantity_received: 0
       },
       {
-        product_id: 'p0000003-0000-0000-0000-000000000003',
-        product_name: 'Canadian Solar 550W Monocrystalline Panel',
-        sku: 'PAN-550W-MONO',
-        quantity_requested: 25,
-        quantity_approved: 25,
-        quantity_dispatched: 25,
+        product_id: 'p0000012-0000-0000-0000-000000000001',
+        product_name: 'Photon smart',
+        sku: 'CEN-PHOTON-SMART',
+        quantity_requested: 12,
+        quantity_approved: 12,
+        quantity_dispatched: 12,
         quantity_received: 0
       }
     ]
@@ -721,38 +2061,38 @@ export const SUPPLIER_INTAKES = [
   {
     id: 'intake-001',
     receipt_number: 'REC-SUP-2026-018',
-    supplier_name: 'Growatt New Energy Overseas Ltd',
-    supplier_invoice_ref: 'GW-EXP-77218',
+    supplier_name: 'Centurion Systems Africa (Pty) Ltd',
+    supplier_invoice_ref: 'CEN-EXP-77218',
     received_by_name: 'Kofi Mensah',
     warehouse_name: 'Central Warehouse (Spintex)',
     date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    total_cost: 136000.00,
+    total_cost: 97000.00,
     items: [
       {
-        product_name: 'Growatt 5kVA Hybrid Solar Inverter 48V',
-        sku: 'INV-5KW-HYB',
+        product_name: 'D5 Evo Smart Plus',
+        sku: 'CEN-D5-EVO-SMART-PLU',
         quantity: 20,
-        unit_cost: 6800.00,
-        subtotal: 136000.00
+        unit_cost: 4850.00,
+        subtotal: 97000.00
       }
     ]
   },
   {
     id: 'intake-002',
     receipt_number: 'REC-SUP-2026-019',
-    supplier_name: 'Dyness Africa Energy Ltd',
-    supplier_invoice_ref: 'DYN-AFR-0994',
+    supplier_name: 'Centurion Systems Africa (Pty) Ltd',
+    supplier_invoice_ref: 'CEN-EXP-77219',
     received_by_name: 'Kofi Mensah',
     warehouse_name: 'Central Warehouse (Spintex)',
     date: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-    total_cost: 172500.00,
+    total_cost: 81750.00,
     items: [
       {
-        product_name: 'Dyness 4.8kWh LiFePO4 Lithium Battery 48V',
-        sku: 'BAT-LITH-48V',
+        product_name: 'D6 Smart Plus',
+        sku: 'CEN-D6-SMART-PLUS',
         quantity: 15,
-        unit_cost: 11500.00,
-        subtotal: 172500.00
+        unit_cost: 5450.00,
+        subtotal: 81750.00
       }
     ]
   }

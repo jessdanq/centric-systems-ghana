@@ -31,8 +31,24 @@ const saveToStorage = (key, data) => {
   }
 }
 
+const DATA_VERSION = 'v3_centric_gate_automation_45_items';
+
 export class CentricStore {
   constructor() {
+    const currentVersion = localStorage.getItem(STORAGE_KEY_PREFIX + 'data_version')
+    if (currentVersion !== DATA_VERSION) {
+      localStorage.clear()
+      saveToStorage('data_version', DATA_VERSION)
+      saveToStorage('locations', LOCATIONS)
+      saveToStorage('products', PRODUCTS)
+      saveToStorage('location_stock', INITIAL_LOCATION_STOCK)
+      saveToStorage('customers', CUSTOMERS)
+      saveToStorage('credit_ledger', INITIAL_CREDIT_LEDGER)
+      saveToStorage('sales', INITIAL_SALES)
+      saveToStorage('stock_transfers', INITIAL_STOCK_TRANSFERS)
+      saveToStorage('supplier_intakes', SUPPLIER_INTAKES)
+    }
+
     this.locations = loadFromStorage('locations', LOCATIONS)
     this.products = loadFromStorage('products', PRODUCTS)
     this.locationStock = loadFromStorage('location_stock', INITIAL_LOCATION_STOCK)

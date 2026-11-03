@@ -9,8 +9,8 @@ export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
   const warehouse = store.getWarehouseLocation()
   const products = store.products
 
-  const [supplierName, setSupplierName] = useState('Growatt New Energy Overseas')
-  const [supplierInvoiceRef, setSupplierInvoiceRef] = useState(`GW-IMP-${Math.floor(1000 + Math.random() * 9000)}`)
+  const [supplierName, setSupplierName] = useState('Centurion Systems Africa (Pty) Ltd')
+  const [supplierInvoiceRef, setSupplierInvoiceRef] = useState(`CEN-IMP-${Math.floor(1000 + Math.random() * 9000)}`)
   const [notes, setNotes] = useState('Central Warehouse bulk container delivery.')
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -26,8 +26,8 @@ export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
       product_name: products[0]?.name,
       sku: products[0]?.sku,
       quantity: 10,
-      unit_cost: products[0]?.cost_price || 6800.00,
-      subtotal: 10 * (products[0]?.cost_price || 6800.00)
+      unit_cost: products[0]?.cost_price || 4850.00,
+      subtotal: 10 * (products[0]?.cost_price || 4850.00)
     }
   ])
 
@@ -148,7 +148,7 @@ export function SupplierIntakeModal({ isOpen, onClose, onIntakeCompleted }) {
                 required
                 value={supplierName}
                 onChange={(e) => setSupplierName(e.target.value)}
-                placeholder="e.g. Growatt New Energy"
+                placeholder="e.g. Centurion Systems"
                 className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-emerald-600 font-semibold"
               />
             </div>
