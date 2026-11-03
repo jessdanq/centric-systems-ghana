@@ -145,7 +145,7 @@ export const PRODUCTS = [
   {
     "id": "p0000003-0000-0000-0000-000000000001",
     "sku": "CEN-D10-SMART-PLUS",
-    "name": "D10 Smart plus",
+    "name": "D10 Smart Plus",
     "category": "Gate Motors & Kits",
     "description": "Heavy-duty commercial sliding gate motor system for demanding industrial gates up to 1000kg with intelligent speed control.",
     "unit_of_measure": "kit",
@@ -157,7 +157,7 @@ export const PRODUCTS = [
   {
     "id": "p0000004-0000-0000-0000-000000000001",
     "sku": "CEN-D10-TURBO-SMART-",
-    "name": "D10 Turbo smart plus",
+    "name": "D10 Turbo Smart Plus",
     "category": "Gate Motors & Kits",
     "description": "High-speed commercial operator kit for high-traffic gates, delivering exceptional velocity and sustained duty cycle.",
     "unit_of_measure": "kit",
@@ -193,7 +193,7 @@ export const PRODUCTS = [
   {
     "id": "p0000007-0000-0000-0000-000000000001",
     "sku": "CEN-D5-EVO-CHARGER",
-    "name": "D5 Evo charger",
+    "name": "D5 Evo Charger",
     "category": "Chargers & Power",
     "description": "Replacement switch-mode 2A internal battery charger unit for Centurion D5 Evo gate motor series.",
     "unit_of_measure": "pcs",
@@ -205,7 +205,7 @@ export const PRODUCTS = [
   {
     "id": "p0000008-0000-0000-0000-000000000001",
     "sku": "CEN-D10-STANDARD-CHA",
-    "name": "D10 standard charger",
+    "name": "D10 Standard Charger",
     "category": "Chargers & Power",
     "description": "Standard 27V / 2A switch-mode battery charger module for Centurion D10 and A10 commercial operators.",
     "unit_of_measure": "pcs",
@@ -217,7 +217,7 @@ export const PRODUCTS = [
   {
     "id": "p0000009-0000-0000-0000-000000000001",
     "sku": "CEN-D5-EVO-SMART-CHA",
-    "name": "D5 evo smart charger",
+    "name": "D5 Evo Smart Charger",
     "category": "Chargers & Power",
     "description": "Intelligent multi-stage plug-in battery charger power pack for D5 Evo Smart automation systems.",
     "unit_of_measure": "pcs",
@@ -229,7 +229,7 @@ export const PRODUCTS = [
   {
     "id": "p0000010-0000-0000-0000-000000000001",
     "sku": "CEN-D10-SMART-CHARGE",
-    "name": "D10 smart charger",
+    "name": "D10 Smart Charger",
     "category": "Chargers & Power",
     "description": "High-capacity multi-stage intelligent battery charger module for D10 and D20 Smart series.",
     "unit_of_measure": "pcs",
@@ -241,7 +241,7 @@ export const PRODUCTS = [
   {
     "id": "p0000011-0000-0000-0000-000000000001",
     "sku": "CEN-D6-SMART-CHARGER",
-    "name": "D6 Smart charger",
+    "name": "D6 Smart Charger",
     "category": "Chargers & Power",
     "description": "Intelligent plug-in charger module designed specifically for Centurion D6 Smart gate automation.",
     "unit_of_measure": "pcs",
@@ -253,7 +253,7 @@ export const PRODUCTS = [
   {
     "id": "p0000012-0000-0000-0000-000000000001",
     "sku": "CEN-PHOTON-SMART",
-    "name": "Photon smart",
+    "name": "Photon Smart",
     "category": "Remotes & Beams",
     "description": "Centurion Photon Smart wireless infrared safety beams with 30-meter detection range and audible alignment buzzer.",
     "unit_of_measure": "pair",
@@ -265,7 +265,7 @@ export const PRODUCTS = [
   {
     "id": "p0000013-0000-0000-0000-000000000001",
     "sku": "CEN-D5-SMART-CHARGER",
-    "name": "D5 Smart charger",
+    "name": "D5 Smart Charger",
     "category": "Chargers & Power",
     "description": "Compact 1.8A plug-in charger power unit for Centurion D5 Smart gate motor controller systems.",
     "unit_of_measure": "pcs",
@@ -289,7 +289,7 @@ export const PRODUCTS = [
   {
     "id": "p0000015-0000-0000-0000-000000000001",
     "sku": "CEN-ONE-BUTTON-REMOT",
-    "name": "One button Remote",
+    "name": "One Button Remote",
     "category": "Remotes & Beams",
     "description": "Centurion Nova 1-button secure code-hopping 433MHz remote transmitter for gate access.",
     "unit_of_measure": "pcs",
@@ -301,7 +301,7 @@ export const PRODUCTS = [
   {
     "id": "p0000016-0000-0000-0000-000000000001",
     "sku": "CEN-TWO-BUTTON-REMOT",
-    "name": "Two button Remote",
+    "name": "Two Button Remote",
     "category": "Remotes & Beams",
     "description": "Centurion Nova 2-button secure code-hopping 433MHz remote transmitter with silicone push buttons.",
     "unit_of_measure": "pcs",
@@ -313,7 +313,7 @@ export const PRODUCTS = [
   {
     "id": "p0000017-0000-0000-0000-000000000001",
     "sku": "CEN-FOUR-BUTTON-REMO",
-    "name": "Four button Remote",
+    "name": "Four Button Remote",
     "category": "Remotes & Beams",
     "description": "Centurion Nova 4-button multi-channel code-hopping transmitter for gates, garage doors, and alarms.",
     "unit_of_measure": "pcs",
@@ -325,7 +325,7 @@ export const PRODUCTS = [
   {
     "id": "p0000018-0000-0000-0000-000000000001",
     "sku": "CEN-G-SPEAK-ULTRA",
-    "name": "G speak ultra",
+    "name": "G Speak Ultra",
     "category": "Control Boards & GSM",
     "description": "4G LTE wireless intercom and access automation module with phone call alerts, missed-call gate trigger, and SMS notifications.",
     "unit_of_measure": "unit",
@@ -373,7 +373,7 @@ export const PRODUCTS = [
   {
     "id": "p0000022-0000-0000-0000-000000000001",
     "sku": "CEN-SMART-GUARD-AIR",
-    "name": "Smart Guard air",
+    "name": "Smart Guard Air",
     "category": "Remotes & Beams",
     "description": "Wireless weatherproof 1000-user code-hopping digital keypad for keyless gate and door entry.",
     "unit_of_measure": "unit",
@@ -397,7 +397,7 @@ export const PRODUCTS = [
   {
     "id": "p0000024-0000-0000-0000-000000000001",
     "sku": "CEN-ONE-CHANNEL-RECE",
-    "name": "one channel receiver",
+    "name": "One Channel Receiver",
     "category": "Control Boards & GSM",
     "description": "Centurion 1-channel 433MHz Nova code-hopping standalone receiver unit for gate/alarm integration.",
     "unit_of_measure": "pcs",
@@ -409,7 +409,7 @@ export const PRODUCTS = [
   {
     "id": "p0000025-0000-0000-0000-000000000001",
     "sku": "CEN-D5-EVO-BOARD",
-    "name": "D5 Evo board",
+    "name": "D5 Evo Board",
     "category": "Control Boards & GSM",
     "description": "Genuine replacement main controller PCB mother board with LCD display for Centurion D5 Evo sliding motor.",
     "unit_of_measure": "pcs",
@@ -421,7 +421,7 @@ export const PRODUCTS = [
   {
     "id": "p0000026-0000-0000-0000-000000000001",
     "sku": "CEN-G-SWITCH-ULTRA",
-    "name": "G Switch ultra",
+    "name": "G Switch Ultra",
     "category": "Control Boards & GSM",
     "description": "GSM cellular access control and monitoring module for remote gate opening via missed call, mobile app, or SMS.",
     "unit_of_measure": "unit",
@@ -433,7 +433,7 @@ export const PRODUCTS = [
   {
     "id": "p0000027-0000-0000-0000-000000000001",
     "sku": "CEN-D10-BOARD",
-    "name": "D10 board",
+    "name": "D10 Board",
     "category": "Control Boards & GSM",
     "description": "Replacement main control board with multi-function display for Centurion D10 and D10 Turbo commercial motors.",
     "unit_of_measure": "pcs",
@@ -445,7 +445,7 @@ export const PRODUCTS = [
   {
     "id": "p0000028-0000-0000-0000-000000000001",
     "sku": "CEN-DX-BOARD",
-    "name": "DX board",
+    "name": "DX Board",
     "category": "Control Boards & GSM",
     "description": "Industrial logic controller board for Centurion heavy sliding and swing automation equipment.",
     "unit_of_measure": "pcs",
@@ -481,7 +481,7 @@ export const PRODUCTS = [
   {
     "id": "p0000031-0000-0000-0000-000000000001",
     "sku": "CEN-D2-FULL-KIT",
-    "name": "D2 full kit",
+    "name": "D2 Full Kit",
     "category": "Gate Motors & Kits",
     "description": "Centurion D2 Turbo compact residential sliding gate motor full kit for domestic gates up to 250kg.",
     "unit_of_measure": "kit",
@@ -493,7 +493,7 @@ export const PRODUCTS = [
   {
     "id": "p0000032-0000-0000-0000-000000000001",
     "sku": "CEN-D20-SMART-PLUS-O",
-    "name": "D20 Smart plus OPerator",
+    "name": "D20 Smart Plus Operator",
     "category": "Motor Operators",
     "description": "Ultra-heavy-duty industrial standalone operator unit for Centurion D20 Smart gates up to 2000kg.",
     "unit_of_measure": "unit",
@@ -505,7 +505,7 @@ export const PRODUCTS = [
   {
     "id": "p0000033-0000-0000-0000-000000000001",
     "sku": "CEN-D10-TURBO-SMART-",
-    "name": "D10 Turbo Smart Plus operator",
+    "name": "D10 Turbo Smart Plus Operator",
     "category": "Motor Operators",
     "description": "High-speed commercial standalone motor operator unit for Centurion D10 Turbo Smart series.",
     "unit_of_measure": "unit",
@@ -529,7 +529,7 @@ export const PRODUCTS = [
   {
     "id": "p0000035-0000-0000-0000-000000000001",
     "sku": "CEN-D10-SMART-PLUS-O",
-    "name": "D10 Smart plus Operator",
+    "name": "D10 Smart Plus Operator",
     "category": "Motor Operators",
     "description": "Commercial standalone motor gearbox operator for Centurion D10 Smart sliding gate series.",
     "unit_of_measure": "unit",
@@ -553,7 +553,7 @@ export const PRODUCTS = [
   {
     "id": "p0000037-0000-0000-0000-000000000001",
     "sku": "CEN-D6-BASE-PLATE",
-    "name": "D6 Base plate",
+    "name": "D6 Base Plate",
     "category": "Hardware & Racks",
     "description": "Foundation steel mounting base plate kit with anchor bolts for Centurion D6 Smart motor.",
     "unit_of_measure": "pcs",
@@ -613,7 +613,7 @@ export const PRODUCTS = [
   {
     "id": "p0000042-0000-0000-0000-000000000001",
     "sku": "CEN-D3-SMART-PLUS",
-    "name": "D3 smart plus",
+    "name": "D3 Smart Plus",
     "category": "Gate Motors & Kits",
     "description": "Compact high-speed residential sliding gate motor full kit for domestic gates up to 300kg.",
     "unit_of_measure": "kit",
@@ -625,7 +625,7 @@ export const PRODUCTS = [
   {
     "id": "p0000043-0000-0000-0000-000000000001",
     "sku": "CEN-D4-SMART-PLUS",
-    "name": "D4 smart plus",
+    "name": "D4 Smart Plus",
     "category": "Gate Motors & Kits",
     "description": "Domestic sliding gate motor full kit with intelligent speed profiling for gates up to 400kg.",
     "unit_of_measure": "kit",
@@ -637,7 +637,7 @@ export const PRODUCTS = [
   {
     "id": "p0000044-0000-0000-0000-000000000001",
     "sku": "CEN-D4-SMART-PLUS-OP",
-    "name": "D4 smart plus operator",
+    "name": "D4 Smart Plus Operator",
     "category": "Motor Operators",
     "description": "Standalone motor gearbox operator unit for Centurion D4 Smart residential sliding series.",
     "unit_of_measure": "unit",
@@ -649,7 +649,7 @@ export const PRODUCTS = [
   {
     "id": "p0000045-0000-0000-0000-000000000001",
     "sku": "CEN-D3-SMART-PLUS-OP",
-    "name": "d3 smart plus operator",
+    "name": "D3 Smart Plus Operator",
     "category": "Motor Operators",
     "description": "Standalone residential sliding gate motor operator for Centurion D3 Smart series.",
     "unit_of_measure": "unit",
@@ -1620,7 +1620,7 @@ export const INITIAL_CREDIT_LEDGER = [
     amount: 27600.00,
     payment_method: 'Invoice',
     reference_number: 'INV-LPZ-2026-201',
-    notes: 'Supply of 2x D10 Smart plus + 1x G speak ultra + 4x Four button Remote on 30-day terms',
+    notes: 'Supply of 2x D10 Smart Plus + 1x G Speak Ultra + 4x Four Button Remote on 30-day terms',
     recorded_by_name: 'Yaw Ofori',
     created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
   },
@@ -1646,7 +1646,7 @@ export const INITIAL_CREDIT_LEDGER = [
     amount: 41500.00,
     payment_method: 'Invoice',
     reference_number: 'INV-KMS-2026-0840',
-    notes: 'Kumasi Gated Community project: 3x D10 Turbo smart plus + 20m Steel Rack + 10x Remotes',
+    notes: 'Kumasi Gated Community project: 3x D10 Turbo Smart Plus + 20m Steel Rack + 10x Remotes',
     recorded_by_name: 'Akosua Darko',
     created_at: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString()
   },
@@ -1672,7 +1672,7 @@ export const INITIAL_CREDIT_LEDGER = [
     amount: 7550.00,
     payment_method: 'Invoice',
     reference_number: 'INV-MED-2026-101',
-    notes: '1x D5 Evo Smart Plus kit + 2x Four button Remote + 1x Battery on credit terms',
+    notes: '1x D5 Evo Smart Plus kit + 2x Four Button Remote + 1x Battery on credit terms',
     recorded_by_name: 'Ama Boateng',
     created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
   }
@@ -1711,7 +1711,7 @@ export const INITIAL_SALES = [
       },
       {
         product_id: 'p0000017-0000-0000-0000-000000000001',
-        product_name: 'Four button Remote',
+        product_name: 'Four Button Remote',
         sku: 'CEN-FOUR-BUTTON-REMO',
         quantity: 2,
         unit_price: 350.00,
@@ -1822,7 +1822,7 @@ export const INITIAL_SALES = [
     items: [
       {
         product_id: 'p0000003-0000-0000-0000-000000000001',
-        product_name: 'D10 Smart plus',
+        product_name: 'D10 Smart Plus',
         sku: 'CEN-D10-SMART-PLUS',
         quantity: 2,
         unit_price: 11800.00,
@@ -1830,7 +1830,7 @@ export const INITIAL_SALES = [
       },
       {
         product_id: 'p0000018-0000-0000-0000-000000000001',
-        product_name: 'G speak ultra',
+        product_name: 'G Speak Ultra',
         sku: 'CEN-G-SPEAK-ULTRA',
         quantity: 1,
         unit_price: 2600.00,
@@ -1838,7 +1838,7 @@ export const INITIAL_SALES = [
       },
       {
         product_id: 'p0000017-0000-0000-0000-000000000001',
-        product_name: 'Four button Remote',
+        product_name: 'Four Button Remote',
         sku: 'CEN-FOUR-BUTTON-REMO',
         quantity: 4,
         unit_price: 350.00,
@@ -1877,7 +1877,7 @@ export const INITIAL_SALES = [
       },
       {
         product_id: 'p0000016-0000-0000-0000-000000000001',
-        product_name: 'Two button Remote',
+        product_name: 'Two Button Remote',
         sku: 'CEN-TWO-BUTTON-REMOT',
         quantity: 2,
         unit_price: 300.00,
@@ -1916,7 +1916,7 @@ export const INITIAL_SALES = [
       },
       {
         product_id: 'p0000012-0000-0000-0000-000000000001',
-        product_name: 'Photon smart',
+        product_name: 'Photon Smart',
         sku: 'CEN-PHOTON-SMART',
         quantity: 1,
         unit_price: 900.00,
@@ -1931,8 +1931,8 @@ export const INITIAL_STOCK_TRANSFERS = [
   {
     id: 't1111111-1111-1111-1111-111111111111',
     transfer_number: 'TRF-MED-2026-0041',
-    from_location_id: '11111111-1111-1111-1111-111111111111', // Central Warehouse
-    to_location_id: '22222222-2222-2222-2222-222222222222',   // Centric - Medie
+    from_location_id: '11111111-1111-1111-1111-111111111111',
+    to_location_id: '22222222-2222-2222-2222-222222222222',
     from_name: 'Central Warehouse',
     to_name: 'Centric - Medie',
     status: 'pending_approval',
@@ -1951,7 +1951,7 @@ export const INITIAL_STOCK_TRANSFERS = [
       },
       {
         product_id: 'p0000017-0000-0000-0000-000000000001',
-        product_name: 'Four button Remote',
+        product_name: 'Four Button Remote',
         sku: 'CEN-FOUR-BUTTON-REMO',
         quantity_requested: 20,
         quantity_approved: 0,
@@ -1996,7 +1996,7 @@ export const INITIAL_STOCK_TRANSFERS = [
       },
       {
         product_id: 'p0000025-0000-0000-0000-000000000001',
-        product_name: 'D5 Evo board',
+        product_name: 'D5 Evo Board',
         sku: 'CEN-D5-EVO-BOARD',
         quantity_requested: 10,
         quantity_approved: 10,
@@ -2037,7 +2037,7 @@ export const INITIAL_STOCK_TRANSFERS = [
       },
       {
         product_id: 'p0000003-0000-0000-0000-000000000001',
-        product_name: 'D10 Smart plus',
+        product_name: 'D10 Smart Plus',
         sku: 'CEN-D10-SMART-PLUS',
         quantity_requested: 4,
         quantity_approved: 4,
@@ -2046,7 +2046,7 @@ export const INITIAL_STOCK_TRANSFERS = [
       },
       {
         product_id: 'p0000012-0000-0000-0000-000000000001',
-        product_name: 'Photon smart',
+        product_name: 'Photon Smart',
         sku: 'CEN-PHOTON-SMART',
         quantity_requested: 12,
         quantity_approved: 12,

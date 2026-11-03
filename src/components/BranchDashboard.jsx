@@ -43,6 +43,19 @@ export function BranchDashboard({
   const [amountTendered, setAmountTendered] = useState('')
   const [posError, setPosError] = useState('')
   const [posSuccessMsg, setPosSuccessMsg] = useState('')
+  const [branchInvSearch, setBranchInvSearch] = useState('')
+  const [branchInvCategory, setBranchInvCategory] = useState('ALL')
+  const [branchInvSortBy, setBranchInvSortBy] = useState('name')
+  const [branchInvSortDir, setBranchInvSortDir] = useState('asc')
+
+  const toggleBranchInvSort = (col) => {
+    if (branchInvSortBy === col) {
+      setBranchInvSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setBranchInvSortBy(col)
+      setBranchInvSortDir('asc')
+    }
+  }
 
   // Determine current branch location
   const branchLocation =
@@ -62,14 +75,53 @@ export function BranchDashboard({
   // Categories
   const categories = ['ALL', ...new Set(store.products.map((p) => p.category))]
 
-  // Filtered Products for POS
-  const filteredProducts = branchStockList.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.sku.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = categoryFilter === 'ALL' || product.category === categoryFilter
-    return matchesSearch && matchesCategory
-  })
+  // Filtered and Sorted Branch Shelf Inventory - Default: Product Name (A-Z) then Category
+  const filteredBranchInventory = branchStockList
+    .filter((item) => {
+      const matchSearch =
+        item.name.toLowerCase().includes(branchInvSearch.toLowerCase()) ||
+        item.sku.toLowerCase().includes(branchInvSearch.toLowerCase())
+      const matchCat = branchInvCategory === 'ALL' || item.category === branchInvCategory
+      return matchSearch && matchCat
+    })
+    .sort((a, b) => {
+      const mult = branchInvSortDir === 'asc' ? 1 : -1
+      if (branchInvSortBy === 'name') {
+        const n = a.name.localeCompare(b.name)
+        if (n !== 0) return n * mult
+        return a.category.localeCompare(b.category)
+      }
+      if (branchInvSortBy === 'category') {
+        const c = a.category.localeCompare(b.category)
+        if (c !== 0) return c * mult
+        return a.name.localeCompare(b.name)
+      }
+      if (branchInvSortBy === 'stock') {
+        return (a.quantity - b.quantity) * mult
+      }
+      if (branchInvSortBy === 'threshold') {
+        return (a.low_stock_threshold - b.low_stock_threshold) * mult
+      }
+      if (branchInvSortBy === 'price') {
+        return (a.unit_price - b.unit_price) * mult
+      }
+      return 0
+    })
+
+  // Filtered Products for POS - Ordered by Product Name then by Category by default
+  const filteredProducts = branchStockList
+    .filter((product) => {
+      const matchesSearch =
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchQuery.toLowerCase())
+      const matchesCategory = categoryFilter === 'ALL' || product.category === categoryFilter
+      return matchesSearch && matchesCategory
+    })
+    .sort((a, b) => {
+      const n = a.name.localeCompare(b.name)
+      if (n !== 0) return n
+      return a.category.localeCompare(b.category)
+    })
 
   // Selected Credit Customer Data
   const selectedCustomerData = selectedCustomerId
@@ -91,7 +143,7 @@ export function BranchDashboard({
 
     if (currentQtyInCart + 1 > product.quantity) {
       setPosError(
-        `Cannot add more "${product.name}". Local branch shelf stock is only ${product.quantity} ${product.unit_of_measure}.`
+        `Cannot add more "${product.name}". All ${product.quantity} ${product.unit_of_measure} available on branch shelf are already in your basket.`
       )
       return
     }
@@ -335,16 +387,22 @@ export function BranchDashboard({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[620px] overflow-y-auto pr-1">
               {filteredProducts.map((product) => {
                 const inCart = cart.find((i) => i.product_id === product.id)
-                const isOutOfStock = product.quantity <= 0
+                const cartQty = inCart ? inCart.quantity : 0
+                // Remaining available stock dynamically lowers when added to basket, and goes up when reduced/removed
+                const remainingStock = Math.max(0, product.quantity - cartQty)
+                const isOutOfStock = remainingStock <= 0
+                const isLowStock = remainingStock > 0 && remainingStock <= product.low_stock_threshold
 
                 return (
                   <div
                     key={product.id}
-                    onClick={() => !isOutOfStock && handleAddToCart(product)}
+                    onClick={() => remainingStock > 0 && handleAddToCart(product)}
                     className={`p-4 rounded-xl border transition-all text-left flex flex-col justify-between ${
-                      isOutOfStock
+                      product.quantity <= 0
                         ? 'bg-slate-50 border-slate-200 opacity-60 cursor-not-allowed'
-                        : 'bg-white border-slate-200 hover:border-emerald-300 hover:shadow-xs cursor-pointer active:scale-[0.99]'
+                        : remainingStock <= 0
+                          ? 'bg-amber-50/40 border-amber-300 shadow-xs'
+                          : 'bg-white border-slate-200 hover:border-emerald-300 hover:shadow-xs cursor-pointer active:scale-[0.99]'
                     }`}
                   >
                     <div>
@@ -353,19 +411,23 @@ export function BranchDashboard({
                           {product.category}
                         </span>
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                            isOutOfStock
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase transition-all ${
+                            product.quantity <= 0
                               ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                              : product.isLowStock
-                                ? 'bg-amber-50 text-amber-800 border border-amber-200'
-                                : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                              : remainingStock <= 0
+                                ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                                : isLowStock
+                                  ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                                  : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                           }`}
                         >
-                          {isOutOfStock
+                          {product.quantity <= 0
                             ? 'Out of Stock'
-                            : product.isLowStock
-                              ? `Low: ${product.quantity} left`
-                              : `${product.quantity} in stock`}
+                            : remainingStock <= 0
+                              ? '0 left (In Basket)'
+                              : isLowStock
+                                ? `Low: ${remainingStock} left`
+                                : `${remainingStock} in stock`}
                         </span>
                       </div>
                       <h3 className="text-sm font-bold text-slate-900 mt-1 line-clamp-2">
@@ -382,16 +444,37 @@ export function BranchDashboard({
                       </span>
 
                       {inCart ? (
-                        <span className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-xs shadow-xs">
-                          {inCart.quantity} in cart
-                        </span>
+                        <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            type="button"
+                            onClick={() => handleUpdateQty(product.id, cartQty - 1)}
+                            className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-rose-100 hover:text-rose-700 text-slate-700 flex items-center justify-center font-bold text-sm transition-colors cursor-pointer"
+                            title="Reduce from basket (stock goes up)"
+                          >
+                            <Minus className="w-3.5 h-3.5" />
+                          </button>
+                          <span className="px-2 py-1 rounded-lg bg-emerald-600 text-white font-mono font-bold text-xs shadow-xs min-w-[28px] text-center" title="${cartQty} currently in your basket">
+                            {cartQty}
+                          </span>
+                          <button
+                            type="button"
+                            disabled={remainingStock <= 0}
+                            onClick={() => handleAddToCart(product)}
+                            className="w-7 h-7 rounded-lg bg-emerald-100 hover:bg-emerald-600 hover:text-white text-emerald-800 flex items-center justify-center font-bold text-sm transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                            title={remainingStock <= 0 ? 'All branch stock is in basket' : 'Add another (stock lowers)'}
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       ) : (
                         <button
                           type="button"
-                          disabled={isOutOfStock}
-                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 transition-colors disabled:opacity-30"
+                          disabled={remainingStock <= 0}
+                          onClick={() => handleAddToCart(product)}
+                          className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 transition-colors font-bold text-xs flex items-center gap-1 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                         >
-                          <Plus className="w-4 h-4" />
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>Add</span>
                         </button>
                       )}
                     </div>
@@ -682,9 +765,14 @@ export function BranchDashboard({
         <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <h2 className="text-base font-bold text-slate-900">Branch Shelf Stock Levels</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-bold text-slate-900">Branch Shelf Stock Levels</h2>
+                <span className="px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-[11px] font-mono font-bold text-slate-600">
+                  {filteredBranchInventory.length} of {branchStockList.length} items
+                </span>
+              </div>
               <p className="text-xs text-slate-500 mt-0.5">
-                Items marked with red badges are running low. Ask Central Warehouse for more stock.
+                Ordered by Product Name then Category by default. Click column headers to sort, or filter by category.
               </p>
             </div>
             <button
@@ -697,115 +785,232 @@ export function BranchDashboard({
             </button>
           </div>
 
+          {/* Search, Filter & Sort Controls */}
+          <div className="flex flex-wrap items-center gap-2.5 bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs">
+            <div className="relative flex-1 min-w-[200px]">
+              <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search items by name or SKU..."
+                value={branchInvSearch}
+                onChange={(e) => setBranchInvSearch(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
+              />
+            </div>
+            <select
+              value={branchInvCategory}
+              onChange={(e) => setBranchInvCategory(e.target.value)}
+              className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 font-medium"
+            >
+              <option value="ALL">All Categories</option>
+              {categories.filter((c) => c !== 'ALL').map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+            <div className="flex items-center gap-1.5 ml-auto">
+              <span className="text-[11px] text-slate-500 font-medium">Order by:</span>
+              <select
+                value={branchInvSortBy}
+                onChange={(e) => setBranchInvSortBy(e.target.value)}
+                className="px-2.5 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 font-medium"
+              >
+                <option value="name">Product Name (A-Z then Category)</option>
+                <option value="category">Category</option>
+                <option value="stock">Shelf Stock (Lowest/Highest)</option>
+                <option value="price">Unit Selling Price</option>
+              </select>
+              <button
+                type="button"
+                onClick={() => setBranchInvSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
+                className="px-2.5 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 font-bold text-xs"
+                title="Toggle sort direction"
+              >
+                {branchInvSortDir === 'asc' ? 'Asc ▲' : 'Desc ▼'}
+              </button>
+            </div>
+          </div>
+
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto border border-slate-200 rounded-xl">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold">
-                  <th className="py-3 px-4">Item Name</th>
-                  <th className="py-3 px-4">Category</th>
-                  <th className="py-3 px-4 text-center">Shelf Stock</th>
-                  <th className="py-3 px-4 text-center">Min Threshold</th>
-                  <th className="py-3 px-4 text-right">Unit Price</th>
+                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-semibold select-none">
+                  <th
+                    onClick={() => toggleBranchInvSort('name')}
+                    className="py-3 px-4 cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Item Name</span>
+                      <span className="text-emerald-700 font-bold">
+                        {branchInvSortBy === 'name' ? (branchInvSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleBranchInvSort('category')}
+                    className="py-3 px-4 cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Category</span>
+                      <span className="text-emerald-700 font-bold">
+                        {branchInvSortBy === 'category' ? (branchInvSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleBranchInvSort('stock')}
+                    className="py-3 px-4 text-center cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center justify-center gap-1.5">
+                      <span>Shelf Stock</span>
+                      <span className="text-emerald-700 font-bold">
+                        {branchInvSortBy === 'stock' ? (branchInvSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleBranchInvSort('threshold')}
+                    className="py-3 px-4 text-center cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center justify-center gap-1.5">
+                      <span>Min Threshold</span>
+                      <span className="text-emerald-700 font-bold">
+                        {branchInvSortBy === 'threshold' ? (branchInvSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleBranchInvSort('price')}
+                    className="py-3 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center justify-end gap-1.5">
+                      <span>Unit Price</span>
+                      <span className="text-emerald-700 font-bold">
+                        {branchInvSortBy === 'price' ? (branchInvSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
                   <th className="py-3 px-4 text-center">Status</th>
                   <th className="py-3 px-4 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
-                {branchStockList.map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-50">
-                    <td className="py-3 px-4 font-bold text-slate-900">{item.name}</td>
-                    <td className="py-3 px-4 text-slate-600 font-medium">
-                      <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-xs">
-                        {item.category}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-center font-mono font-bold text-sm">
-                      <span className={item.isLowStock ? 'text-rose-700' : 'text-emerald-700'}>
-                        {item.quantity} {item.unit_of_measure}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-center font-mono text-slate-500">
-                      {item.low_stock_threshold}
-                    </td>
-                    <td className="py-3 px-4 text-right font-mono text-slate-900 font-medium">
-                      ₵{item.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                          item.isLowStock
-                            ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                            : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                        }`}
-                      >
-                        {item.isLowStock ? 'Low Stock' : 'Good'}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      {item.isLowStock && (
-                        <button
-                          type="button"
-                          onClick={onOpenRequestRestock}
-                          className="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200 text-xs font-bold"
+                {filteredBranchInventory.length > 0 ? (
+                  filteredBranchInventory.map((item) => (
+                    <tr key={item.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-3 px-4 font-bold text-slate-900">{item.name}</td>
+                      <td className="py-3 px-4 text-slate-600 font-medium">
+                        <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-xs">
+                          {item.category}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-center font-mono font-bold text-sm">
+                        <span className={item.isLowStock ? 'text-rose-700' : 'text-emerald-700'}>
+                          {item.quantity} {item.unit_of_measure}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-center font-mono text-slate-500">
+                        {item.low_stock_threshold}
+                      </td>
+                      <td className="py-3 px-4 text-right font-mono text-slate-900 font-medium">
+                        ₵{item.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        <span
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                            item.isLowStock
+                              ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                              : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                          }`}
                         >
-                          Ask for Stock
-                        </button>
-                      )}
+                          {item.isLowStock ? 'Low Stock' : 'Good'}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        {item.isLowStock && (
+                          <button
+                            type="button"
+                            onClick={onOpenRequestRestock}
+                            className="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200 text-xs font-bold"
+                          >
+                            Ask for Stock
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} className="py-8 text-center text-slate-400 italic">
+                      No branch stock items match the selected filter or search.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
 
           {/* Mobile Card List View */}
           <div className="block md:hidden space-y-3">
-            {branchStockList.map((item) => (
-              <div key={item.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-sm leading-snug">{item.name}</h4>
-                    <span className="text-[11px] font-medium text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 mt-1 inline-block">{item.category}</span>
-                  </div>
-                  <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase shrink-0 ${
-                      item.isLowStock
-                        ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                        : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                    }`}
-                  >
-                    {item.isLowStock ? 'Low Stock' : 'Good'}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 text-xs bg-white p-2.5 rounded-lg border border-slate-200">
-                  <div>
-                    <span className="text-[10px] text-slate-400 font-semibold uppercase block">Shelf Quantity</span>
-                    <span className={`font-mono text-sm font-extrabold ${item.isLowStock ? 'text-rose-700' : 'text-emerald-700'}`}>
-                      {item.quantity} {item.unit_of_measure}
-                    </span>
-                    <span className="text-[10px] text-slate-400 block mt-0.5">Threshold: {item.low_stock_threshold}</span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[10px] text-slate-400 font-semibold uppercase block">Unit Selling Price</span>
-                    <span className="font-mono text-sm font-bold text-slate-900">
-                      ₵{item.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            {filteredBranchInventory.length > 0 ? (
+              filteredBranchInventory.map((item) => (
+                <div key={item.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-sm leading-snug">{item.name}</h4>
+                      <span className="text-[11px] font-medium text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 mt-1 inline-block">
+                        {item.category}
+                      </span>
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase shrink-0 ${
+                        item.isLowStock
+                          ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                          : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                      }`}
+                    >
+                      {item.isLowStock ? 'Low Stock' : 'Good'}
                     </span>
                   </div>
-                </div>
 
-                {item.isLowStock && (
-                  <button
-                    type="button"
-                    onClick={onOpenRequestRestock}
-                    className="w-full py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-xs transition-colors"
-                  >
-                    Request Stock Restock from Warehouse
-                  </button>
-                )}
+                  <div className="grid grid-cols-2 gap-2 text-xs bg-white p-2.5 rounded-lg border border-slate-200">
+                    <div>
+                      <span className="text-[10px] text-slate-400 font-semibold uppercase block">Shelf Quantity</span>
+                      <span
+                        className={`font-mono text-sm font-extrabold ${
+                          item.isLowStock ? 'text-rose-700' : 'text-emerald-700'
+                        }`}
+                      >
+                        {item.quantity} {item.unit_of_measure}
+                      </span>
+                      <span className="text-[10px] text-slate-400 block mt-0.5">Threshold: {item.low_stock_threshold}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] text-slate-400 font-semibold uppercase block">Unit Selling Price</span>
+                      <span className="font-mono text-sm font-bold text-slate-900">
+                        ₵{item.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                  </div>
+
+                  {item.isLowStock && (
+                    <button
+                      type="button"
+                      onClick={onOpenRequestRestock}
+                      className="w-full py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-xs transition-colors"
+                    >
+                      Request Stock Restock from Warehouse
+                    </button>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="py-8 text-center text-slate-400 italic bg-slate-50 rounded-xl border border-slate-200">
+                No items match your filter.
               </div>
-            ))}
+            )}
           </div>
         </div>
       )}

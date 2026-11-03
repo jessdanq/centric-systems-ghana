@@ -31,7 +31,7 @@ const saveToStorage = (key, data) => {
   }
 }
 
-const DATA_VERSION = 'v3_centric_gate_automation_45_items';
+const DATA_VERSION = 'v5_title_case_catalog';
 
 export class CentricStore {
   constructor() {

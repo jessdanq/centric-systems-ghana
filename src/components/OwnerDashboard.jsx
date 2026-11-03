@@ -29,6 +29,22 @@ export function OwnerDashboard({
   const [salesSearch, setSalesSearch] = useState('')
   const [branchFilter, setBranchFilter] = useState('ALL')
 
+  // Stock Across All Shops Filter & Sort State
+  const [stockSearchQuery, setStockSearchQuery] = useState('')
+  const [stockCategoryFilter, setStockCategoryFilter] = useState('ALL')
+  const [stockStatusFilter, setStockStatusFilter] = useState('ALL') // 'ALL', 'LOW_STOCK', 'HEALTHY'
+  const [stockSortBy, setStockSortBy] = useState('name') // 'name', 'category', 'price', 'wh', 'medie', 'lapaz', 'kumasi', 'total'
+  const [stockSortDir, setStockSortDir] = useState('asc')
+
+  const toggleStockSort = (columnKey) => {
+    if (stockSortBy === columnKey) {
+      setStockSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setStockSortBy(columnKey)
+      setStockSortDir('asc')
+    }
+  }
+
   const handleCardClick = (tabKey) => {
     setActiveTab(tabKey)
     setTimeout(() => {
@@ -88,6 +104,75 @@ export function OwnerDashboard({
     const matchesBranch = branchFilter === 'ALL' || sale.location_id === branchFilter
     return matchesSearch && matchesBranch
   })
+
+  // Categories for Stock Table Filter
+  const stockCategories = ['ALL', ...Array.from(new Set(store.products.map((p) => p.category))).sort()]
+
+  // Filtered and Sorted Stock across all locations - Default: Product Name (A-Z) then Category
+  const filteredOwnerStock = store.products
+    .map((p) => {
+      const whQty = store.getProductStock(warehouse.id, p.id)
+      const medieQty = store.getProductStock('22222222-2222-2222-2222-222222222222', p.id)
+      const lapazQty = store.getProductStock('33333333-3333-3333-3333-333333333333', p.id)
+      const kumasiQty = store.getProductStock('44444444-4444-4444-4444-444444444444', p.id)
+      const total = whQty + medieQty + lapazQty + kumasiQty
+      const isAnyLow =
+        medieQty <= p.low_stock_threshold ||
+        lapazQty <= p.low_stock_threshold ||
+        kumasiQty <= p.low_stock_threshold
+      return {
+        ...p,
+        whQty,
+        medieQty,
+        lapazQty,
+        kumasiQty,
+        total,
+        isAnyLow
+      }
+    })
+    .filter((item) => {
+      const matchSearch =
+        item.name.toLowerCase().includes(stockSearchQuery.toLowerCase()) ||
+        (item.sku && item.sku.toLowerCase().includes(stockSearchQuery.toLowerCase()))
+      const matchCat = stockCategoryFilter === 'ALL' || item.category === stockCategoryFilter
+      const matchStatus =
+        stockStatusFilter === 'ALL' ||
+        (stockStatusFilter === 'LOW_STOCK' && item.isAnyLow) ||
+        (stockStatusFilter === 'HEALTHY' && !item.isAnyLow)
+      return matchSearch && matchCat && matchStatus
+    })
+    .sort((a, b) => {
+      const mult = stockSortDir === 'asc' ? 1 : -1
+      if (stockSortBy === 'name') {
+        const cmp = a.name.localeCompare(b.name)
+        if (cmp !== 0) return cmp * mult
+        return a.category.localeCompare(b.category)
+      }
+      if (stockSortBy === 'category') {
+        const cmp = a.category.localeCompare(b.category)
+        if (cmp !== 0) return cmp * mult
+        return a.name.localeCompare(b.name)
+      }
+      if (stockSortBy === 'price') {
+        return (a.unit_price - b.unit_price) * mult
+      }
+      if (stockSortBy === 'wh') {
+        return (a.whQty - b.whQty) * mult
+      }
+      if (stockSortBy === 'medie') {
+        return (a.medieQty - b.medieQty) * mult
+      }
+      if (stockSortBy === 'lapaz') {
+        return (a.lapazQty - b.lapazQty) * mult
+      }
+      if (stockSortBy === 'kumasi') {
+        return (a.kumasiQty - b.kumasiQty) * mult
+      }
+      if (stockSortBy === 'total') {
+        return (a.total - b.total) * mult
+      }
+      return 0
+    })
 
   return (
     <div className="space-y-6">
@@ -705,38 +790,180 @@ export function OwnerDashboard({
 
       {activeTab === 'inventory' && (
         <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-          <div>
-            <h2 className="text-base font-bold text-slate-900">Stock Levels Across All Shops</h2>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Suppliers deliver only to Central Warehouse in Spintex. Goods are sent out to Medie, Lapaz, and Kumasi upon your approval.
-            </p>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-bold text-slate-900">Stock Levels Across All Shops</h2>
+                <span className="px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-[11px] font-mono font-bold text-slate-600">
+                  {filteredOwnerStock.length} of {store.products.length} products
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Ordered by Product Name then Category by default. Click any column header to sort, or filter by category and stock alert status.
+              </p>
+            </div>
+          </div>
+
+          {/* Search, Filter & Order Toolbar */}
+          <div className="flex flex-wrap items-center gap-2.5 bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs">
+            <div className="relative flex-1 min-w-[200px]">
+              <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search products by name or code..."
+                value={stockSearchQuery}
+                onChange={(e) => setStockSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
+              />
+            </div>
+            <select
+              value={stockCategoryFilter}
+              onChange={(e) => setStockCategoryFilter(e.target.value)}
+              className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 font-medium"
+            >
+              <option value="ALL">All Categories</option>
+              {stockCategories.filter((c) => c !== 'ALL').map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+            <select
+              value={stockStatusFilter}
+              onChange={(e) => setStockStatusFilter(e.target.value)}
+              className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 font-medium"
+            >
+              <option value="ALL">All Stock Levels</option>
+              <option value="LOW_STOCK">⚠️ Low Stock in Any Shop</option>
+              <option value="HEALTHY">✓ Adequate Stock</option>
+            </select>
+
+            <div className="flex items-center gap-1.5 ml-auto">
+              <span className="text-[11px] text-slate-500 font-medium">Order by:</span>
+              <select
+                value={stockSortBy}
+                onChange={(e) => setStockSortBy(e.target.value)}
+                className="px-2.5 py-2 rounded-xl bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 font-medium"
+              >
+                <option value="name">Product Name (A-Z then Category)</option>
+                <option value="category">Category</option>
+                <option value="price">Unit Price</option>
+                <option value="wh">Central Warehouse Units</option>
+                <option value="medie">Centric Medie Units</option>
+                <option value="lapaz">Centric Lapaz Units</option>
+                <option value="kumasi">Centric Kumasi Units</option>
+                <option value="total">Total Company Units</option>
+              </select>
+              <button
+                type="button"
+                onClick={() => setStockSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
+                className="px-2.5 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 font-bold text-xs"
+                title="Toggle sort direction"
+              >
+                {stockSortDir === 'asc' ? 'Asc ▲' : 'Desc ▼'}
+              </button>
+            </div>
           </div>
 
           {/* Desktop Table View (Hidden on mobile) */}
           <div className="hidden md:block overflow-x-auto border border-slate-200 rounded-xl">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
-                  <th className="py-3 px-4 font-semibold">Product Name</th>
-                  <th className="py-3 px-4 font-semibold">Category</th>
-                  <th className="py-3 px-4 text-right font-semibold">Unit Price</th>
-                  <th className="py-3 px-4 text-center font-semibold text-blue-700 bg-blue-50/50">Central Warehouse</th>
-                  <th className="py-3 px-4 text-center font-semibold">Centric Medie</th>
-                  <th className="py-3 px-4 text-center font-semibold">Centric Lapaz</th>
-                  <th className="py-3 px-4 text-center font-semibold">Centric Kumasi</th>
-                  <th className="py-3 px-4 text-center font-bold text-slate-900">Total Units</th>
+                <tr className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 select-none">
+                  <th
+                    onClick={() => toggleStockSort('name')}
+                    className="py-3 px-4 font-semibold cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Product Name</span>
+                      <span className="text-emerald-700 font-bold">
+                        {stockSortBy === 'name' ? (stockSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleStockSort('category')}
+                    className="py-3 px-4 font-semibold cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Category</span>
+                      <span className="text-emerald-700 font-bold">
+                        {stockSortBy === 'category' ? (stockSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleStockSort('price')}
+                    className="py-3 px-4 text-right font-semibold cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center justify-end gap-1.5">
+                      <span>Unit Price</span>
+                      <span className="text-emerald-700 font-bold">
+                        {stockSortBy === 'price' ? (stockSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleStockSort('wh')}
+                    className="py-3 px-4 text-center font-semibold text-blue-700 bg-blue-50/50 cursor-pointer hover:bg-blue-100/60 transition-colors"
+                  >
+                    <div className="flex items-center justify-center gap-1.5">
+                      <span>Central Warehouse</span>
+                      <span className="font-bold">
+                        {stockSortBy === 'wh' ? (stockSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleStockSort('medie')}
+                    className="py-3 px-4 text-center font-semibold cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center justify-center gap-1.5">
+                      <span>Centric Medie</span>
+                      <span className="text-emerald-700 font-bold">
+                        {stockSortBy === 'medie' ? (stockSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleStockSort('lapaz')}
+                    className="py-3 px-4 text-center font-semibold cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center justify-center gap-1.5">
+                      <span>Centric Lapaz</span>
+                      <span className="text-emerald-700 font-bold">
+                        {stockSortBy === 'lapaz' ? (stockSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleStockSort('kumasi')}
+                    className="py-3 px-4 text-center font-semibold cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center justify-center gap-1.5">
+                      <span>Centric Kumasi</span>
+                      <span className="text-emerald-700 font-bold">
+                        {stockSortBy === 'kumasi' ? (stockSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => toggleStockSort('total')}
+                    className="py-3 px-4 text-center font-bold text-slate-900 cursor-pointer hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center justify-center gap-1.5">
+                      <span>Total Units</span>
+                      <span className="text-emerald-700 font-bold">
+                        {stockSortBy === 'total' ? (stockSortDir === 'asc' ? '▲' : '▼') : '↕'}
+                      </span>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
-                {store.products.map((p) => {
-                  const whQty = store.getProductStock(warehouse.id, p.id)
-                  const medieQty = store.getProductStock('22222222-2222-2222-2222-222222222222', p.id)
-                  const lapazQty = store.getProductStock('33333333-3333-3333-3333-333333333333', p.id)
-                  const kumasiQty = store.getProductStock('44444444-4444-4444-4444-444444444444', p.id)
-                  const total = whQty + medieQty + lapazQty + kumasiQty
-
-                  return (
-                    <tr key={p.id} className="hover:bg-slate-50">
+                {filteredOwnerStock.length > 0 ? (
+                  filteredOwnerStock.map((p) => (
+                    <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3 px-4 font-bold text-slate-900">{p.name}</td>
                       <td className="py-3 px-4 text-xs font-medium text-slate-600">
                         <span className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200">
@@ -747,126 +974,172 @@ export function OwnerDashboard({
                         ₵{p.unit_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </td>
                       <td className="py-3 px-4 text-center font-mono font-bold text-blue-700 bg-blue-50/40">
-                        {whQty}
+                        {p.whQty}
                       </td>
                       <td className="py-3 px-4 text-center font-mono">
                         <span
                           className={
-                            medieQty <= p.low_stock_threshold
+                            p.medieQty <= p.low_stock_threshold
                               ? 'text-rose-700 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200'
                               : 'text-slate-700'
                           }
                         >
-                          {medieQty}
+                          {p.medieQty}
                         </span>
                       </td>
                       <td className="py-3 px-4 text-center font-mono">
                         <span
                           className={
-                            lapazQty <= p.low_stock_threshold
+                            p.lapazQty <= p.low_stock_threshold
                               ? 'text-rose-700 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200'
                               : 'text-slate-700'
                           }
                         >
-                          {lapazQty}
+                          {p.lapazQty}
                         </span>
                       </td>
                       <td className="py-3 px-4 text-center font-mono">
                         <span
                           className={
-                            kumasiQty <= p.low_stock_threshold
+                            p.kumasiQty <= p.low_stock_threshold
                               ? 'text-rose-700 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200'
                               : 'text-slate-700'
                           }
                         >
-                          {kumasiQty}
+                          {p.kumasiQty}
                         </span>
                       </td>
                       <td className="py-3 px-4 text-center font-mono font-bold text-slate-950">
-                        {total}
+                        {p.total}
                       </td>
                     </tr>
-                  )
-                })}
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={8} className="py-8 text-center text-slate-400 italic">
+                      No stock items match the selected filter or search criteria.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
 
           {/* Mobile Card List View (Visible only on mobile) */}
           <div className="block md:hidden space-y-3">
-            {store.products.map((p) => {
-              const whQty = store.getProductStock(warehouse.id, p.id)
-              const medieQty = store.getProductStock('22222222-2222-2222-2222-222222222222', p.id)
-              const lapazQty = store.getProductStock('33333333-3333-3333-3333-333333333333', p.id)
-              const kumasiQty = store.getProductStock('44444444-4444-4444-4444-444444444444', p.id)
-              const total = whQty + medieQty + lapazQty + kumasiQty
-              const hasLowStockBranch = medieQty <= p.low_stock_threshold || lapazQty <= p.low_stock_threshold || kumasiQty <= p.low_stock_threshold
+            {filteredOwnerStock.length > 0 ? (
+              filteredOwnerStock.map((p) => {
+                const hasLowStockBranch =
+                  p.medieQty <= p.low_stock_threshold ||
+                  p.lapazQty <= p.low_stock_threshold ||
+                  p.kumasiQty <= p.low_stock_threshold
 
-              return (
-                <div key={p.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                  <div className="flex justify-between items-start gap-2">
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm leading-snug">{p.name}</h4>
-                      <span className="text-[11px] font-medium text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 mt-1 inline-block">
-                        {p.category}
-                      </span>
+                return (
+                  <div key={p.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div className="flex justify-between items-start gap-2">
+                      <div>
+                        <h4 className="font-bold text-slate-900 text-sm leading-snug">{p.name}</h4>
+                        <span className="text-[11px] font-medium text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 mt-1 inline-block">
+                          {p.category}
+                        </span>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="font-mono font-bold text-slate-900 text-sm">
+                          ₵{p.unit_price.toLocaleString('en-US', { minimumFractionDigits: 0 })}
+                        </span>
+                        <span className="text-[10px] text-slate-500 block">Unit Price</span>
+                      </div>
                     </div>
-                    <div className="text-right shrink-0">
-                      <span className="font-mono font-bold text-slate-900 text-sm">
-                        ₵{p.unit_price.toLocaleString('en-US', { minimumFractionDigits: 0 })}
-                      </span>
-                      <span className="text-[10px] text-slate-500 block">Unit Price</span>
+
+                    {hasLowStockBranch && (
+                      <div className="flex items-center gap-1.5 text-xs text-rose-700 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
+                        <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                        <span className="font-semibold">One or more retail shops running low</span>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className="p-2 rounded-lg bg-blue-50/60 border border-blue-200">
+                        <span className="text-[10px] uppercase font-bold text-blue-700 block">Central Warehouse</span>
+                        <span className="font-mono text-sm font-extrabold text-blue-900">{p.whQty} units</span>
+                      </div>
+                      <div
+                        className={`p-2 rounded-lg border ${
+                          p.medieQty <= p.low_stock_threshold
+                            ? 'bg-rose-50 border-rose-200'
+                            : 'bg-white border-slate-200'
+                        }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="text-[10px] uppercase font-bold text-slate-600">Medie Shop</span>
+                          {p.medieQty <= p.low_stock_threshold && (
+                            <span className="text-[9px] font-bold text-rose-700 uppercase">Low</span>
+                          )}
+                        </div>
+                        <span
+                          className={`font-mono text-sm font-extrabold ${
+                            p.medieQty <= p.low_stock_threshold ? 'text-rose-700' : 'text-slate-800'
+                          }`}
+                        >
+                          {p.medieQty} units
+                        </span>
+                      </div>
+                      <div
+                        className={`p-2 rounded-lg border ${
+                          p.lapazQty <= p.low_stock_threshold
+                            ? 'bg-rose-50 border-rose-200'
+                            : 'bg-white border-slate-200'
+                        }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="text-[10px] uppercase font-bold text-slate-600">Lapaz Shop</span>
+                          {p.lapazQty <= p.low_stock_threshold && (
+                            <span className="text-[9px] font-bold text-rose-700 uppercase">Low</span>
+                          )}
+                        </div>
+                        <span
+                          className={`font-mono text-sm font-extrabold ${
+                            p.lapazQty <= p.low_stock_threshold ? 'text-rose-700' : 'text-slate-800'
+                          }`}
+                        >
+                          {p.lapazQty} units
+                        </span>
+                      </div>
+                      <div
+                        className={`p-2 rounded-lg border ${
+                          p.kumasiQty <= p.low_stock_threshold
+                            ? 'bg-rose-50 border-rose-200'
+                            : 'bg-white border-slate-200'
+                        }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="text-[10px] uppercase font-bold text-slate-600">Kumasi Shop</span>
+                          {p.kumasiQty <= p.low_stock_threshold && (
+                            <span className="text-[9px] font-bold text-rose-700 uppercase">Low</span>
+                          )}
+                        </div>
+                        <span
+                          className={`font-mono text-sm font-extrabold ${
+                            p.kumasiQty <= p.low_stock_threshold ? 'text-rose-700' : 'text-slate-800'
+                          }`}
+                        >
+                          {p.kumasiQty} units
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-2 border-t border-slate-200 text-xs">
+                      <span className="text-slate-600 font-medium">Total Company Stock:</span>
+                      <span className="font-mono font-extrabold text-slate-900 text-sm">{p.total} units</span>
                     </div>
                   </div>
-
-                  {hasLowStockBranch && (
-                    <div className="flex items-center gap-1.5 text-xs text-rose-700 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
-                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                      <span className="font-semibold">One or more retail shops running low</span>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="p-2 rounded-lg bg-blue-50/60 border border-blue-200">
-                      <span className="text-[10px] uppercase font-bold text-blue-700 block">Central Warehouse</span>
-                      <span className="font-mono text-sm font-extrabold text-blue-900">{whQty} units</span>
-                    </div>
-                    <div className={`p-2 rounded-lg border ${medieQty <= p.low_stock_threshold ? 'bg-rose-50 border-rose-200' : 'bg-white border-slate-200'}`}>
-                      <div className="flex justify-between items-center">
-                        <span className="text-[10px] uppercase font-bold text-slate-600">Medie Shop</span>
-                        {medieQty <= p.low_stock_threshold && <span className="text-[9px] font-bold text-rose-700 uppercase">Low</span>}
-                      </div>
-                      <span className={`font-mono text-sm font-extrabold ${medieQty <= p.low_stock_threshold ? 'text-rose-700' : 'text-slate-800'}`}>
-                        {medieQty} units
-                      </span>
-                    </div>
-                    <div className={`p-2 rounded-lg border ${lapazQty <= p.low_stock_threshold ? 'bg-rose-50 border-rose-200' : 'bg-white border-slate-200'}`}>
-                      <div className="flex justify-between items-center">
-                        <span className="text-[10px] uppercase font-bold text-slate-600">Lapaz Shop</span>
-                        {lapazQty <= p.low_stock_threshold && <span className="text-[9px] font-bold text-rose-700 uppercase">Low</span>}
-                      </div>
-                      <span className={`font-mono text-sm font-extrabold ${lapazQty <= p.low_stock_threshold ? 'text-rose-700' : 'text-slate-800'}`}>
-                        {lapazQty} units
-                      </span>
-                    </div>
-                    <div className={`p-2 rounded-lg border ${kumasiQty <= p.low_stock_threshold ? 'bg-rose-50 border-rose-200' : 'bg-white border-slate-200'}`}>
-                      <div className="flex justify-between items-center">
-                        <span className="text-[10px] uppercase font-bold text-slate-600">Kumasi Shop</span>
-                        {kumasiQty <= p.low_stock_threshold && <span className="text-[9px] font-bold text-rose-700 uppercase">Low</span>}
-                      </div>
-                      <span className={`font-mono text-sm font-extrabold ${kumasiQty <= p.low_stock_threshold ? 'text-rose-700' : 'text-slate-800'}`}>
-                        {kumasiQty} units
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center pt-2 border-t border-slate-200 text-xs">
-                    <span className="text-slate-600 font-medium">Total Company Stock:</span>
-                    <span className="font-mono font-extrabold text-slate-900 text-sm">{total} units</span>
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })
+            ) : (
+              <div className="py-8 text-center text-slate-400 italic bg-slate-50 rounded-xl border border-slate-200">
+                No items match your filter.
+              </div>
+            )}
           </div>
         </div>
       )}
