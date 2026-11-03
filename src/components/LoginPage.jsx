@@ -49,9 +49,6 @@ export function LoginPage({ onLogin }) {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-lg tracking-tight text-slate-900">CENTRIC SYSTEMS</span>
-              <span className="px-2 py-0.5 text-[10px] font-black uppercase rounded bg-emerald-100 text-emerald-800 border border-emerald-300">
-                Ghana
-              </span>
             </div>
             <p className="text-xs text-slate-500 font-medium">Electrical, Solar & Automation Supplies Management System</p>
           </div>
@@ -112,33 +109,6 @@ export function LoginPage({ onLogin }) {
               <div className="mt-1.5 flex items-center justify-between text-[11px] text-slate-500 px-0.5">
                 <span className="font-mono text-slate-600">{selectedUser.email}</span>
                 <span className="font-medium text-emerald-700">{selectedUser.location_name}</span>
-              </div>
-
-              {/* Quick Switcher Chips for Demo Accounts */}
-              <div className="pt-2">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
-                  Select Demo Account:
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {DEMO_USERS.map((u) => {
-                    const isSelected = selectedUser.id === u.id
-                    return (
-                      <button
-                        key={u.id}
-                        type="button"
-                        onClick={() => setSelectedUser(u)}
-                        className={`text-[11px] px-2.5 py-1 rounded-lg border font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
-                          isSelected
-                            ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                            : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-white'
-                        }`}
-                      >
-                        <span className="text-[10px] font-bold">{u.avatar}</span>
-                        <span>{u.name.split(' ')[0]}</span>
-                      </button>
-                    )
-                  })}
-                </div>
               </div>
             </div>
 
@@ -215,12 +185,11 @@ export function LoginPage({ onLogin }) {
           </form>
 
           {/* Enterprise Security Badge */}
-          <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-center text-[11px] text-slate-400">
             <span className="flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
               <span>256-Bit SSL Encrypted ERP</span>
             </span>
-            <span>Ghana Cedi (GH₵) POS</span>
           </div>
         </div>
       </main>
